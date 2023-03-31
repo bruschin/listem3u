@@ -1,14 +1,31 @@
-name: Python package
+name: Deploy Documentation sphinx de modules Python
 
 #https://docs.github.com/fr/actions/using-workflows/workflow-syntax-for-github-actions
 #https://www.githubstatus.com/
 #https://github.com/charliermarsh/ruff
+#https://github.com/bruschin/listem3u/new/main?filename=.github%2Fworkflows%2Fstatic.yml
 
 on:
   push:
     branches:
       - main
-      - 1-listemp3upy-sans-fichier-mp3
+      - 1-sans-fichier-mp3
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+  # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run 
+# in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production
+# deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -22,10 +39,10 @@ jobs:
         python-version: ["3.10"]
 
     steps:
+      - uses: actions/checkout@v3
       # https://github.com/actions/checkout
       - name: Set up Python ${{ matrix.python-version }}
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - uses: actions/cache@v3
@@ -50,22 +67,48 @@ jobs:
           bash ./lanceur_ruff.bash
       - name: Documente listem3u with sphinx
           bash ./lanceur_sphinx.bash
+  # Single deploy job since we're just deploying
   deploy:
-    # Add a dependency to the build job
     needs: build
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
       pages: write      # to deploy to Pages
       id-token: write   # to verify the deployment originates from
                         # an appropriate source
-    # Deploy to the github-pages environment
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
-    # Specify runner + deployment step
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload entire repository
+          path: './docs/_build/html'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v2
+     
+  #deploy:
+    # Add a dependency to the build job
+    #needs: build
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    #permissions:
+      #pages: write      # to deploy to Pages
+      #id-token: write   # to verify the deployment originates from
+                        # an appropriate source
+    # Deploy to the github-pages environment
+    #environment:
+      #name: github-pages
+      #url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    #runs-on: ubuntu-latest
+    #steps:
+      #- name: Deploy to GitHub Pages
+        #id: deployment
+        #uses: actions/deploy-pages@v1

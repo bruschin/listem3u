@@ -9,7 +9,6 @@ sed -i -e "s@indent-string='    '@indent-string='  '@g" .pylintrc
 pylint \
     --rcfile \
     .pylintrc \
-    explore_ldap.py \
     listem3u.py \
     test_listem3u.py \
     pegase.py \

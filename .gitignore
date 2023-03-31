@@ -1,6 +1,8 @@
 __pycache__/
+.pytest_cache/
+.ruff_cache/
 automation/*m3u
 docs/_build/
 docs/conf.rst
-docs/Explore*rst
-docs/explore*rst
+docs/modules.rst
+*report*

@@ -1,0 +1,6 @@
+__pycache__/
+automation/*m3u
+docs/_build/
+docs/conf.rst
+docs/Explore*rst
+docs/explore*rst

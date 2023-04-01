@@ -38,7 +38,7 @@ project = 'listem3u'
 # pylint: disable=invalid-name,redefined-builtin
 copyright = '😀 2023, Nicolas Bruschi'
 # pylint: disable=invalid-name
-author = '👉 Nicolas Bruschi'
+author = '😀 Nicolas Bruschi'
 
 # The full version, including alpha/beta/rc tags
 release = 'V1.0b'

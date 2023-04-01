@@ -63,35 +63,36 @@ jobs:
           bash ./lanceur_pylint.bash
           bash ./lanceur_ruff.bash
           bash ./lanceur_sphinx.bash
-  # Single deploy job since we're just deploying
-  publication:
-    #echo "La vie est un court exil." | openssl enc -base64 
-    #TGEgdmllIGVzdCB1biBjb3VydCBleGlsLgo=
-    #echo "TGEgdmllIGVzdCB1biBjb3VydCBleGlsLgo=" | openssl enc -base64 -d
-    needs: build
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-    permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from
-                        # an appropriate source
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          # Upload entire repository
-          path: './docs/_build/html'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
-     
+
+  # # Single deploy job since we're just deploying
+  # publication:
+  #   #echo "La vie est un court exil." | openssl enc -base64 
+  #   #TGEgdmllIGVzdCB1biBjb3VydCBleGlsLgo=
+  #   #echo "TGEgdmllIGVzdCB1biBjb3VydCBleGlsLgo=" | openssl enc -base64 -d
+  #   needs: build
+  #   # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+  #   permissions:
+  #     pages: write      # to deploy to Pages
+  #     id-token: write   # to verify the deployment originates from
+  #                       # an appropriate source
+  #   environment:
+  #     name: github-pages
+  #     url: ${{ steps.deployment.outputs.page_url }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #     - name: Setup Pages
+  #       uses: actions/configure-pages@v3
+  #     - name: Upload artifact
+  #       uses: actions/upload-pages-artifact@v1
+  #       with:
+  #         # Upload entire repository
+  #         path: './docs/_build/html'
+  #     - name: Deploy to GitHub Pages
+  #       id: deployment
+  #       uses: actions/deploy-pages@v2
+
   #deploy:
     # Add a dependency to the build job
     #needs: build

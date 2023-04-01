@@ -31,7 +31,8 @@
     https://www.sphinx-doc.org/fr/master/index.html
     https://github.com/maltfield/rtd-github-pages/
     https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/
-adding-a-workflow-status-badge
+    adding-a-workflow-status-badge
+    https://github.com/marketplace/actions/github-pages-action
     # pour memo : python3 -m http.server
 """
 

@@ -4,7 +4,7 @@ Documentation du projet listem3u
 La documentation d'usage de sphinx
 ----------------------------------
 
-`A cool website`_
+`A tres cool website`_
 
 .. _A cool website: http://sphinx-doc.org
 

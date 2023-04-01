@@ -59,21 +59,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: Test listem3u with pytest
-        run: |
           bash ./lanceur_pytest.bash
-      - name: Test listem3u with pylint
-        run: |
           bash ./lanceur_pylint.bash
-      - name: Tests listem3u with ruff
-        run: |
           bash ./lanceur_ruff.bash
-      - name: Documente listem3u with sphinx
           bash ./lanceur_sphinx.bash
   # Single deploy job since we're just deploying
   deploy:
     needs: build
-     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
       pages: write      # to deploy to Pages
       id-token: write   # to verify the deployment originates from

@@ -3,7 +3,8 @@ __pycache__/
 .ruff_cache/
 automation/*m3u
 docs/_build/
-!docs/_build/html/*
 docs/conf.rst
 docs/modules.rst
 *report*
+# But not these files...
+!docs/_build/html/*

@@ -3,20 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>listem3u &mdash; Documentation listem3u V1.3</title>
+  <title>listem3u &mdash; Documentation listem3u V1.0b</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/listem3u.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script src="../_static/translations.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -35,6 +34,9 @@
             listem3u
               <img src="../_static/listem3u.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                1-sans-fichier-mp3
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
@@ -44,9 +46,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../listem3u.html">listem3u module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../test_listem3u.html">test_listem3u module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pegase.html">pegase module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">listem3u</a></li>
 </ul>
 
         </div>
@@ -105,6 +105,10 @@
 <span class="sd">  [REFERENCES]</span>
 <span class="sd">    https://www.githubstatus.com/</span>
 <span class="sd">    https://www.sphinx-doc.org/fr/master/index.html</span>
+<span class="sd">    https://github.com/maltfield/rtd-github-pages/</span>
+<span class="sd">    https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/</span>
+<span class="sd">adding-a-workflow-status-badge</span>
+<span class="sd">    # pour memo : python3 -m http.server</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1">## Bibliotheques ##</span>
@@ -139,7 +143,7 @@
 <span class="c1">##############</span>
 
 <div class="viewcode-block" id="parametres"><a class="viewcode-back" href="../listem3u.html#listem3u.parametres">[docs]</a><span class="k">def</span> <span class="nf">parametres</span><span class="p">(</span><span class="n">argv</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;_</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;_</span>
 <span class="sd">    Gestion des parametres d&#39;appel = repertoire, help et version</span>
 
 <span class="sd">  [ EN ENTREE ]</span>
@@ -206,7 +210,7 @@
   <span class="k">return</span> <span class="p">(</span><span class="n">codeexit</span><span class="p">,</span> <span class="n">scom</span><span class="p">,</span> <span class="n">repertoire_travail</span><span class="p">,</span> <span class="n">test_presenceficmp3</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="find"><a class="viewcode-back" href="../listem3u.html#listem3u.find">[docs]</a><span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Trouve les fichiers selon pattern sous path</span>
 
 <span class="sd">  [ EN ENTREE ]</span>
@@ -228,7 +232,7 @@
   <span class="k">return</span> <span class="n">result</span></div>
 
 <div class="viewcode-block" id="action"><a class="viewcode-back" href="../listem3u.html#listem3u.action">[docs]</a><span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="n">repert</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fic_tampon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fic</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">testmp3</span><span class="o">=</span><span class="n">DEFAUT_FICMP3</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;_</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;_</span>
 <span class="sd">    Gestion des parametres d&#39;appel = repertoire, help et version</span>
 
 <span class="sd">  [ EN ENTREE ]</span>
@@ -289,7 +293,7 @@
     <span class="n">resultat</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="filtreligne"><a class="viewcode-back" href="../listem3u.html#listem3u.filtreligne">[docs]</a><span class="k">def</span> <span class="nf">filtreligne</span><span class="p">(</span><span class="n">unechaine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ssrep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filtre une ligne de fichier m3u, alerte si contient un espace, ou plus d&#39;un</span>
 <span class="sd">    tiret et renvoie nom du fichier mp3</span>
 
@@ -333,7 +337,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Nicolas Bruschi.</p>
+    <p>&#169; Copyright 😀 2023, Nicolas Bruschi.</p>
   </div>
 
   Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
@@ -346,7 +350,61 @@
       </div>
     </section>
   </div>
-  <script>
+  <!-- https://holzhaus.github.io/sphinx-multiversion/v0.2.3/templates.html -->
+
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" 
+       aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: 1-sans-fichier-mp3
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+        
+          
+          <dd><a href="//fr/1-sans-fichier-mp3/">fr</a></dd>
+          
+        
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+           <strong> 
+          <dd><a href="//fr/1-sans-fichier-mp3/">1-sans-fichier-mp3</a></dd>
+           </strong> 
+        
+          
+          <dd><a href="//fr/main/">main</a></dd>
+          
+        
+      </dl>
+      
+      
+      <dl>
+        <dt>Téléchargements</dt>
+        
+          <dd><a href="//fr/1-sans-fichier-mp3/listem3u-docs_fr_1-sans-fichier-mp3.pdf">pdf</a></dd>
+        
+          <dd><a href="//fr/1-sans-fichier-mp3/listem3u-docs_fr_1-sans-fichier-mp3.epub">epub</a></dd>
+        
+      </dl>
+      
+      
+      <hr/>
+      <a href="https://tech.michaelaltfield.net/2020/07/18/
+sphinx-rtd-github-pages-1/">Continuous Documentation</a> 
+hosting provided by <a href="https://pages.github.com/">
+GitHub Pages</a>.
+ 
+    </div>
+  </div>
+<script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

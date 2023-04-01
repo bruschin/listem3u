@@ -18,9 +18,5 @@ Les modules du projet listem3u
 .. toctree::
   :maxdepth: 2
   
-  listem3u
-  test_listem3u
-  explore_ldap
-  ExploreLdapDiff
-  pegase
+  modules
   

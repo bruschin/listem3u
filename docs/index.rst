@@ -6,9 +6,9 @@ La documentation d'usage de sphinx
 
 ``Relase`` : |release|
 
-Version : |version|
+``Version`` : |version|
 
-Mise à jout : |today|
+``Mise à jout`` : |today|
 
 `👉 Test d'un lien vers un website tres cool`_
 
@@ -25,7 +25,7 @@ Les modules du projet listem3u
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. toctree::
-  :maxdepth: 2
+  :maxdepth: 3
   
   modules
   

@@ -5,9 +5,10 @@
 ## pylint --generate-rcfile > .pylintrc
 ###########
 #source /home/userdev/env/bin/activate
-cd docs || exit 1
+REPTRAV="$(dirname $0)"
+cd "${REPTRAV}/../docs" || exit 1
 sphinx-build . _build
-sphinx-apidoc -f -o ./ ../
+sphinx-apidoc -f -o ./ ../src
 sphinx-multiversion ./ _build/html
 make clean html
 

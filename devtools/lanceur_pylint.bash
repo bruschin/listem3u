@@ -5,13 +5,19 @@
 ## pylint --generate-rcfile > .pylintrc
 ###########
 #source /home/userdev/env/bin/activate
-sed -i -e "s@indent-string='    '@indent-string='  '@g" .pylintrc
+REPTRAV="$(dirname $0)"
+
+cd "${REPTRAV}/.." || exit 1
+
+
+FICSORTIE="pylint-report.txt"
+sed -i -e "s@indent-string='    '@indent-string='  '@g" src/.pylintrc
 pylint \
     --rcfile \
-    .pylintrc \
-    listem3u.py \
-    test_listem3u.py \
-    pegase.py \
+    ./src/.pylintrc \
+    ./src/listem3u.py \
+    ./src/test_listem3u.py \
+    ./src/pegase.py \
     -r \
     n \
     --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" \
@@ -22,6 +28,8 @@ pylint \
     -d R0801 \
     -d too-many-arguments \
     -d too-many-branches \
-    > pylint-report.txt
-cat pylint-report.txt
+    > "${FICSORTIE}"
+cat "${FICSORTIE}"
+rm -f "${FICSORTIE}" 1>/dev/null 2>/dev/null
+exit 0
 

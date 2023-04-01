@@ -13,13 +13,13 @@
 """
 import os
 from os.path import exists as file_exists
-from listem3u import FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
-                     DEFAUT_FICMP3, FICS_LISTE_TAMPON, parametres, action
+from listem3u import  FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
+                      DEFAUT_FICMP3, FICS_LISTE_TAMPON, parametres, action
 
 
 ## GLOBAL
 
-REPERTOIRE = "./automation"
+REPERTOIRE = "automation"
 
 ## Fonctions :
 ##############

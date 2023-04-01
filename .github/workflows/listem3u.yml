@@ -62,10 +62,10 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           export TZ="Europe/Paris"
-          bash lanceur_pytest.bash
-          bash lanceur_pylint.bash
-          bash lanceur_ruff.bash
-          bash lanceur_sphinx.bash
+          bash ./lanceur_pytest.bash
+          bash ./lanceur_pylint.bash
+          bash ./lanceur_ruff.bash
+          bash ./lanceur_sphinx.bash
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

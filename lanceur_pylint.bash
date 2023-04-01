@@ -5,19 +5,17 @@
 ## pylint --generate-rcfile > .pylintrc
 ###########
 #source /home/userdev/env/bin/activate
-REPTRAV="$(dirname $0)"
-
-cd "${REPTRAV}/.." || exit 1
-
+#REPTRAV="$(dirname $0)"
+#cd "${REPTRAV}/.." || exit 1
 
 FICSORTIE="pylint-report.txt"
 sed -i -e "s@indent-string='    '@indent-string='  '@g" src/.pylintrc
 pylint \
     --rcfile \
-    ./src/.pylintrc \
-    ./src/listem3u.py \
-    ./src/test_listem3u.py \
-    ./src/pegase.py \
+    src/.pylintrc \
+    src/listem3u.py \
+    src/test_listem3u.py \
+    src/pegase.py \
     -r \
     n \
     --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" \

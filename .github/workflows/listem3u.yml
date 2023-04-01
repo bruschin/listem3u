@@ -1,0 +1,113 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploiement de pages de documentation de modules Python crées avec sphinx
+
+#https://docs.github.com/fr/actions/using-workflows/workflow-syntax-for-github-actions
+#https://www.githubstatus.com/
+#https://github.com/charliermarsh/ruff
+#https://github.com/bruschin/listem3u/new/main?filename=.github%2Fworkflows%2Fstatic.yml
+#https://docs.github.com/fr/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
+#https://help.github.com/pages/
+
+on:
+  push:
+    branches:
+      - main
+      - 1-sans-fichier-mp3
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+  # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run 
+# in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production
+# deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    # <Not provided for brevity>
+    # At a minimum this job should upload artifacts using
+    # actions/upload-pages-artifact
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.10"]
+
+    steps:
+      - uses: actions/checkout@v3
+      # https://github.com/actions/checkout
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.*') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          bash ./lanceur_pytest.bash
+          bash ./lanceur_pylint.bash
+          bash ./lanceur_ruff.bash
+          bash ./lanceur_sphinx.bash
+  # Single deploy job since we're just deploying
+  publication:
+    #echo "La vie est un court exil." | openssl enc -base64 
+    #TGEgdmllIGVzdCB1biBjb3VydCBleGlsLgo=
+    #echo "TGEgdmllIGVzdCB1biBjb3VydCBleGlsLgo=" | openssl enc -base64 -d
+    needs: build
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from
+                        # an appropriate source
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload entire repository
+          path: './docs/_build/html'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+     
+  #deploy:
+    # Add a dependency to the build job
+    #needs: build
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    #permissions:
+      #pages: write      # to deploy to Pages
+      #id-token: write   # to verify the deployment originates from
+                        # an appropriate source
+    # Deploy to the github-pages environment
+    #environment:
+      #name: github-pages
+      #url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    #runs-on: ubuntu-latest
+    #steps:
+      #- name: Deploy to GitHub Pages
+        #id: deployment
+        #uses: actions/deploy-pages@v1

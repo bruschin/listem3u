@@ -29,6 +29,10 @@
   [REFERENCES]
     https://www.githubstatus.com/
     https://www.sphinx-doc.org/fr/master/index.html
+    https://github.com/maltfield/rtd-github-pages/
+    https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/
+adding-a-workflow-status-badge
+    # pour memo : python3 -m http.server
 """
 
 ## Bibliotheques ##

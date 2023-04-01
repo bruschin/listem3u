@@ -27,13 +27,17 @@
 
 import os
 import sys
+from git import Repo
+
 sys.path.insert(0, os.path.abspath('../'))
 
 
 # -- Project information -----------------------------------------------------
-
+# pylint: disable=invalid-name
 project = 'listem3u'
+# pylint: disable=invalid-name,redefined-builtin
 copyright = '😀 2023, Nicolas Bruschi'
+# pylint: disable=invalid-name
 author = '👉 Nicolas Bruschi'
 
 # The full version, including alpha/beta/rc tags
@@ -109,30 +113,29 @@ htmlhelp_basename = 'listem3u'
 # -- Options for LaTeX output ------------------------------------------------
 
 latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
+  # The paper size ('letterpaper' or 'a4paper').
+  #
+  # 'papersize': 'letterpaper',
 
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
+  # The font size ('10pt', '11pt' or '12pt').
+  #
+  # 'pointsize': '10pt',
 
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
+  # Additional stuff for the LaTeX preamble.
+  #
+  # 'preamble': '',
 
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
+  # Latex figure (float) alignment
+  #
+  # 'figure_align': 'htbp',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'helloWorld.tex', 'helloWorld Documentation',
-     'Michael Altfield', 'manual'),
-]
+  (master_doc, 'listem3u.tex', 'listem3u Documentation', \
+    [author], 'manual'),]
 
 
 # -- Options for manual page output ------------------------------------------
@@ -140,8 +143,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'helloworld', 'helloWorld Documentation',
-     [author], 1)
+  (master_doc, 'listem3u', 'listem3u Documentation', \
+    [author], 1)
 ]
 
 
@@ -151,9 +154,9 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'helloWorld', 'helloWorld Documentation',
-     author, 'helloWorld', 'One line description of project.',
-     'Miscellaneous'),
+  (master_doc, 'listem3u', 'listem3u Documentation', \
+    author, 'listem3u', 'Doc forge logicielle.', \
+    'Miscellaneous'),
 ]
 
 
@@ -178,89 +181,96 @@ epub_exclude_files = ['search.html']
 # -- Extension configuration -------------------------------------------------
 
 # add sourcecode to path
-import sys, os
-sys.path.insert(0, os.path.abspath('../src'))
- 
+#sys.path.insert(0, os.path.abspath('..'))
+
 ############################
 # SETUP THE RTD LOWER-LEFT #
 ############################
 try:
-   html_context
+  # pylint: disable=used-before-assignment
+  html_context
 except NameError:
-   html_context = dict()
+  html_context = dict()
 html_context['display_lower_left'] = True
 
 if 'REPO_NAME' in os.environ:
-	REPO_NAME = os.environ['REPO_NAME']
+  REPO_NAME = os.environ['REPO_NAME']
 else:
-	REPO_NAME = ''
- 
+  REPO_NAME = ''
+
 # SET CURRENT_LANGUAGE
 if 'current_language' in os.environ:
-   # get the current_language env var set by buildDocs.sh
-   current_language = os.environ['current_language']
+  # get the current_language env var set by buildDocs.sh
+  current_language = os.environ['current_language']
 else:
-   # the user is probably doing `make html`
-   # set this build's current language to english
-   current_language = 'en'
- 
+  # the user is probably doing `make html`
+  # set this build's current language to english
+  current_language = 'fr'
+
 # tell the theme which language to we're currently building
 html_context['current_language'] = current_language
- 
+
 # SET CURRENT_VERSION
-from git import Repo
+
 repo = Repo( search_parent_directories=True )
- 
+
 if 'current_version' in os.environ:
-   # get the current_version env var set by buildDocs.sh
-   current_version = os.environ['current_version']
+  # get the current_version env var set by buildDocs.sh
+  current_version = os.environ['current_version']
 else:
-   # the user is probably doing `make html`
-   # set this build's current version by looking at the branch
-   current_version = repo.active_branch.name
- 
+  # the user is probably doing `make html`
+  # set this build's current version by looking at the branch
+  current_version = repo.active_branch.name
+
 # tell the theme which version we're currently on ('current_version' affects
 # the lower-left rtd menu and 'version' affects the logo-area version)
 html_context['current_version'] = current_version
 html_context['version'] = current_version
- 
+
 # POPULATE LINKS TO OTHER LANGUAGES
-html_context['languages'] = [ ('en', '/' +REPO_NAME+ '/en/' +current_version+ '/') ]
- 
+html_context['languages'] = [ ( 'fr', '/' + REPO_NAME + \
+                                '/fr/' +current_version+ '/') ]
+
 languages = [lang.name for lang in os.scandir('locales') if lang.is_dir()]
 for lang in languages:
-   html_context['languages'].append( (lang, '/' +REPO_NAME+ '/' +lang+ '/' +current_version+ '/') )
- 
+  html_context['languages'].append( (lang, '/' +REPO_NAME+ '/' +lang+ '/' + \
+      current_version + '/') )
+
 # POPULATE LINKS TO OTHER VERSIONS
 html_context['versions'] = list()
- 
+
 versions = [branch.name for branch in repo.branches]
 for version in versions:
-   html_context['versions'].append( (version, '/' +REPO_NAME+ '/'  +current_language+ '/' +version+ '/') )
- 
+  html_context['versions'].append( (version, '/' +REPO_NAME+ '/'  + \
+      current_language+ '/' +version+ '/') )
+
 # POPULATE LINKS TO OTHER FORMATS/DOWNLOADS
- 
+
 # settings for creating PDF with rinoh
 rinoh_documents = [(
- master_doc,
- 'target',
- project+ ' Documentation',
- '© ' +copyright,
+  master_doc,
+  'target',
+  project+ ' Documentation',
+  '© ' +copyright,
 )]
 today_fmt = "%B %d, %Y"
- 
+
 # settings for EPUB
 epub_basename = 'target'
- 
+
 html_context['downloads'] = list()
-html_context['downloads'].append( ('pdf', '/' +REPO_NAME+ '/' +current_language+ '/' +current_version+ '/' +project+ '-docs_' +current_language+ '_' +current_version+ '.pdf') )
- 
-html_context['downloads'].append( ('epub', '/' +REPO_NAME+ '/' +current_language+ '/' +current_version+ '/' +project+ '-docs_' +current_language+ '_' +current_version+ '.epub') )
- 
+html_context['downloads'].append( ('pdf', '/' +REPO_NAME+ '/' + \
+  current_language+ '/' +current_version+ '/' +project+ '-docs_' + \
+  current_language+ '_' +current_version+ '.pdf') )
+
+html_context['downloads'].append( ('epub', '/' +REPO_NAME+ '/' + \
+  current_language+ '/' +current_version+ '/' +project+ '-docs_' + \
+  current_language+ '_' +current_version+ '.epub') )
+
 ##########################
 # "EDIT ON GITHUB" LINKS #
 ##########################
- 
+
 html_context['display_github'] = True
 html_context['github_user'] = 'maltfield'
 html_context['github_repo'] = 'rtd-github-pages'

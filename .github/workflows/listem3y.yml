@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy Documentation sphinx de modules Python
+name: Deploiement de pages de documentation de modules Python crées avec sphinx
 
 #https://docs.github.com/fr/actions/using-workflows/workflow-syntax-for-github-actions
 #https://www.githubstatus.com/

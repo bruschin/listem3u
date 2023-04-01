@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>test_listem3u &mdash; Documentation listem3u V1.3</title>
+  <title>test_listem3u &mdash; Documentation listem3u V1.0b</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -12,11 +12,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script src="../_static/translations.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -35,6 +35,9 @@
             listem3u
               <img src="../_static/listem3u.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                1-sans-fichier-mp3
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
@@ -44,9 +47,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../listem3u.html">listem3u module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../test_listem3u.html">test_listem3u module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pegase.html">pegase module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">listem3u</a></li>
 </ul>
 
         </div>
@@ -101,7 +102,7 @@
 <span class="c1">##############</span>
 
 <div class="viewcode-block" id="test_version"><a class="viewcode-back" href="../test_listem3u.html#test_listem3u.test_version">[docs]</a><span class="k">def</span> <span class="nf">test_version</span><span class="p">():</span>
-  <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verifie demande version selon parametres -v,-V,--VERSION,--version</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="k">try</span><span class="p">:</span>
@@ -120,7 +121,7 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&gt;&gt;&gt;&gt;ERREUR test_version :</span><span class="se">\n</span><span class="si">{</span><span class="n">msg1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="test_aide"><a class="viewcode-back" href="../test_listem3u.html#test_listem3u.test_aide">[docs]</a><span class="k">def</span> <span class="nf">test_aide</span><span class="p">():</span>
-  <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verifie demande aide selon parametres -h,-H,--help,--HELP</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="k">try</span><span class="p">:</span>
@@ -139,7 +140,7 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&gt;&gt;&gt;&gt;ERREUR test_aide :</span><span class="se">\n</span><span class="si">{</span><span class="n">msg2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="test_aideversion"><a class="viewcode-back" href="../test_listem3u.html#test_listem3u.test_aideversion">[docs]</a><span class="k">def</span> <span class="nf">test_aideversion</span><span class="p">():</span>
-  <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verifie demande aide + version selon parametres -h + -v</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="k">try</span><span class="p">:</span>
@@ -154,7 +155,7 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&gt;&gt;&gt;&gt;ERREUR test_aideversion :</span><span class="se">\n</span><span class="si">{</span><span class="n">msg3</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="test_repertoire"><a class="viewcode-back" href="../test_listem3u.html#test_listem3u.test_repertoire">[docs]</a><span class="k">def</span> <span class="nf">test_repertoire</span><span class="p">():</span>
-  <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verifie parametres -r,-r,--repertoire,--REPERTOIRE</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="k">try</span><span class="p">:</span>
@@ -176,7 +177,7 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&gt;&gt;&gt;&gt;ERREUR test_repertoire :</span><span class="se">\n</span><span class="si">{</span><span class="n">msg4</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="test_action"><a class="viewcode-back" href="../test_listem3u.html#test_listem3u.test_action">[docs]</a><span class="k">def</span> <span class="nf">test_action</span><span class="p">():</span>
-  <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verifie fichier existance resultat</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="k">try</span><span class="p">:</span>
@@ -193,7 +194,9 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Nicolas Bruschi.</p>
+    <p>&#169; Copyright 2023, Nicolas Bruschi 😀.
+      <span class="lastupdated">Mis à jour le 01 avr. 2023 à 19:49.
+      </span></p>
   </div>
 
   Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
@@ -206,7 +209,61 @@
       </div>
     </section>
   </div>
-  <script>
+  <!-- https://holzhaus.github.io/sphinx-multiversion/v0.2.3/templates.html -->
+
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" 
+       aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: 1-sans-fichier-mp3
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+        
+          
+          <dd><a href="//fr/1-sans-fichier-mp3/">fr</a></dd>
+          
+        
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+           <strong> 
+          <dd><a href="//fr/1-sans-fichier-mp3/">1-sans-fichier-mp3</a></dd>
+           </strong> 
+        
+          
+          <dd><a href="//fr/main/">main</a></dd>
+          
+        
+      </dl>
+      
+      
+      <dl>
+        <dt>Téléchargements</dt>
+        
+          <dd><a href="//fr/1-sans-fichier-mp3/listem3u-docs_fr_1-sans-fichier-mp3.pdf">pdf</a></dd>
+        
+          <dd><a href="//fr/1-sans-fichier-mp3/listem3u-docs_fr_1-sans-fichier-mp3.epub">epub</a></dd>
+        
+      </dl>
+      
+      
+      <hr/>
+      <a href="https://tech.michaelaltfield.net/2020/07/18/
+sphinx-rtd-github-pages-1/">Continuous Documentation</a> 
+hosting provided by <a href="https://pages.github.com/">
+GitHub Pages</a>.
+ 
+    </div>
+  </div>
+<script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

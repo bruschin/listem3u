@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pegase &mdash; Documentation listem3u V1.3</title>
+  <title>pegase &mdash; Documentation listem3u V1.0b</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -12,11 +12,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script src="../_static/translations.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -35,6 +35,9 @@
             listem3u
               <img src="../_static/listem3u.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                1-sans-fichier-mp3
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
@@ -44,9 +47,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../listem3u.html">listem3u module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../test_listem3u.html">test_listem3u module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pegase.html">pegase module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">listem3u</a></li>
 </ul>
 
         </div>
@@ -127,7 +128,7 @@
 <span class="c1">##############</span>
 
 <div class="viewcode-block" id="parametres"><a class="viewcode-back" href="../pegase.html#pegase.parametres">[docs]</a><span class="k">def</span> <span class="nf">parametres</span><span class="p">(</span><span class="n">argv</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;_</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;_</span>
 <span class="sd">    Gestion des parametres d&#39;appel = help et version</span>
 
 <span class="sd">  [ EN ENTREE ]</span>
@@ -160,7 +161,7 @@
       <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="gestion_parametre"><a class="viewcode-back" href="../pegase.html#pegase.gestion_parametre">[docs]</a><span class="k">def</span> <span class="nf">gestion_parametre</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    Gestion des parametres d&#39;appel</span>
 
@@ -210,7 +211,7 @@
   <span class="k">return</span> <span class="n">minutesici</span></div>
 
 <div class="viewcode-block" id="test_est_un_badgeage_valide"><a class="viewcode-back" href="../pegase.html#pegase.test_est_un_badgeage_valide">[docs]</a><span class="k">def</span> <span class="nf">test_est_un_badgeage_valide</span><span class="p">(</span><span class="n">ch_trav</span><span class="p">,</span> <span class="n">conversion</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    la liste non vide traitée est-elle un badgeage ?</span>
 
 <span class="sd">  [ EN ENTREE ]</span>
@@ -249,7 +250,7 @@
     <span class="k">return</span> <span class="n">conversion</span></div>
 
 <div class="viewcode-block" id="conversion_minutes"><a class="viewcode-back" href="../pegase.html#pegase.conversion_minutes">[docs]</a><span class="k">def</span> <span class="nf">conversion_minutes</span><span class="p">(</span><span class="n">desheures</span><span class="p">,</span><span class="n">desminutes</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;_</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;_</span>
 <span class="sd">    Conversion heures et minutes passe en appel (de type hh et mm)</span>
 <span class="sd">    en un entier = minutes</span>
 
@@ -268,7 +269,7 @@
   <span class="k">return</span> <span class="n">int_conv_retour</span></div>
 
 <div class="viewcode-block" id="conversion_heures"><a class="viewcode-back" href="../pegase.html#pegase.conversion_heures">[docs]</a><span class="k">def</span> <span class="nf">conversion_heures</span><span class="p">(</span><span class="n">desminutes</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;_</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;_</span>
 <span class="sd">    Conversion des minutes en xHmm</span>
 
 <span class="sd">    [ EN ENTREE ]</span>
@@ -288,7 +289,7 @@
   <span class="k">return</span> <span class="n">ch_conv_retour</span></div>
 
 <div class="viewcode-block" id="traitement"><a class="viewcode-back" href="../pegase.html#pegase.traitement">[docs]</a><span class="k">def</span> <span class="nf">traitement</span><span class="p">(</span><span class="n">tabminutes</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    affichage finale selon nombre de badgeages recupérés.</span>
 
 <span class="sd">    [ EN ENTREE ]</span>
@@ -308,7 +309,7 @@
       <span class="n">soir</span> <span class="o">=</span> <span class="n">tabminutes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">DUREE_PAUSE_DEFAUT</span> <span class="o">+</span> <span class="n">DUREE_JOUR</span>
       <span class="n">depart</span> <span class="o">=</span> <span class="n">conversion_heures</span><span class="p">(</span><span class="n">soir</span><span class="p">)</span>
       <span class="nb">print</span><span class="p">(</span> <span class="sa">f</span><span class="s2">&quot;depart : </span><span class="si">{</span><span class="n">depart</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">case</span> <span class="k">_</span><span class="p">:</span>
+    <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
       <span class="nb">print</span><span class="p">(</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n\t</span><span class="s1">&gt;&gt;&gt;&gt; ERREUR: Nombre badgeage </span><span class="si">{</span><span class="n">uncompteur</span><span class="si">}</span><span class="s1"> imprevu</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
       <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
 
@@ -327,7 +328,9 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Nicolas Bruschi.</p>
+    <p>&#169; Copyright 2023, Nicolas Bruschi 😀.
+      <span class="lastupdated">Mis à jour le 01 avr. 2023 à 19:49.
+      </span></p>
   </div>
 
   Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
@@ -340,7 +343,61 @@
       </div>
     </section>
   </div>
-  <script>
+  <!-- https://holzhaus.github.io/sphinx-multiversion/v0.2.3/templates.html -->
+
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" 
+       aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: 1-sans-fichier-mp3
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+        
+          
+          <dd><a href="//fr/1-sans-fichier-mp3/">fr</a></dd>
+          
+        
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+           <strong> 
+          <dd><a href="//fr/1-sans-fichier-mp3/">1-sans-fichier-mp3</a></dd>
+           </strong> 
+        
+          
+          <dd><a href="//fr/main/">main</a></dd>
+          
+        
+      </dl>
+      
+      
+      <dl>
+        <dt>Téléchargements</dt>
+        
+          <dd><a href="//fr/1-sans-fichier-mp3/listem3u-docs_fr_1-sans-fichier-mp3.pdf">pdf</a></dd>
+        
+          <dd><a href="//fr/1-sans-fichier-mp3/listem3u-docs_fr_1-sans-fichier-mp3.epub">epub</a></dd>
+        
+      </dl>
+      
+      
+      <hr/>
+      <a href="https://tech.michaelaltfield.net/2020/07/18/
+sphinx-rtd-github-pages-1/">Continuous Documentation</a> 
+hosting provided by <a href="https://pages.github.com/">
+GitHub Pages</a>.
+ 
+    </div>
+  </div>
+<script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

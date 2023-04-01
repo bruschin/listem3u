@@ -7,6 +7,7 @@
   <title>listem3u module &mdash; Documentation listem3u V1.0b</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="shortcut icon" href="_static/listem3u.ico"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -91,14 +92,13 @@
   <section id="module-listem3u">
 <span id="listem3u-module"></span><h1>listem3u module<a class="headerlink" href="#module-listem3u" title="Lien permanent vers cette rubrique"></a></h1>
 <p>Created on 25 mars 2023</p>
-<blockquote>
-<div><p>&#64;author: Nicolas Bruschi</p>
+<p>&#64;author: Nicolas Bruschi</p>
 <p>Exploite fichiers extension m3u dans les sous-répertoires du repertoire de
 travail, pour constituer la liste des fichiers mp3 classés.</p>
 <dl>
 <dt>[EN ENTREE]</dt><dd><p>[-h <a href="#id1"><span class="problematic" id="id2">|</span></a>–help : Demande usage] Optionnel
 [-m <a href="#id3"><span class="problematic" id="id4">|</span></a>–mp3 : Verification existence fic mp3] Optionnel. Defaut = False
-[-r <a href="#id5"><span class="problematic" id="id6">|</span></a>–repertoire] &lt;repertoire de travail&gt; Optionnel</p>
+[-r <a href="#id5"><span class="problematic" id="id6">|</span></a>–repertoire] &lt;repertoire de travail&gt;  Optionnel</p>
 <blockquote>
 <div><p>defaut = Repertoire_travail</p>
 </div></blockquote>
@@ -119,12 +119,11 @@ Tous les parametres acceptent casse minuscules/majuscules</p>
 <dt>[REFERENCES]</dt><dd><p><a class="reference external" href="https://www.githubstatus.com/">https://www.githubstatus.com/</a>
 <a class="reference external" href="https://www.sphinx-doc.org/fr/master/index.html">https://www.sphinx-doc.org/fr/master/index.html</a>
 <a class="reference external" href="https://github.com/maltfield/rtd-github-pages/">https://github.com/maltfield/rtd-github-pages/</a>
-<a class="reference external" href="https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/">https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/</a></p>
-</dd>
-</dl>
-</div></blockquote>
-<dl class="simple">
-<dt>adding-a-workflow-status-badge</dt><dd><p># pour memo : python3 -m http.server</p>
+<a class="reference external" href="https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/">https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/</a>
+adding-a-workflow-status-badge
+<a class="reference external" href="https://github.com/marketplace/actions/github-pages-action">https://github.com/marketplace/actions/github-pages-action</a>
+<a class="reference external" href="https://github.com/marketplace/actions/sphinx-docs-to-github-pages">https://github.com/marketplace/actions/sphinx-docs-to-github-pages</a>
+# pour memo : python3 -m http.server</p>
 </dd>
 </dl>
 <dl class="py function">
@@ -181,9 +180,8 @@ path (chaine) repertoire</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="listem3u.parametres">
 <span class="sig-prename descclassname"><span class="pre">listem3u.</span></span><span class="sig-name descname"><span class="pre">parametres</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/listem3u.html#parametres"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#listem3u.parametres" title="Lien permanent vers cette définition"></a></dt>
-<dd><dl class="simple">
-<dt>_</dt><dd><p>Gestion des parametres d’appel = repertoire, help et version</p>
-</dd>
+<dd><p>Gestion des parametres d’appel = repertoire, help et version</p>
+<dl class="simple">
 <dt>[ EN ENTREE ]</dt><dd><p>argv = Les parametres d’appel du script</p>
 </dd>
 <dt>[ EN SORTIE ]</dt><dd><p>codeexit (entier) 0, 1 ou 2
@@ -207,7 +205,9 @@ test_presenceficmp3 (boolean)</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 😀 2023, Nicolas Bruschi.</p>
+    <p>&#169; Copyright 2023, Nicolas Bruschi 😀.
+      <span class="lastupdated">Mis à jour le 01 avr. 2023 à 19:49.
+      </span></p>
   </div>
 
   Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un

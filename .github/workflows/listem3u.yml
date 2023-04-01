@@ -35,12 +35,14 @@ jobs:
     # <Not provided for brevity>
     # At a minimum this job should upload artifacts using
     # actions/upload-pages-artifact
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         # python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
         python-version: ["3.10"]
-
     steps:
       - uses: actions/checkout@v3
       # https://github.com/actions/checkout
@@ -63,6 +65,14 @@ jobs:
           bash ./lanceur_pylint.bash
           bash ./lanceur_ruff.bash
           bash ./lanceur_sphinx.bash
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload entire repository
+          path: './docs/_build/html'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
 
   # # Single deploy job since we're just deploying
   # publication:

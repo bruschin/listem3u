@@ -6,6 +6,7 @@
   <title>listem3u &mdash; Documentation listem3u V1.0b</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/listem3u.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
@@ -76,8 +77,8 @@
   <h1>Code source de listem3u</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
 <span class="c1"># -*- encoding: utf-8 -*-</span>
-<span class="c1"># pylint: disable=too-many-branches</span>
-<span class="sd">&quot;&quot;&quot;  Created on 25 mars 2023</span>
+<span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">  Created on 25 mars 2023</span>
 
 <span class="sd">  @author: Nicolas Bruschi</span>
 
@@ -87,10 +88,11 @@
 <span class="sd">  [EN ENTREE]</span>
 <span class="sd">    [-h |--help : Demande usage] Optionnel</span>
 <span class="sd">    [-m |--mp3 : Verification existence fic mp3] Optionnel. Defaut = False</span>
-<span class="sd">    [-r |--repertoire] &lt;repertoire de travail&gt; Optionnel</span>
-<span class="sd">                                               defaut = Repertoire_travail</span>
+<span class="sd">    [-r |--repertoire] &lt;repertoire de travail&gt;  Optionnel</span>
+<span class="sd">                                                defaut = Repertoire_travail</span>
 <span class="sd">    [-v |--version : Demande version] Optionnel</span>
 <span class="sd">    Tous les parametres acceptent casse minuscules/majuscules</span>
+
 <span class="sd">  [EN SORTIE]</span>
 <span class="sd">    0 OK # Constitution dans le repertoire de travail du fichier de sortie</span>
 <span class="sd">    1 KO</span>
@@ -107,7 +109,9 @@
 <span class="sd">    https://www.sphinx-doc.org/fr/master/index.html</span>
 <span class="sd">    https://github.com/maltfield/rtd-github-pages/</span>
 <span class="sd">    https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/</span>
-<span class="sd">adding-a-workflow-status-badge</span>
+<span class="sd">    adding-a-workflow-status-badge</span>
+<span class="sd">    https://github.com/marketplace/actions/github-pages-action</span>
+<span class="sd">    https://github.com/marketplace/actions/sphinx-docs-to-github-pages</span>
 <span class="sd">    # pour memo : python3 -m http.server</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -119,7 +123,6 @@
 <span class="kn">import</span> <span class="nn">fnmatch</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">exists</span> <span class="k">as</span> <span class="n">file_exists</span>
-
 
 <span class="c1">## Variables Globales ##</span>
 
@@ -143,17 +146,16 @@
 <span class="c1">##############</span>
 
 <div class="viewcode-block" id="parametres"><a class="viewcode-back" href="../listem3u.html#listem3u.parametres">[docs]</a><span class="k">def</span> <span class="nf">parametres</span><span class="p">(</span><span class="n">argv</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;_</span>
-<span class="sd">    Gestion des parametres d&#39;appel = repertoire, help et version</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot; Gestion des parametres d&#39;appel = repertoire, help et version</span>
 
 <span class="sd">  [ EN ENTREE ]</span>
-<span class="sd">      argv = Les parametres d&#39;appel du script</span>
+<span class="sd">    argv = Les parametres d&#39;appel du script</span>
 
 <span class="sd">  [ EN SORTIE ]</span>
-<span class="sd">      codeexit (entier) 0, 1 ou 2</span>
-<span class="sd">      scom (chaine) commentaire</span>
-<span class="sd">      repertoire_travail (chaine)</span>
-<span class="sd">      test_presenceficmp3 (boolean)</span>
+<span class="sd">    codeexit (entier) 0, 1 ou 2</span>
+<span class="sd">    scom (chaine) commentaire</span>
+<span class="sd">    repertoire_travail (chaine)</span>
+<span class="sd">    test_presenceficmp3 (boolean)</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="c1">### parametre local</span>
   <span class="n">codeexit</span> <span class="o">=</span> <span class="mi">0</span>
@@ -164,9 +166,9 @@
   <span class="k">try</span><span class="p">:</span>
     <span class="c1"># pylint: disable=unused-variable</span>
     <span class="n">options</span><span class="p">,</span> <span class="n">remainder</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">&quot;hHmMvVr:R:&quot;</span><span class="p">,</span>
-                                       <span class="p">[</span><span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="s2">&quot;HELP&quot;</span><span class="p">,</span> <span class="s2">&quot;mp3&quot;</span><span class="p">,</span> <span class="s2">&quot;MP3&quot;</span><span class="p">,</span>
-                                       <span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="s2">&quot;VERSION&quot;</span><span class="p">,</span> <span class="s2">&quot;repertoire=&quot;</span><span class="p">,</span>
-                                       <span class="s2">&quot;REPERTOIRE=&quot;</span> <span class="p">]</span> <span class="p">)</span>
+                                        <span class="p">[</span><span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="s2">&quot;HELP&quot;</span><span class="p">,</span> <span class="s2">&quot;mp3&quot;</span><span class="p">,</span> <span class="s2">&quot;MP3&quot;</span><span class="p">,</span>
+                                        <span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="s2">&quot;VERSION&quot;</span><span class="p">,</span> <span class="s2">&quot;repertoire=&quot;</span><span class="p">,</span>
+                                        <span class="s2">&quot;REPERTOIRE=&quot;</span> <span class="p">]</span> <span class="p">)</span>
     <span class="c1">#print(f&quot;debug param : {options},{remainder}\n&quot;)</span>
 
     <span class="k">for</span> <span class="n">opt</span><span class="p">,</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
@@ -337,7 +339,9 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 😀 2023, Nicolas Bruschi.</p>
+    <p>&#169; Copyright 2023, Nicolas Bruschi 😀.
+      <span class="lastupdated">Mis à jour le 01 avr. 2023 à 19:49.
+      </span></p>
   </div>
 
   Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un

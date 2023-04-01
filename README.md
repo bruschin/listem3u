@@ -20,3 +20,8 @@
   + conda list -e > requirements_conda.txt
   + conda create --name <environment_name> --file requirements_conda.txt
   + conda install --file requirements_conda.txt
+
+## Documentations
+
++ [reStructuredText](https://docutils.sourceforge.io/rst.html)
++ `video: https://youtu.be/pZkOHRFxlRA`

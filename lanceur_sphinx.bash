@@ -6,8 +6,9 @@
 ###########
 #source /home/userdev/env/bin/activate
 cd docs || exit 1
+sphinx-build . _build
 sphinx-apidoc -f -o ./ ../
 sphinx-multiversion ./ _build/html
-make html
+make clean html
 
 

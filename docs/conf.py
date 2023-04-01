@@ -36,13 +36,14 @@ sys.path.insert(0, os.path.abspath('../'))
 # pylint: disable=invalid-name
 project = 'listem3u'
 # pylint: disable=invalid-name,redefined-builtin
-copyright = '😀 2023, Nicolas Bruschi'
+copyright = '2023, Nicolas Bruschi 😀'
 # pylint: disable=invalid-name
-author = '😀 Nicolas Bruschi'
+author = 'Nicolas Bruschi'
 
 # The full version, including alpha/beta/rc tags
 release = 'V1.0b'
 
+today_fmt = '%Y-%b-%d at %H:%M'
 
 # -- General configuration ---------------------------------------------------
 
@@ -54,11 +55,13 @@ extensions = [  'sphinx_rtd_theme','sphinx.ext.todo', 'sphinx.ext.autodoc',\
                 'sphinx.ext.autosummary', 'sphinx.ext.intersphinx',\
                 'sphinx.ext.mathjax', 'sphinx.ext.viewcode',\
                 'sphinx.ext.graphviz', 'sphinx.ext.napoleon' ,\
-                'sphinx_multiversion',
+                'sphinx_multiversion',\
               ]
 """
 extensions = [  'sphinx_rtd_theme', 'sphinx.ext.autodoc',\
-'sphinx.ext.autosummary', 'sphinx.ext.viewcode', 'sphinx.ext.githubpages',
+                'sphinx.ext.autosummary', 'sphinx.ext.viewcode',\
+                'sphinx.ext.githubpages', 'sphinx.ext.graphviz',\
+                'sphinx_multiversion', 'sphinx.ext.autodoc',\
 ]
 
 
@@ -100,6 +103,7 @@ html_static_path = ['_static']
 
 html_logo = 'listem3u.png'
 html_favicon = 'listem3u.ico'
+html_last_updated_fmt = '%d %b %Y à %H:%M'
 
 numfig = True
 

@@ -4,9 +4,18 @@ Documentation du projet listem3u
 La documentation d'usage de sphinx
 ----------------------------------
 
-`A tres cool website`_
+``Relase`` : |release|
 
-.. _A cool website: http://sphinx-doc.org
+Version : |version|
+
+Mise à jout : |today|
+
+`👉 Test d'un lien vers un website tres cool`_
+
+.. _👉 Test d'un lien vers un website tres cool: http://sphinx-doc.org
+
+Essai graphviz
+--------------
 
 .. digraph:: foo
 

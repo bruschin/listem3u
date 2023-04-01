@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
-# pylint: disable=too-many-branches
-"""  Created on 25 mars 2023
+""" 
+  Created on 25 mars 2023
 
   @author: Nicolas Bruschi
 
@@ -11,10 +11,11 @@
   [EN ENTREE]
     [-h |--help : Demande usage] Optionnel
     [-m |--mp3 : Verification existence fic mp3] Optionnel. Defaut = False
-    [-r |--repertoire] <repertoire de travail> Optionnel
-                                               defaut = Repertoire_travail
+    [-r |--repertoire] <repertoire de travail>  Optionnel
+                                                defaut = Repertoire_travail
     [-v |--version : Demande version] Optionnel
     Tous les parametres acceptent casse minuscules/majuscules
+
   [EN SORTIE]
     0 OK # Constitution dans le repertoire de travail du fichier de sortie
     1 KO
@@ -46,7 +47,6 @@ import fnmatch
 from datetime import datetime
 from os.path import exists as file_exists
 
-
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
@@ -69,17 +69,16 @@ DEFAUT_FICMP3 = False
 ##############
 
 def parametres(argv):
-  """_
-    Gestion des parametres d'appel = repertoire, help et version
+  """ Gestion des parametres d'appel = repertoire, help et version
 
   [ EN ENTREE ]
-      argv = Les parametres d'appel du script
+    argv = Les parametres d'appel du script
 
   [ EN SORTIE ]
-      codeexit (entier) 0, 1 ou 2
-      scom (chaine) commentaire
-      repertoire_travail (chaine)
-      test_presenceficmp3 (boolean)
+    codeexit (entier) 0, 1 ou 2
+    scom (chaine) commentaire
+    repertoire_travail (chaine)
+    test_presenceficmp3 (boolean)
   """
   ### parametre local
   codeexit = 0
@@ -90,9 +89,9 @@ def parametres(argv):
   try:
     # pylint: disable=unused-variable
     options, remainder = getopt.getopt( argv[1:], "hHmMvVr:R:",
-                                       ["help", "HELP", "mp3", "MP3",
-                                       "version", "VERSION", "repertoire=",
-                                       "REPERTOIRE=" ] )
+                                        ["help", "HELP", "mp3", "MP3",
+                                        "version", "VERSION", "repertoire=",
+                                        "REPERTOIRE=" ] )
     #print(f"debug param : {options},{remainder}\n")
 
     for opt, arg in options:

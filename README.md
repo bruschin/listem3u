@@ -1,6 +1,7 @@
 # listem3u [2023-04-01] 👉 BN V1.3
 
-![docs_pages_workflow](https://github.com/bruschin/listem3u/actions/workflows/listem3u.yml/badge.svg)
+![docs_pages_workflow](https://github.com/bruschin/listem3u/actions/workflows/
+listem3u.yml/badge.svg)
 
 ## Configuration environnement mini-conda
 
@@ -24,4 +25,3 @@
 ## Documentations
 
 + [reStructuredText](https://docutils.sourceforge.io/rst.html)
-+ `video: https://youtu.be/pZkOHRFxlRA`

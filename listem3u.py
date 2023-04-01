@@ -33,6 +33,7 @@
     https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/
     adding-a-workflow-status-badge
     https://github.com/marketplace/actions/github-pages-action
+    https://github.com/marketplace/actions/sphinx-docs-to-github-pages
     # pour memo : python3 -m http.server
 """
 

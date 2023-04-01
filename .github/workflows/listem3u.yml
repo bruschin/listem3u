@@ -58,6 +58,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install gitpyhton --user
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           bash ./lanceur_pytest.bash
           bash ./lanceur_pylint.bash

@@ -54,7 +54,7 @@ jobs:
         id: cache
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles(\'**/devtools/requirements.*') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install dependencies

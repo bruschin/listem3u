@@ -36,13 +36,14 @@ sys.path.insert(0, os.path.abspath('../src/'))
 # pylint: disable=invalid-name
 project = 'listem3u'
 # pylint: disable=invalid-name,redefined-builtin
-copyright = '2023, Nicolas Bruschi 😀'
+copyright = '2023, 😀 Nicolas Bruschi'
 # pylint: disable=invalid-name
 author = 'Nicolas Bruschi'
 
 # The full version, including alpha/beta/rc tags
-release = 'V1.0b'
+release = 'V1.4b'
 
+# avant lancement : export TZ="Europe/Paris" sinon UTC
 today_fmt = '%Y-%b-%d at %H:%M'
 
 # -- General configuration ---------------------------------------------------
@@ -215,7 +216,7 @@ else:
 
 #html_context['display_lower_left'] =
 # # tell the theme which language to we're currently building
-# html_context['current_language'] = current_language
+html_context['current_language'] = current_language
 
 # SET CURRENT_VERSION
 
@@ -236,20 +237,18 @@ html_context['current_version'] = current_version
 html_context['version'] = current_version
 
 # POPULATE LINKS TO OTHER LANGUAGES
-#html_context['languages'] = [ ( f'{current_language}', f'{REPO_NAME}/'\
-#f'{current_language}/{current_version}/' ) ]
+html_context['languages'] = [ ( f'{current_language}', f'{REPO_NAME}/'\
+f'{current_language}/{current_version}/' ) ]
 
-html_context['languages'] = list()
-
-languages = [lang.name for lang in os.scandir('locales') if lang.is_dir()]
-for lang in languages:
-  html_context['languages'].append( (f'{lang}', f'{REPO_NAME}/'\
-f'{lang}/{current_version}/') )
+# html_context['languages'] = list()
+# languages = [lang.name for lang in os.scandir('locales') if lang.is_dir()]
+# for lang in languages:
+#   html_context['languages'].append( (f'{lang}', f'{REPO_NAME}/'\
+# f'{lang}/{current_version}/') )
 
 
 # POPULATE LINKS TO OTHER VERSIONS
 html_context['versions'] = list()
-
 versions = [branch.name for branch in repo.branches]
 for version in versions:
   html_context['versions'].append( (f'{version}', f'{REPO_NAME}/'\
@@ -262,7 +261,9 @@ f'{current_language}/{version}/') )
 #  f'© {copyright}',)]
 
 ### mise à l'heure de index.rst
-today_fmt = "%B %d, %Y"
+# avant lancement : export TZ="Europe/Paris" sinon UTC
+today_fmt = '%Y-%b-%d at %H:%M'
+#today_fmt = "%B %d, %Y"
 
 # settings for EPUB
 epub_basename = 'target'
@@ -270,12 +271,10 @@ epub_basename = 'target'
 html_context['downloads'] = list()
 
 html_context['downloads'].append( ('pdf', f'{REPO_NAME}/'\
-f'{current_language}/{current_version}/{project}-docs_'\
-f'{current_language}_{current_version}.pdf') )
+f'{project}-docs_{current_language}_{current_version}.pdf') )
 
 html_context['downloads'].append( ('epub', f'{REPO_NAME}/'\
-f'{current_language}/{current_version}/{project}-docs_'\
-f'{current_language}_{current_version}.epub') )
+f'{project}-docs_{current_language}_{current_version}.epub') )
 
 ##########################
 # "EDIT ON GITHUB" LINKS #

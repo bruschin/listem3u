@@ -15,7 +15,7 @@ sphinx-apidoc -f -o ./ ../src
 #sphinx-multiversion ./ _build/html
 
 ### generation entree index.html pour https://bruschin.github.io/listem3u
-sphinx-build  -b "html" "./" "./_build/html"
+#sphinx-build  -b "html" "./" "./_build/html"
 
 languages="en $(find ./locales/ -mindepth 1 -maxdepth 1 -type d \
                 -exec basename '{}' \;)"
@@ -37,12 +37,10 @@ for current_language in ${languages}; do
   echo "INFO: Building for ${current_language}"
 
   # HTML #
-  sphinx-build  -b "html" "./" "./_build/html/${current_language}/"\
-  "${current_version}" -D language="${current_language}"
+  sphinx-build  -b "html" "./" "./_build/html" -D language="${current_language}"
 
   # EPUB #
-  sphinx-build  -b "epub" "./" "./_build/html/${current_language}/"\
-  "${current_version}" -D language="${current_language}"
+  sphinx-build  -b "epub" "./" "./_build/html" -D language="${current_language}"
 
   # PDF #
   #sphinx-build -b rinoh ./ ./_build/html/rinoh/fr -D language=fr

@@ -4,7 +4,7 @@
 ## nécessite d'avoir excute
 ## pylint --generate-rcfile > .pylintrc
 ###########
-source /home/userdev/env/bin/activate
+export PATH=$PATH:~/opt/bin
 REPTRAV="$(dirname $0)"
 cd "docs" || exit 1
 

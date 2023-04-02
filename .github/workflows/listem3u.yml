@@ -62,6 +62,7 @@ jobs:
           pwd
           ls -ail
           python -m pip install --upgrade pip
+          python -m pip install pylint-common --use-pep517
           if [ -f ./devtools/requirements.txt ]; then 
             pip install -r ./devtools/requirements.txt; 
           fi

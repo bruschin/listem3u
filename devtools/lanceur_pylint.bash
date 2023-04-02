@@ -4,7 +4,6 @@
 ## nécessite d'avoir excute
 ## pylint --generate-rcfile > .pylintrc
 ###########
-#source /home/userdev/env/bin/activate
 REPTRAV="$(dirname $0)"
 cd "${REPTRAV}/.." || exit 1
 

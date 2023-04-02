@@ -25,9 +25,7 @@ Les modules du projet listem3u
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. toctree::
-  :maxdepth: 3
+  :maxdepth: 2
   
-  listem3u
-  test_listem3u
-  pegase
+  modules
   

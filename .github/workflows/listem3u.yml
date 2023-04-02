@@ -59,10 +59,10 @@ jobs:
             ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
-          pwd
-          ls -ail
+          #pwd
+          #ls -ail
           sudo apt install graphviz
-          find $HOME -name dot
+          #find $HOME -name dot
           python -m pip install --upgrade pip
           python -m pip install pylint-common --use-pep517
           if [ -f ./devtools/requirements.txt ]; then 

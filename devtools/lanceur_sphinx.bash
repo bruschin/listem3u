@@ -4,6 +4,8 @@
 ## nécessite d'avoir installé sphinx graphviz rhino
 ###########
 export TZ="Europe/Paris"
+export REPO_NAME='https://bruschin.github.io/listem3u'
+
 REPTRAV="$(dirname $0)"
 cd "docs" || exit 1
 

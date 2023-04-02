@@ -14,7 +14,7 @@
         <dt>{{ _('Languages') }}</dt>
         {% for slug, url in languages %}
           {% if slug == current_language %} <strong> {% endif %}
-          <dd><!-- BN <a href="{{ url }}">{{ slug }}</a> BN -->{{ slug }}</dd>
+          <dd><a href="{{ url }}">{{ slug }}</a>{{ slug }}</dd>
           {% if slug == current_language %} </strong> {% endif %}
         {% endfor %}
       </dl>
@@ -25,7 +25,7 @@
         {% for slug, url in versions %}
           {% if slug == current_version %} <strong> {% endif %}
           <dd><a href="{{ url }}">{{ slug }}</a>
-            https://bruschin.github.io/listem3u/{{ slug }}</dd>
+            {{namenic}}/{{ url }} & {{ slug }}</dd>
           {% if slug == current_version %} </strong> {% endif %}
         {% endfor %}
       </dl>

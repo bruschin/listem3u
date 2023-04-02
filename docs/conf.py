@@ -200,17 +200,20 @@ html_context['display_lower_left'] = True
 if 'REPO_NAME' in os.environ:
   REPO_NAME = os.environ['REPO_NAME']
 else:
-  REPO_NAME = ''
+  REPO_NAME = 'bruschin.github.io/listem3u/'
 
-# # SET CURRENT_LANGUAGE
-# if 'current_language' in os.environ:
-#   # get the current_language env var set by buildDocs.sh
-#   current_language = os.environ['current_language']
-# else:
-#   # the user is probably doing `make html`
-#   # set this build's current language to english
-#   current_language = 'fr'
+html_context['namenic'] = 'https://bruschin.github.io/listem3u/'
 
+# SET CURRENT_LANGUAGE
+if 'current_language' in os.environ:
+  # get the current_language env var set by buildDocs.sh
+  current_language = os.environ['current_language']
+else:
+  # the user is probably doing `make html`
+  # set this build's current language to english
+  current_language = 'fr'
+
+#html_context['display_lower_left'] =
 # # tell the theme which language to we're currently building
 # html_context['current_language'] = current_language
 
@@ -232,8 +235,8 @@ html_context['current_version'] = current_version
 html_context['version'] = current_version
 
 # POPULATE LINKS TO OTHER LANGUAGES
-html_context['languages'] = [ ( 'fr', '/' + REPO_NAME + \
-                                '/fr/' +current_version+ '/') ]
+html_context['languages'] = [ ( f'{current_language}', f'/{REPO_NAME}/'\
+f'{current_language}/{current_version}/' ) ]
 
 # languages = [lang.name for lang in os.scandir('locales') if lang.is_dir()]
 # for lang in languages:
@@ -245,31 +248,27 @@ html_context['versions'] = list()
 
 versions = [branch.name for branch in repo.branches]
 for version in versions:
-  html_context['versions'].append( (version, '/' +REPO_NAME+ '/'  + \
-      current_language+ '/' +version+ '/') )
+  html_context['versions'].append( (f'{version}', f'/{REPO_NAME}/'\
+f'{current_language}/{version}/') )
 
 # POPULATE LINKS TO OTHER FORMATS/DOWNLOADS
 
 # settings for creating PDF with rinoh
-rinoh_documents = [(
-  master_doc,
-  'target',
-  project+ ' Documentation',
-  '© ' +copyright,
-)]
+rinoh_documents = [(f'{master_doc}', 'target', f'{project} Documentation',
+  f'© {copyright}',)]
 today_fmt = "%B %d, %Y"
 
 # settings for EPUB
 epub_basename = 'target'
 
 html_context['downloads'] = list()
-html_context['downloads'].append( ('pdf', '/' +REPO_NAME+ '/' + \
-  current_language+ '/' +current_version+ '/' +project+ '-docs_' + \
-  current_language+ '_' +current_version+ '.pdf') )
+html_context['downloads'].append( ('pdf', f'/{REPO_NAME}/'\
+f'{current_language}/{current_version}/{project}-docs_'\
+f'{current_language}_{current_version}.pdf') )
 
-html_context['downloads'].append( ('epub', '/' +REPO_NAME+ '/' + \
-  current_language+ '/' +current_version+ '/' +project+ '-docs_' + \
-  current_language+ '_' +current_version+ '.epub') )
+html_context['downloads'].append( ('epub', f'/{REPO_NAME}/'\
+f'{current_language}/{current_version}/{project}-docs_'\
+f'{current_language}_{current_version}.epub') )
 
 ##########################
 # "EDIT ON GITHUB" LINKS #

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
-""" 
+"""
   Created on 25 mars 2023
 
   @author: Nicolas Bruschi

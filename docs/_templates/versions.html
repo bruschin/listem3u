@@ -14,7 +14,7 @@
         <dt>{{ _('Languages') }}</dt>
         {% for slug, url in languages %}
           {% if slug == current_language %} <strong> {% endif %}
-          <dd><a href="{{ url }}">{{ slug }}</a></dd>
+          <dd><!-- BN <a href="{{ url }}">{{ slug }}</a> BN -->{{ slug }}</dd>
           {% if slug == current_language %} </strong> {% endif %}
         {% endfor %}
       </dl>
@@ -24,7 +24,7 @@
         <dt>{{ _('Versions') }}</dt>
         {% for slug, url in versions %}
           {% if slug == current_version %} <strong> {% endif %}
-          <dd><a href="{{ url }}">{{ slug }}</a></dd>
+          <dd><!-- BN <a href="{{ url }}">{{ slug }}</a> BN -->{{ slug }}</dd>
           {% if slug == current_version %} </strong> {% endif %}
         {% endfor %}
       </dl>
@@ -55,7 +55,7 @@
 sphinx-rtd-github-pages-1/">Continuous Documentation</a> 
 hosting provided by <a href="https://pages.github.com/">
 GitHub Pages</a>.{% endtrans %}
- 
+
     </div>
   </div>
 {% endif %}

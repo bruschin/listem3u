@@ -54,7 +54,7 @@ jobs:
         id: cache
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles(\'**/devtools/requirements.*') }}
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install dependencies
@@ -67,7 +67,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pylint-common --use-pep517
           if [ -f ./devtools/requirements.txt ]; then 
-            pip install -r ./devtools/requirements.txt; 
+            pip install -r ./devtools/requirements.txt;
           fi
           export TZ="Europe/Paris"
           bash ./devtools/lanceur_pytest.bash

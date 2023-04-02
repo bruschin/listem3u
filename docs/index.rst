@@ -1,19 +1,16 @@
 Documentation du projet listem3u
 ================================
 
-La documentation d'usage de sphinx
-----------------------------------
-
-  - ``Relase`` : |release|
-    ``Version`` : |version|
+  - ``Branche`` : |version|
+    ``Relase`` : |release|
     ``Mise à jout`` : |today|
 
-`👉 Test d'un lien vers un website tres cool`_
+`👉 Test écriture d'un lien vers un website externe`_
 
-.. _👉 Test d'un lien vers un website tres cool: http://sphinx-doc.org
+.. _👉 Test écriture d'un lien vers un website externe: http://sphinx-doc.org
 
-Essai graphviz
---------------
+Essai usage graphviz
+--------------------
 
 .. digraph:: foo
 

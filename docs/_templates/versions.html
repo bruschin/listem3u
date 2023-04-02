@@ -1,6 +1,6 @@
-<!-- https://holzhaus.github.io/sphinx-multiversion/v0.2.3/templates.html -->
+{# https://holzhaus.github.io/sphinx-multiversion/v0.2.3/templates.html #}
 {% if READTHEDOCS or display_lower_left %}
-{# Add rst-badge after rst-versions for small badge style. #}
+  {# Add rst-badge after rst-versions for small badge style. #}
   <div class="rst-versions" data-toggle="rst-versions" role="note" \
     aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
@@ -9,6 +9,7 @@
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
+      {#
       {% if languages|length >= 1 %}
       <dl>
         <dt>{{ _('Languages') }}</dt>
@@ -17,16 +18,17 @@
         {% endfor %}
       </dl>
       {% endif %}
-      {% if versions|length > 1 %}
+      {% if versions|length >= 1 %}
       <dl>
         <dt>{{ _('Versions') }}</dt>
         {% for slug, url in versions %}
           {% if slug == current_version %} <strong> {% endif %}
-          <dd><a href="{{ url }}">{{ slug }}</a>{{ slug }}</dd>
+            <dd><a href="{{ url }}">{{ slug }}</a>{{ slug }}</dd>
           {% if slug == current_version %} </strong> {% endif %}
         {% endfor %}
       </dl>
       {% endif %}
+      #}
       {% if downloads|length >= 1 %}
       <dl>
         <dt>{{ _('Downloads') }}</dt>

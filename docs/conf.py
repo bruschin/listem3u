@@ -203,8 +203,6 @@ if 'REPO_NAME' in os.environ:
 else:
   REPO_NAME = 'https://bruschin.github.io/listem3u'
 
-html_context['namenic'] = 'https://bruschin.github.io/listem3u'
-
 # SET CURRENT_LANGUAGE
 if 'current_language' in os.environ:
   # get the current_language env var set by buildDocs.sh
@@ -237,8 +235,8 @@ html_context['current_version'] = current_version
 html_context['version'] = current_version
 
 # POPULATE LINKS TO OTHER LANGUAGES
-# html_context['languages'] = []
-html_context['languages'] = [ ( f'{current_language}', f'{REPO_NAME}' ) ]
+#html_context['languages'] = []
+html_context['languages']= [ current_language, REPO_NAME ]
 
 # html_context['languages'] = []
 # languages = [lang.name for lang in os.scandir('locales') if lang.is_dir()]
@@ -249,9 +247,9 @@ html_context['languages'] = [ ( f'{current_language}', f'{REPO_NAME}' ) ]
 
 # POPULATE LINKS TO OTHER VERSIONS
 # html_context['versions'] = []
-versions = [branch.name for branch in repo.branches]
-for version in versions:
-  html_context['versions'].append( (f'{version}', f'{REPO_NAME}') )
+#versions = [branch.name for branch in repo.branches]
+#for version in versions:
+html_context['versions'] = [ 'main', REPO_NAME ]
 
 # POPULATE LINKS TO OTHER FORMATS/DOWNLOADS
 
@@ -267,13 +265,12 @@ today_fmt = '%Y %b %d à %H:%M'
 # settings for EPUB
 epub_basename = f'{project}-docs_{current_language}_{current_version}'
 
-html_context['downloads'] = []
+#html_context['downloads'] = []
 
 #html_context['downloads'].append( ('pdf', f'{REPO_NAME}/'\
 #f'{project}-docs_{current_language}_{current_version}.pdf') )
 
-html_context['downloads'].append( ('epub', f'{REPO_NAME}/'\
-f'{epub_basename}.epub') )
+html_context['downloads'] = ['epub', f'{REPO_NAME}/{epub_basename}.epub']
 
 ##########################
 # "EDIT ON GITHUB" LINKS #

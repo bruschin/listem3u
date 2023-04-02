@@ -2,8 +2,8 @@ Documentation du projet listem3u
 ================================
 
   - ``Branche`` : |version|
-    ``Relase`` : |release|
-    ``Mise à jout`` : |today|
+    ``Release`` : |release|
+    ``Mise à jour`` : |today|
 
 `👉 Test écriture d'un lien vers un website externe`_
 

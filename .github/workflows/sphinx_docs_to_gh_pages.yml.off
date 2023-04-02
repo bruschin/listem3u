@@ -2,7 +2,7 @@ name: Sphinx docs to gh-pages
 
 on:
   push:
-    branches: ["main", "1-sans-fichier-mp3"]
+    branches: ["main", "release/V1.4","3-sonarqube"]
 
 # workflow_dispatch:        
 # Un comment line if you also want to trigger action manually

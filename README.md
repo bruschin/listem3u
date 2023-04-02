@@ -1,4 +1,4 @@
-# listem3u [2023-04-01] 👉 BN V1.3
+# listem3u [2023-04-02] 👉 BN V1.4 beta
 
 ![docs_pages_workflow](https://github.com/bruschin/listem3u/actions/workflows/
 listem3u.yml/badge.svg)
@@ -25,3 +25,5 @@ listem3u.yml/badge.svg)
 ## Documentations
 
 + [reStructuredText](https://docutils.sourceforge.io/rst.html)
++ [documentation des modules pyhton du projet](https://bruschin.github.io/listem3u/)
++ [wiki du projet](https://bruschin.github.io/listem3u/wiki)

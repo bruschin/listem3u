@@ -31,12 +31,12 @@ for current_language in ${languages}; do
   echo "INFO: Building for ${current_language}"
 
   # HTML #
-  sphinx-build  -b "html" "./" "./_build/html/${current_language}/"\
-"${current_version}" -D language="${current_language}"
+  sphinx-build  -b "html" "./" "./_build/html" \
+                -D language="${current_language}"
 
   # EPUB #
-  sphinx-build -b "epub" "./" "./_build/html/${current_language}/"\
-"${current_version}/epub" -D language="${current_language}"
+  sphinx-build  -b "epub" "./" "./_build/html/epub" \
+                -D language="${current_language}"
 
   # PDF #
   #sphinx-build -b rinoh ./ ./_build/html/rinoh/fr -D language=fr

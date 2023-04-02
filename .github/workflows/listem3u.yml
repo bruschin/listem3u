@@ -50,6 +50,13 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+        run: |
+          sudo apt-get install -y graphviz rhino
+          python -m pip install --upgrade pip
+          python -m pip install pylint-common --use-pep517
+          if [ -f ./devtools/requirements.txt ]; then 
+            pip install -r ./devtools/requirements.txt;
+          fi
       - uses: actions/cache@v3
         id: cache
         with:
@@ -58,17 +65,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install dependencies
-        run: |
-          #pwd
-          #ls -ail
-          sudo apt install graphviz
-          sudo apt install rhino
-          #find $HOME -name dot
-          python -m pip install --upgrade pip
-          python -m pip install pylint-common --use-pep517
-          if [ -f ./devtools/requirements.txt ]; then 
-            pip install -r ./devtools/requirements.txt;
-          fi
+        run: 
           export TZ="Europe/Paris"
           bash ./devtools/lanceur_pytest.bash
           bash ./devtools/lanceur_pylint.bash

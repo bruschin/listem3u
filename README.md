@@ -3,6 +3,10 @@
 ![docs_pages_workflow](https://github.com/bruschin/listem3u/actions/workflows/
 listem3u.yml/badge.svg)
 
+## Actions
+
+configuration environnement github-pages ajout branche 3-sonarqube
+
 ## Configuration environnement mini-conda
 
 + conda config --add channels conda-forge

@@ -5,8 +5,8 @@
 ## pylint --generate-rcfile > .pylintrc
 ###########
 #source /home/userdev/env/bin/activate
-#REPTRAV="$(dirname $0)"
-#cd "${REPTRAV}/.." || exit 1
+REPTRAV="$(dirname $0)"
+cd "${REPTRAV}/.." || exit 1
 
 FICSORTIE="pytest-report.txt"
 pytest -q src/test_listem3u.py  \

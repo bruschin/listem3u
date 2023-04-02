@@ -31,7 +31,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     # <Not provided for brevity>
     # At a minimum this job should upload artifacts using
     # actions/upload-pages-artifact
@@ -51,18 +54,20 @@ jobs:
         id: cache
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.*') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/src/requirements.*') }}
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f src/requirements.txt ]; then 
+            pip install -r src/requirements.txt; 
+          fi
           export TZ="Europe/Paris"
-          bash ./lanceur_pytest.bash
-          bash ./lanceur_pylint.bash
-          bash ./lanceur_ruff.bash
-          bash ./lanceur_sphinx.bash
+          bash src/lanceur_pytest.bash
+          bash src/lanceur_pylint.bash
+          bash src/lanceur_ruff.bash
+          bash src/lanceur_sphinx.bash
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

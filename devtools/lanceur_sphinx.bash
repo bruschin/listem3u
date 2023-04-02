@@ -4,9 +4,9 @@
 ## nécessite d'avoir excute
 ## pylint --generate-rcfile > .pylintrc
 ###########
-#source /home/userdev/env/bin/activate
-#REPTRAV="$(dirname $0)"
-cd "./docs" || exit 1
+source /home/userdev/env/bin/activate
+REPTRAV="$(dirname $0)"
+cd "docs" || exit 1
 
 sphinx-build . _build
 sphinx-apidoc -f -o ./ ../src

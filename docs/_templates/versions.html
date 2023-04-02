@@ -5,7 +5,7 @@
     aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Read the Docs</span>
-      v: {{ current_version }}
+      {{ current_version }}
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -13,13 +13,11 @@
       <dl>
         <dt>{{ _('Languages') }}</dt>
         {% for slug, url in languages %}
-          {% if slug == current_language %} <strong> {% endif %}
-            <dd><a href="{{ url }}">{{ slug }}</a>{{ slug }}</dd>
-          {% if slug == current_language %} </strong> {% endif %}
+          <dd><a href="{{ url }}">{{ slug }}</a>{{ slug }}</dd>
         {% endfor %}
       </dl>
       {% endif %}
-      {% if versions|length >= 1 %}
+      {% if versions|length > 1 %}
       <dl>
         <dt>{{ _('Versions') }}</dt>
         {% for slug, url in versions %}

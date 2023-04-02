@@ -237,7 +237,7 @@ html_context['current_version'] = current_version
 html_context['version'] = current_version
 
 # POPULATE LINKS TO OTHER LANGUAGES
-html_context['languages'] = []
+# html_context['languages'] = []
 html_context['languages'] = [ ( f'{current_language}', f'{REPO_NAME}' ) ]
 
 # html_context['languages'] = []
@@ -248,11 +248,10 @@ html_context['languages'] = [ ( f'{current_language}', f'{REPO_NAME}' ) ]
 
 
 # POPULATE LINKS TO OTHER VERSIONS
-html_context['versions'] = []
+# html_context['versions'] = []
 versions = [branch.name for branch in repo.branches]
 for version in versions:
-  html_context['versions'].append( (f'{version}', f'{REPO_NAME}/'\
-f'{current_language}/{version}/') )
+  html_context['versions'].append( (f'{version}', f'{REPO_NAME}') )
 
 # POPULATE LINKS TO OTHER FORMATS/DOWNLOADS
 
@@ -281,6 +280,6 @@ f'{epub_basename}.epub') )
 ##########################
 
 html_context['display_github'] = True
-html_context['github_user'] = 'maltfield'
-html_context['github_repo'] = 'rtd-github-pages'
-html_context['github_version'] = 'master/docs/'
+html_context['github_user'] = 'bruschin'
+html_context['github_repo'] = 'listem3u'
+html_context['github_version'] = 'main/docs/'

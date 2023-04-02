@@ -4,11 +4,9 @@ Documentation du projet listem3u
 La documentation d'usage de sphinx
 ----------------------------------
 
-``Relase`` : |release|
-
-``Version`` : |version|
-
-``Mise à jout`` : |today|
+  - ``Relase`` : |release|
+    ``Version`` : |version|
+    ``Mise à jout`` : |today|
 
 `👉 Test d'un lien vers un website tres cool`_
 

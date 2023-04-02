@@ -41,10 +41,10 @@ copyright = '2023, 😀 Nicolas Bruschi'
 author = 'Nicolas Bruschi'
 
 # The full version, including alpha/beta/rc tags
-release = 'V1.4b'
+release = 'V1.4 b'
 
 # avant lancement : export TZ="Europe/Paris" sinon UTC
-today_fmt = '%Y-%b-%d at %H:%M'
+#today_fmt = '%Y-%b-%d at %H:%M'
 
 # -- General configuration ---------------------------------------------------
 
@@ -216,7 +216,7 @@ else:
 
 #html_context['display_lower_left'] =
 # # tell the theme which language to we're currently building
-html_context['current_language'] = current_language
+#html_context['current_language'] = current_language
 
 # SET CURRENT_VERSION
 
@@ -237,10 +237,10 @@ html_context['current_version'] = current_version
 html_context['version'] = current_version
 
 # POPULATE LINKS TO OTHER LANGUAGES
-html_context['languages'] = [ ( f'{current_language}', f'{REPO_NAME}/'\
-f'{current_language}/{current_version}/' ) ]
+html_context['languages'] = []
+html_context['languages'] = [ ( f'{current_language}', f'{REPO_NAME}' ) ]
 
-# html_context['languages'] = list()
+# html_context['languages'] = []
 # languages = [lang.name for lang in os.scandir('locales') if lang.is_dir()]
 # for lang in languages:
 #   html_context['languages'].append( (f'{lang}', f'{REPO_NAME}/'\
@@ -248,7 +248,7 @@ f'{current_language}/{current_version}/' ) ]
 
 
 # POPULATE LINKS TO OTHER VERSIONS
-html_context['versions'] = list()
+html_context['versions'] = []
 versions = [branch.name for branch in repo.branches]
 for version in versions:
   html_context['versions'].append( (f'{version}', f'{REPO_NAME}/'\
@@ -262,19 +262,19 @@ f'{current_language}/{version}/') )
 
 ### mise à l'heure de index.rst
 # avant lancement : export TZ="Europe/Paris" sinon UTC
-today_fmt = '%Y-%b-%d at %H:%M'
+today_fmt = '%Y %b %d à %H:%M'
 #today_fmt = "%B %d, %Y"
 
 # settings for EPUB
-epub_basename = 'target'
+epub_basename = f'{project}-docs_{current_language}_{current_version}'
 
-html_context['downloads'] = list()
+html_context['downloads'] = []
 
-html_context['downloads'].append( ('pdf', f'{REPO_NAME}/'\
-f'{project}-docs_{current_language}_{current_version}.pdf') )
+#html_context['downloads'].append( ('pdf', f'{REPO_NAME}/'\
+#f'{project}-docs_{current_language}_{current_version}.pdf') )
 
 html_context['downloads'].append( ('epub', f'{REPO_NAME}/'\
-f'{project}-docs_{current_language}_{current_version}.epub') )
+f'{epub_basename}.epub') )
 
 ##########################
 # "EDIT ON GITHUB" LINKS #

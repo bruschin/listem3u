@@ -14,7 +14,7 @@
         <dt>{{ _('Languages') }}</dt>
         {% for slug, url in languages %}
           {% if slug == current_language %} <strong> {% endif %}
-          <dd><a href="{{ url }}">{{ slug }}</a>{{ slug }}</dd>
+            <dd><a href="{{ url }}">{{ slug }}</a>{{ slug }}</dd>
           {% if slug == current_language %} </strong> {% endif %}
         {% endfor %}
       </dl>
@@ -24,8 +24,7 @@
         <dt>{{ _('Versions') }}</dt>
         {% for slug, url in versions %}
           {% if slug == current_version %} <strong> {% endif %}
-          <dd><a href="{{ url }}">{{ slug }}</a>
-            {{namenic}}/{{ url }} & {{ slug }}</dd>
+          <dd><a href="{{ url }}">{{ slug }}</a>{{ slug }}</dd>
           {% if slug == current_version %} </strong> {% endif %}
         {% endfor %}
       </dl>

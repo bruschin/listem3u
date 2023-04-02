@@ -59,15 +59,17 @@ jobs:
             ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
+          pwd
+          ls -ail
           python -m pip install --upgrade pip
-          if [ -f src/requirements.txt ]; then 
-            pip install -r src/requirements.txt; 
+          if [ -f ./src/requirements.txt ]; then 
+            pip install -r ./src/requirements.txt; 
           fi
           export TZ="Europe/Paris"
-          bash src/lanceur_pytest.bash
-          bash src/lanceur_pylint.bash
-          bash src/lanceur_ruff.bash
-          bash src/lanceur_sphinx.bash
+          bash ./src/lanceur_pytest.bash
+          bash ./src/lanceur_pylint.bash
+          bash ./src/lanceur_ruff.bash
+          bash ./src/lanceur_sphinx.bash
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

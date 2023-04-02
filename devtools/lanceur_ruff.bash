@@ -5,7 +5,7 @@
 ## pip install ruff --user
 ## https://github.com/charliermarsh/ruff
 ###########
-#source /home/userdev/env/bin/activate
+export TZ="Europe/Paris"
 REPTRAV="$(dirname $0)"
 cd "${REPTRAV}/.." || exit 1
 

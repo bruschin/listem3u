@@ -3,7 +3,7 @@
 ## genere documentation avec sphinx
 ## nécessite d'avoir installé sphinx graphviz rhino
 ###########
-export PATH=$PATH:~/opt/bin
+export TZ="Europe/Paris"
 REPTRAV="$(dirname $0)"
 cd "docs" || exit 1
 

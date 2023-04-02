@@ -4,6 +4,7 @@
 ## nécessite d'avoir excute
 ## pylint --generate-rcfile > .pylintrc
 ###########
+export TZ="Europe/Paris"
 REPTRAV="$(dirname $0)"
 cd "${REPTRAV}/.." || exit 1
 

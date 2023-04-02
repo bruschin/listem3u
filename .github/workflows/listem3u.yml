@@ -50,6 +50,15 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: ~/.cache/pip
+          key: |
+            ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install dependencies
         run: |
           sudo apt-get install -y graphviz rhino
           python -m pip install --upgrade pip
@@ -57,15 +66,6 @@ jobs:
           if [ -f ./devtools/requirements.txt ]; then 
             pip install -r ./devtools/requirements.txt;
           fi
-      - uses: actions/cache@v3
-        id: cache
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-      - name: Install dependencies
-        run: 
           export TZ="Europe/Paris"
           bash ./devtools/lanceur_pytest.bash
           bash ./devtools/lanceur_pylint.bash

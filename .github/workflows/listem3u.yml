@@ -62,6 +62,7 @@ jobs:
           #pwd
           #ls -ail
           sudo apt install graphviz
+          sudo apt install rhino
           #find $HOME -name dot
           python -m pip install --upgrade pip
           python -m pip install pylint-common --use-pep517

@@ -34,3 +34,4 @@ git-python==1.0.3
 gitdb==4.0.10
 GitPython==3.1.31
 gitdb==4.0.10
+Rhino==0.0.5

@@ -12,7 +12,8 @@
     [2023-03-29] BN V1.1 :  issue 1-listemp3upy-sans-fichier-mp3
 """
 import os
-from os.path import exists as file_exists
+import pytest
+#from os.path import exists as file_exists
 from listem3u import  FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
                       DEFAUT_FICMP3, FICS_LISTE_TAMPON, parametres, action
 
@@ -20,6 +21,9 @@ from listem3u import  FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
 ## GLOBAL
 
 REPERTOIRE = "automation"
+
+# turns all warnings into errors for this module
+pytestmark = pytest.mark.filterwarnings("error")
 
 ## Fonctions :
 ##############
@@ -105,6 +109,6 @@ def test_action():
   """
   try:
     action(REPERTOIRE , FICS_LISTE_TAMPON, FICS_LISTE, DEFAUT_FICMP3)
-    assert file_exists(f"{REPERTOIRE}/{FICS_LISTE}") is True
+    assert os.path.exists(f"{REPERTOIRE}/{FICS_LISTE}") is True
   except AssertionError as msg5:
     print(f"\n\t>>>>ERREUR test_action :\n{msg5}")

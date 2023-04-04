@@ -81,6 +81,8 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+  Sonarqube:
+      uses: ./.github/workflows/Sonarqube.yml 
 
   # # Single deploy job since we're just deploying
   # publication:

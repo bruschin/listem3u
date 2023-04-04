@@ -1,23 +1,16 @@
 #Analyze "listem3u"
 
 name: SonarQube
-on:
-  push:
-    branches:
-      - "main"
-      - "release/V1.4"
-      - "3-sonarqube"
+on: ["workflow_call"] 
 
 jobs:
-  build:
-    needs: deploy
-    name: SonarQube
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+  SonarQube:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - uses: sonarsource/sonarqube-scan-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

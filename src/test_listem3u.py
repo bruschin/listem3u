@@ -13,7 +13,6 @@
 """
 import os
 import pytest
-#from os.path import exists as file_exists
 from listem3u import  FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
                       DEFAUT_FICMP3, FICS_LISTE_TAMPON, parametres, action
 

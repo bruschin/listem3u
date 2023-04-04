@@ -17,6 +17,7 @@ pytest-order==1.0.1
 pytest-remotedata==0.3.3
 pytest-rerunfailures==11.0
 pytest-xdist==3.1.0
+flake8==4.0.1
 ruff==0.0.259
 Sphinx==5.0.2
 sphinx-github-role==0.1.0

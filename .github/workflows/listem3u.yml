@@ -74,7 +74,8 @@ jobs:
           bash ./devtools/lanceur_ruff.bash
           bash ./devtools/lanceur_sphinx.bash
           pwd
-          cp -rfv ./src/htmlcov ./docs/_build/html/
+          ls -lrt
+          cp mv htmlcov docs/_build/html/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

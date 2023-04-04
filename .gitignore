@@ -8,3 +8,6 @@ docs/conf.rst
 docs/modules.rst
 # But not these files...
 !docs/_build/html/*
+.coverage
+coverage.xml
+htmlcov/*

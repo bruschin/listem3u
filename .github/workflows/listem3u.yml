@@ -82,9 +82,9 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+
   Sonarqube:
     needs: build
-      runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:

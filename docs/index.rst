@@ -1,13 +1,17 @@
 Documentation du projet listem3u
 ================================
 
-  - ``Branche`` : |version|
-    ``Release`` : |release|
-    ``Mise à jour`` : |today|
+- ``Branche`` : |version|
+  ``Release`` : |release|
+  ``Mise à jour`` : |today|
 
-`👉 Test écriture d'un lien vers un website externe`_
++ `👉 Test écriture d'un lien vers un website externe`_
 
 .. _👉 Test écriture d'un lien vers un website externe: http://sphinx-doc.org
+
+`couverure de code par tests unitaires`_
+
+.. _couverture de code par tests unitaires: ./htmlcov/index.html
 
 Essai usage graphviz
 --------------------

@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploiement de la documentation de modules Python crées avec sphinx
+name: Deploiement sur github-pages d'une doc-sphinx de modules Python
 
 #https://docs.github.com/fr/actions/using-workflows/workflow-syntax-for-github-actions
 #https://www.githubstatus.com/
@@ -33,7 +33,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -73,6 +73,7 @@ jobs:
           bash ./devtools/lanceur_pylint.bash
           bash ./devtools/lanceur_ruff.bash
           bash ./devtools/lanceur_sphinx.bash
+          cp -rfv ./src/htmlcov ./docs/_build/html/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
@@ -82,7 +83,16 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v2
   Sonarqube:
-    uses: .github/workflows/Sonarqube.yml 
+    needs: build
+      runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
   # # Single deploy job since we're just deploying
   # publication:

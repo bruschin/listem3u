@@ -4,11 +4,17 @@ name: SonarQube
 on:
   push:
     branches:
-      - main # or the name of your main branch
-      -3-sonarqube
+      - "main"
+      - "release/V1.4"
+      - "3-sonarqube"
+
+  concurrency:
+    group: "pages"
+    cancel-in-progress: false
 
 jobs:
   build:
+    needs: deploy
     name: SonarQube
     runs-on: ubuntu-latest
     steps:

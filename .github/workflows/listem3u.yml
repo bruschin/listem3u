@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploiement de pages de documentation de modules Python crées avec sphinx
+name: Deploiement de la documentation de modules Python crées avec sphinx
 
 #https://docs.github.com/fr/actions/using-workflows/workflow-syntax-for-github-actions
 #https://www.githubstatus.com/
@@ -14,6 +14,7 @@ on:
       - main
       - release/V1.4
       - 3-sonarqube
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 

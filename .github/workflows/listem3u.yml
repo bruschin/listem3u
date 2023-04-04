@@ -75,7 +75,8 @@ jobs:
           bash ./devtools/lanceur_sphinx.bash
           pwd
           ls -lrt
-          cp mv htmlcov docs/_build/html/
+          mv htmlcov docs/_build/html/
+          mv coverage.xml src/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

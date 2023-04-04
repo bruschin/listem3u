@@ -6,8 +6,8 @@
 export TZ="Europe/Paris"
 export REPO_NAME='https://bruschin.github.io/listem3u'
 
-REPTRAV="$(dirname $0)"
-cd "docs" || exit 1
+REPTRAV="$(dirname "$0")"
+cd "${REPTRAV}/../docs" || exit 1
 
 make -C ./ clean
 #sphinx-build . _build

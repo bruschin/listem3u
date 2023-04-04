@@ -73,6 +73,7 @@ jobs:
           bash ./devtools/lanceur_pylint.bash
           bash ./devtools/lanceur_ruff.bash
           bash ./devtools/lanceur_sphinx.bash
+          pwd
           cp -rfv ./src/htmlcov ./docs/_build/html/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1

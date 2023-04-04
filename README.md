@@ -2,10 +2,12 @@
 
 ![docs_pages_workflow](https://github.com/bruschin/listem3u/actions/workflows/
 listem3u.yml/badge.svg)
+[![Quality Gate Status](https://sonar.cloudmf.dev/api/project_badges/
+measure?project=listem3u&metric=alert_status)](https://sonar.cloudmf.dev/dashboard?id=listem3u)
 
 ## Actions
-
-configuration environnement github-pages ajout branche 3-sonarqube
++ configuration environnement github-pages ajout branche 3-sonarqube
+  - Tentative configuration sonar
 
 ## Configuration environnement mini-conda
 

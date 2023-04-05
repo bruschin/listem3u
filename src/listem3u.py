@@ -106,6 +106,7 @@ def parametres(argv):
       elif opt.upper() in ("-V", "--VERSION"):
         oncontinue += 10
       else:
+        ### ne devrait pas passer là sans lever une exception
         oncontinue = 2
         scom += f"\n\t>>>>PARAMETRE(S): {opt}, {arg} IMPREVU(S)\n"
     #print(f"debug param : {opt.upper()},{arg}\n")
@@ -120,6 +121,7 @@ def parametres(argv):
           codeexit = 2
       case 1:
         scom = f"\n\t>>>>DEMANDE AIDE:\n{USAGE}\n"
+      # Ne devrait pas passer dans ce cas.
       case 2:
         codeexit = 1
       case 10:
@@ -129,7 +131,7 @@ def parametres(argv):
 
   except getopt.GetoptError as error:
     scom = f"\n\t>>>> ERREUR: {str(error)}\n"
-    scom += f"{USAGE}"
+    scom += f"{USAGE}\n"
     codeexit = 1
 
   return (codeexit, scom, repertoire_travail, test_presenceficmp3)

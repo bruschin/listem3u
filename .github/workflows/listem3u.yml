@@ -88,6 +88,9 @@ jobs:
         uses: actions/deploy-pages@v2
 
   Sonarqube:
+    environment:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -99,9 +102,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
   # # Single deploy job since we're just deploying
   # publication:

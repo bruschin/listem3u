@@ -11,7 +11,7 @@ Documentation du projet listem3u
 
 + `🛂 Couverure de code par tests unitaires`_
 
-.. _🛂 Couverture de code par tests unitaires: file:///./htmlcov/index.html
+.. _🛂 Couverture de code par tests unitaires: https://bruschin.github.io/listem3u/htmlcov/index.html
 
 Essai usage graphviz
 --------------------

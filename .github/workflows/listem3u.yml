@@ -45,6 +45,7 @@ jobs:
       matrix:
         # python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
         python-version: ["3.10"]
+        node-version: ["16"]
     steps:
       - uses: actions/checkout@v3
       # https://github.com/actions/checkout
@@ -87,9 +88,6 @@ jobs:
         uses: actions/deploy-pages@v2
 
   Sonarqube:
-    runs:
-      using: 'node16'
-      main: 'main.js'
     needs: build
     runs-on: ubuntu-latest
     steps:

@@ -170,11 +170,13 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
 
   [ EN SORTIE ]
       constitution du fichier de sortie dans le repertoire de travail
+      coderetour (entier) 0 OK - 1 KO
   """
   ### parametre local
   fichiersmp3 = []
   ficfiltre = ""
   ssrep = ""
+  coderetour = 0
 
   # initial directory
   #cwd = os.getcwd()
@@ -189,7 +191,7 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
   except (FileNotFoundError, NotADirectoryError, PermissionError):
     print(f"Something wrong with specified\
           directory {repert}. Exception- ", sys.exc_info())
-    sys.exit(1)
+    return 1
 
   # trouve tous les fichiers de nom contenant -Playlist.m3u sous ./
   ficm3u = find("*-Playlist.m3u", './')
@@ -217,7 +219,8 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
       resultat.write(f"{lefich}\n")
       if testmp3 and not file_exists(lefich):
         print(f"\n\t>>>> inexistant : {lefich}")
-    resultat.close()
+  resultat.close()
+  return 0
 
 def filtreligne(unechaine=None, ssrep=None):
   """
@@ -250,8 +253,8 @@ if __name__ == "__main__":
   (CODE_RETOUR, SCOM, REP, TEST_PRESENCEFICMP3) = parametres(sys.argv)
   if CODE_RETOUR == 2:
     print(SCOM)
-    action(REP, FICS_LISTE_TAMPON, FICS_LISTE, TEST_PRESENCEFICMP3)
+    CODE_RETOUR = action( REP, FICS_LISTE_TAMPON, FICS_LISTE, \
+                          TEST_PRESENCEFICMP3)
   else:
     print(SCOM)
-    sys.exit(1)
-  sys.exit(0)
+  sys.exit(CODE_RETOUR)

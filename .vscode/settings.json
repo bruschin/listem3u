@@ -3,5 +3,9 @@
     ".", "-vv"
   ],
   "python.testing.unittestEnabled": false,
-  "python.testing.pytestEnabled": true
+  "python.testing.pytestEnabled": true,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+	"workbench.tree.indent": 4
 }

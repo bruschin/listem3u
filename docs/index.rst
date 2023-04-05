@@ -9,9 +9,9 @@ Documentation du projet listem3u
 
 .. _👉 Test écriture d'un lien vers un website externe: http://sphinx-doc.org
 
-`couverure de code par tests unitaires`_
++ `🛂 Couverure de code par tests unitaires`_
 
-.. _couverture de code par tests unitaires: ./htmlcov/index.html
+.. _🛂 Couverture de code par tests unitaires: file:///./htmlcov/index.html
 
 Essai usage graphviz
 --------------------
@@ -28,3 +28,14 @@ Les modules du projet listem3u
   
   modules
   
+------
+Tables
+------
+
++--------+--------+--------+
+| Time   | Number | Value  |
++========+========+========+
+| 12:00  | 42     | 2      |
++--------+--------+--------+
+| 23:00  | 23     | 4      |
++--------+--------+--------+

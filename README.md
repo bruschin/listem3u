@@ -6,8 +6,9 @@ listem3u.yml/badge.svg)
 measure?project=listem3u&metric=alert_status)](https://sonar.cloudmf.dev/dashboard?id=listem3u)
 
 ## Actions
-+ configuration environnement github-pages ajout branche 3-sonarqube
-  - Tentative configuration sonar
+
++ Configuration environnement github-pages ajout branche 3-sonarqube
++ Tentative configuration sonar
 
 ## Configuration environnement mini-conda
 

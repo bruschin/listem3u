@@ -11,3 +11,5 @@ docs/modules.rst
 .coverage
 coverage.xml
 htmlcov/*
+.hypothesis/
+.vscode/

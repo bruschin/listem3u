@@ -87,12 +87,16 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v2
   sonarqube:
-    environment:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - name: Use node
+      uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          check-latest: true
+    - name: Install dependencies
+      run: npm ci
     - uses: actions/checkout@v3
       with:
         # Disabling shallow clone is recommended for improving relevancy of reporting

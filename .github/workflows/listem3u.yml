@@ -41,6 +41,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
     # <Not provided for brevity>
     # At a minimum this job should upload artifacts using
     # actions/upload-pages-artifact
@@ -98,14 +100,13 @@ jobs:
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         env:
-          name: SONAR-TOKEN
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
-      - name: Run sonarqube
-        run: sonar-scanner
-             -Dsonar.sources=src
-             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
-             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      # - name: Run sonarqube
+      #   run: sonar-scanner
+      #         -Dsonar.sources=src
+      #         -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+      #         -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
   # https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
   # Sonarqube:

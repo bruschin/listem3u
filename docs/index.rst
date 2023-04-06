@@ -5,11 +5,12 @@ Documentation du projet listem3u
   ``Release`` : |release|
   ``Mise à jour`` : |today|
 
-+ `👉 Test écriture d'un lien vers un website externe`_
++ 👉 Test écriture d'un lien vers un `website externe`_.
 
-.. _👉 Test écriture d'un lien vers un website externe: http://sphinx-doc.org
+.. _website externe: http://sphinx-doc.org
 
-+ This is a link to coverage Overview 🛂 :doc: `htmlcov`
++ This is a link to :doc:`coverage Overview 🛂 </htmlcov>`.
++ Since Pythagoras, we know that :math:`a^2 + b^2 = c^2`.
 
 Essai usage graphviz
 --------------------

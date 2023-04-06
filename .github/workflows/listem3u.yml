@@ -72,7 +72,7 @@ jobs:
             ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
-          sudo apt-get install -y graphviz rhino
+          sudo apt-get install -y graphviz rhino lcov
           python -m pip install --upgrade pip
           python -m pip install pylint-common --use-pep517
           if [ -f ./devtools/requirements.txt ]; then

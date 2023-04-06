@@ -14,8 +14,8 @@ exec >"${FICSORTIE}"
 
 cd "${REPTRAV}/.." || exit 1
 
-pytest  --report-log=src/reports/ -c devtools/pytest.ini -q src/
-pytest  --report-log=src/reports/ -c devtools/pytest.ini --cov=listem3u \
+pytest  --report-log=reports -c devtools/pytest.ini -q src/
+pytest  --report-log=reports -c devtools/pytest.ini --cov=listem3u \
 				--cov-report=xml --cov-report=html -q src/
 
 exec 1>&6 6>&-

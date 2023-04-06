@@ -94,7 +94,10 @@ jobs:
           path: 'docs/_build/html'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v3
+        uses: actions/deploy-pages@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          check-latest: true
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         env:

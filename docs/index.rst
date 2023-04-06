@@ -9,9 +9,7 @@ Documentation du projet listem3u
 
 .. _👉 Test écriture d'un lien vers un website externe: http://sphinx-doc.org
 
-+ `🛂 Couverure de code par tests unitaires`_
-
-.. _🛂 Couverture de code par tests unitaires: htmlcov
++ This is a link to coverage Overview 🛂 :doc: `htmlcov`
 
 Essai usage graphviz
 --------------------

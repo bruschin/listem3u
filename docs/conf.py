@@ -60,6 +60,7 @@ extensions = [  'sphinx_rtd_theme', 'sphinx.ext.autodoc',\
                 'sphinx.ext.autosummary', 'sphinx.ext.viewcode',\
                 'sphinx.ext.githubpages', 'sphinx.ext.graphviz',\
                 'sphinx_multiversion', 'sphinx.ext.autodoc',\
+                'sphinx.ext.intersphinx',
 ]
 
 

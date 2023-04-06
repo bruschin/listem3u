@@ -9,8 +9,14 @@ Documentation du projet listem3u
 
 .. _website externe: http://sphinx-doc.org
 
-+ 🛂 This is a link to :doc:`coverage Overview /htmlcov/index.html`.
++ 🛂 This is a link to :doc:`/htmlcov/index.html`.
+
+.. raw:: html
+	:file: /htmlcov/index.html
+
 + Since Pythagoras, we know that :math:`a^2 + b^2 = c^2`.
+
+`Optional Link text </htmlcov/index.html>`_
 
 Essai usage graphviz
 --------------------
@@ -38,3 +44,6 @@ Tables
 +--------+--------+--------+
 | 23:00  | 23     | 4      |
 +--------+--------+--------+
+
+.. https://docutils.sourceforge.io/docs/user/rst/quickref.html#internal-hyperlink-targets
+.. https://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html

@@ -85,8 +85,8 @@ jobs:
           bash ./devtools/lanceur_sphinx.bash
           pwd
           ls -lrt
-          mv htmlcov docs/_build/html/
-          mv coverage.xml src/
+          mv rapports/htmlcov docs/_build/html/
+          mv rapports/coverage.xml src/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
@@ -97,7 +97,6 @@ jobs:
         uses: actions/deploy-pages@v2
         with:
           node-version: ${{ matrix.node-version }}
-          check-latest: true
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:

@@ -97,6 +97,10 @@ jobs:
         uses: actions/deploy-pages@v2
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
+        env:
+          name: SONAR-TOKEN
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
       - name: Run sonarqube
         run: sonar-scanner
              -Dsonar.sources=src

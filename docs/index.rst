@@ -9,7 +9,7 @@ Documentation du projet listem3u
 
 .. _website externe: http://sphinx-doc.org
 
-+ This is a link to :doc:`coverage Overview 🛂 </htmlcov>`.
++ 🛂 This is a link to :doc:`coverage Overview /htmlcov/index.html`.
 + Since Pythagoras, we know that :math:`a^2 + b^2 = c^2`.
 
 Essai usage graphviz

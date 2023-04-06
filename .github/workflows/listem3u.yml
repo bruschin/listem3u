@@ -41,8 +41,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
     # <Not provided for brevity>
     # At a minimum this job should upload artifacts using
     # actions/upload-pages-artifact
@@ -100,6 +98,7 @@ jobs:
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         env:
+          name: github-pages
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
       # - name: Run sonarqube

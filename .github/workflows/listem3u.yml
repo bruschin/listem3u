@@ -100,13 +100,9 @@ jobs:
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         with:
-          SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ SONAR_TOKEN.secrets.SONAR_SECRET }}
+          SONAR_HOST_URL: ${{ SONAR_TOKENsecrets.SONAR_HOST_URL }}
           LC_ALL: "UTF-8"
-        run: |
-          /home/sonar/sonar-scanner/bin/sonar-scanner
-          -Dsonar.projectBaseDir=.
-          -Dsonar.sources=src
 
   # https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
   # Sonarqube:

@@ -103,7 +103,7 @@ jobs:
         env:
           name: github-pages
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       # - name: Run sonarqube
       #   run: sonar-scanner
       #         -Dsonar.sources=src

@@ -61,7 +61,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          check-latest: true
+          #check-latest: true
       - uses: actions/cache@v3
         id: cache
         with:
@@ -95,8 +95,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+      - name: Use node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          #check-latest: true
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:

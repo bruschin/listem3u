@@ -103,8 +103,10 @@ jobs:
           projectBaseDir: src
         env:
           name: github-pages
-          SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
-          SONAR_TOKEN: ${{ secrets.SONAR_IO_TOKEN }}
+          #SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_REPAIRE_TOKEN }}
+          #SONAR_TOKEN: ${{ secrets.SONAR_IO_TOKEN }}
         # If you wish to fail your job when the Quality Gate is red, uncomment the
         # following lines. This would typically be used to fail a deployment.
         # - uses: sonarsource/sonarqube-quality-gate-action@master

@@ -11,6 +11,6 @@ docs/modules.rst
 .coverage
 coverage.xml
 htmlcov/*
-.hypothesis/
+.hypothesis/*
 .vscode/
 src/reports/*

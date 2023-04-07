@@ -8,7 +8,7 @@
 
 + Couverture de code dans sonar
 + Scinder le pipeline yaml en plusieurs fichiers
-+ créer une issue une pull request pour merger
++ créer une issue + une branche et une pull request pour merger
 
 ## Actions V1.4
 

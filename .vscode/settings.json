@@ -4,8 +4,9 @@
   ],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
-  "editor.tabSize": 2,
-  "editor.insertSpaces": false,
-	"editor.detectIndentation": false,
-	"workbench.tree.indent": 4
+  "workbench.tree.indent": 8,
+  "pythonIndent.trimLinesWithOnlyWhitespace": true,
+  "editor.tabSize": 4,
+"pylint.importStrategy": "useBundled",
+"editor.detectIndentation": false
 }

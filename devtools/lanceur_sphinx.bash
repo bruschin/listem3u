@@ -3,12 +3,13 @@
 ## genere documentation avec sphinx
 ## nécessite d'avoir installé sphinx graphviz rhino
 ###########
+REPTRAV="$(dirname "$0")"
+
 export TZ="Europe/Paris"
 export REPO_NAME='https://bruschin.github.io/listem3u'
 
-REPTRAV="$(dirname "$0")"
 cd "${REPTRAV}/../docs" || exit 1
-
+echo -e "### $0 DEBUT ###\n"
 make -C ./ clean
 #sphinx-build . _build
 sphinx-apidoc -f -o ./ ../src
@@ -28,26 +29,26 @@ echo "INFO: Building sites for ${current_version}"
 
 for current_language in ${langues}; do
 
-  # make the current language available to conf.py
-  export current_language
+    # make the current language available to conf.py
+    export current_language
 
-  ##########
-  # BUILDS #
-  ##########
-  echo "### INFO: Building for ${current_language} ###"
+    ##########
+    # BUILDS #
+    ##########
+    echo "### INFO: Building for ${current_language} ###"
 
-  # HTML #
-  if test "${current_language}" == "fr"; then
-    sphinx-build  -b "html" "./" "./_build/html" -D language="fr"
-  fi
+    # HTML #
+    if test "${current_language}" == "fr"; then
+        sphinx-build  -b "html" "./" "./_build/html" -D language="fr"
+    fi
 
-  # EPUB #
-  sphinx-build  -b "epub" "./" "_build/html/epub" \
-                -D language="${current_language}"
+    # EPUB #
+    sphinx-build  -b "epub" "./" "_build/html/epub" \
+                    -D language="${current_language}"
 
-  # PDF #
-  #sphinx-build -b rinoh ./ ./_build/html/rinoh/fr -D language=fr
+    # PDF #
+    #sphinx-build -b rinoh ./ ./_build/html/rinoh/fr -D language=fr
 done
-
+echo -e "\n### $0 FIN ###"
 exit 0
 

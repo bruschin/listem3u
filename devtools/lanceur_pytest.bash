@@ -2,17 +2,16 @@
 ###########
 ## genere rapport pytest
 ###########
-FICSORTIE="pytest-report.txt"
 REPTRAV="$(dirname $0)"
+FICSORTIE="rapports/pytest-rapport.txt"
 export TZ="Europe/Paris"
+
+cd "${REPTRAV}/.." || exit 1
 
 echo "### $0 DEBUT ###"
 
 exec 6>&1
 exec >"${FICSORTIE}"
-
-
-cd "${REPTRAV}/.." || exit 1
 
 pytest  -c devtools/pytest.ini -q src/
 pytest  -c devtools/pytest.ini --cov=listem3u \

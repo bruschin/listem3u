@@ -4,11 +4,17 @@
 ## nécessite d'avoir excute
 ## pylint --generate-rcfile > .pylintrc
 ###########
-export TZ="Europe/Paris"
 REPTRAV="$(dirname $0)"
+FICSORTIE="rapports/pylint-rapport.txt"
+export TZ="Europe/Paris"
+
 cd "${REPTRAV}/.." || exit 1
 
-FICSORTIE="pylint-report.txt"
+echo "### $0 DEBUT ###"
+
+exec 6>&1
+exec >"${FICSORTIE}"
+
 sed -i -e "s@indent-string='    '@indent-string='  '@g" src/.pylintrc
 pylint \
     --rcfile \
@@ -27,7 +33,11 @@ pylint \
     -d too-many-arguments \
     -d too-many-branches \
     > "${FICSORTIE}"
+
+exec 1>&6 6>&-
+
 cat "${FICSORTIE}"
 rm -f "${FICSORTIE}" 1>/dev/null 2>/dev/null
+echo "### $0 FIN ###"
 exit 0
 

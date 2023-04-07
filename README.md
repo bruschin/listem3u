@@ -1,11 +1,16 @@
-# listem3u [2023-04-02] 👉 BN V1.4 beta
+# listem3u [2023-04-07] 👉 BN V1.5 beta
 
-![docs_pages_workflow](https://github.com/bruschin/listem3u/actions/workflows/
-listem3u.yml/badge.svg)
-[![Quality Gate Status](https://sonar.cloudmf.dev/api/project_badges/
-measure?project=listem3u&metric=alert_status)](https://sonar.cloudmf.dev/dashboard?id=listem3u)
+![docs_pages_workflow](https://github.com/bruschin/listem3u/actions/workflows/listem3u.yml/badge.svg)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bruschin_listem3u&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
+<!-- [![Quality Gate Status](https://sonar.cloudmf.dev/api/project_badges/measure?project=listem3u&metric=alert_status)](https://sonar.cloudmf.dev/dashboard?id=listem3u)-->
 
-## Actions
+## Actions V1.5
+
++ Couverture de code dans sonar
++ Scinder le pipeline yaml en plusieurs fichiers
++ créer une issue une pull request pour merger
+
+## Actions V1.4
 
 + Configuration environnement github-pages ajout branche 3-sonarqube
 + Tentative configuration sonar

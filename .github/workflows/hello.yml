@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: foo
-        uses: actions/listem3u@5-v15b
+        uses: actions/listem3u@v1
         with:
           projectBaseDir: src
           who-to-greet: 'Mona the Octocat'

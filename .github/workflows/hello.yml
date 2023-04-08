@@ -1,4 +1,4 @@
-run-name: ${{ github.actor }} is learning GA ${{ github.sha }}
+run-name: GA ${{ github.sha }}
 on: [push]
 concurrency:
   group: "pages"
@@ -10,6 +10,7 @@ jobs:
     name: A job to say hello
     steps:
       - uses: actions/checkout@v3
+        uses: actions/listem3u@d0a7c0ad7f96c41eb6ec61bcca4003efb18a8cfc
         id: foo
         with:
           #['repository', 'ref', 'token', 'ssh-key', 'ssh-known-hosts', \

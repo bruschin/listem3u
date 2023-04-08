@@ -17,7 +17,7 @@ on:
     branches:
       - main
       - release/V1.5
-      - 5-v15b
+      - 5-v15b2
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -38,7 +38,6 @@ concurrency:
 
 jobs:
   build:
-    needs: hello_world_job
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

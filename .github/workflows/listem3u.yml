@@ -109,92 +109,10 @@ jobs:
           projectBaseDir: src
         env:
           name: github-pages
+          # sonarcloud.io
           SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_IO_TOKEN_CI }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          #SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
+          # sonar.cloudmf.dev
+          #SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           #SONAR_TOKEN: ${{ secrets.SONAR_REPAIRE_TOKEN }}
-      # Check the Quality Gate status.
-      - name: SonarQube Quality Gate check
-        id: sonarqube-quality-gate-check
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        # Force to fail step after specific time.
-        timeout-minutes: 5
-        env:
-          name: github-pages
-          SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
-          SONAR_TOKEN: ${{ secrets.SONAR_IO_TOKEN_CI }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-        
-      # - name: Run sonarqube
-      #   run: sonar-scanner
-      #         -Dsonar.sources=src
-      #         -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
-      #         -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-
-  # https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
-  # Sonarqube:
-  #   environment:
-  #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         fetch-depth: 0
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #     - uses: sonarsource/sonarqube-scan-action@master
-
-  # # Single deploy job since we're just deploying
-  # publication:
-  #   #echo "La vie est un court exil." | openssl enc -base64
-  #   #TGEgdmllIGVzdCB1biBjb3VydCBleGlsLgo=
-  #   #echo "TGEgdmllIGVzdCB1biBjb3VydCBleGlsLgo=" | openssl enc -base64 -d
-  #   needs: build
-  #   # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-  #   permissions:
-  #     pages: write      # to deploy to Pages
-  #     id-token: write   # to verify the deployment originates from
-  #                       # an appropriate source
-  #   environment:
-  #     name: github-pages
-  #     url: ${{ steps.deployment.outputs.page_url }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #     - name: Setup Pages
-  #       uses: actions/configure-pages@v3
-  #     - name: Upload artifact
-  #       uses: actions/upload-pages-artifact@v1
-  #       with:
-  #         # Upload entire repository
-  #         path: './docs/_build/html'
-  #     - name: Deploy to GitHub Pages
-  #       id: deployment
-  #       uses: actions/deploy-pages@v2
-
-  #deploy:
-    # Add a dependency to the build job
-    #needs: build
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-    #permissions:
-      #pages: write      # to deploy to Pages
-      #id-token: write   # to verify the deployment originates from
-                        # an appropriate source
-    # Deploy to the github-pages environment
-    #environment:
-      #name: github-pages
-      #url: ${{ steps.deployment.outputs.page_url }}
-
-    # Specify runner + deployment step
-    #runs-on: ubuntu-latest
-    #steps:
-      #- name: Deploy to GitHub Pages
-        #id: deployment
-        #uses: actions/deploy-pages@v1

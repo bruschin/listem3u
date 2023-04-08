@@ -100,6 +100,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           #check-latest: true
+      - name: Run tox
+        run: |
+          bash ./devtools/lanceur_sphinx.bash
+          #tox -e py
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:

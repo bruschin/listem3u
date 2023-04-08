@@ -1,6 +1,4 @@
-env:
-  toto: ${{ env.GITHUB_SHA }}
-run-name: ${{ github.actor }} is learning GitHub Actions ${{ toto }}
+run-name: ${{ github.actor }} is learning GA ${{ github.sha }}
 on: [push]
 concurrency:
   group: "pages"

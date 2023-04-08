@@ -1,3 +1,4 @@
+run-name: ${{ github.actor }} is learning GitHub Actions ${{ GITHUB_SHA }}
 on: [push]
 concurrency:
   group: "pages"
@@ -10,7 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: foo
-        uses: actions/listem3u@v1
         with:
           projectBaseDir: src
           who-to-greet: 'Mona the Octocat'

@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: foo
-        uses: actions/listem3u@${{github.sha}}
+        uses: actions/listem3u@${{ github.sha }}
         with:
           #['repository', 'ref', 'token', 'ssh-key', 'ssh-known-hosts', \
           # 'ssh-strict', 'persist-credentials', 'path', 'clean', \

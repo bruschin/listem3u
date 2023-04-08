@@ -38,6 +38,7 @@ concurrency:
 
 jobs:
   build:
+    needs: hello_world_job
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

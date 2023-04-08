@@ -50,9 +50,9 @@ jobs:
         # python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
         python-version: ["3.10"]
         node-version: ["16"]
-    steps:
-        # https://github.com/actions/checkout      
-      - uses: actions/checkout@v3      
+    steps:     
+      - uses: actions/checkout@v3
+      # https://github.com/actions/checkout 
       - name: configuration Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:

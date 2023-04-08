@@ -14,7 +14,7 @@ exec 6>&1
 exec >"${FICSORTIE}"
 
 pytest  -c devtools/pytest.ini -q src/
-pytest  -c devtools/pytest.ini --cov=listem3u \
+pytest  -c devtools/pytest.ini --cov=src  \
 				--cov-report xml:rapports/coverage.xml \
 				--cov-report=html:rapports/htmlcov -q src/
 

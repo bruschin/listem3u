@@ -102,7 +102,7 @@ jobs:
           #check-latest: true
       - name: Run tox
         run: |
-          bash ./devtools/lanceur_sphinx.bash
+          bash ./devtools/lanceur_tox.bash
           #tox -e py
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master

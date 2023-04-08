@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: foo
-        uses: actions/listem3u@18fe5d1dd4747c668749b12594ab727519acbc0c
+        uses: actions/bruschin/listem3u@18fe5d1dd4747c668749b12594ab727519acbc0c
         with:
           #['repository', 'ref', 'token', 'ssh-key', 'ssh-known-hosts', \
           # 'ssh-strict', 'persist-credentials', 'path', 'clean', \

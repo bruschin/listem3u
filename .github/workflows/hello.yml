@@ -1,4 +1,4 @@
-run-name: ${{ github.actor }} is learning GitHub Actions ${{ GITHUB_SHA }}
+run-name: ${{ github.actor }} is learning GitHub Actions ${{ env.GITHUB_SHA }}
 on: [push]
 concurrency:
   group: "pages"

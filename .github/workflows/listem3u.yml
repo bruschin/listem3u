@@ -14,10 +14,10 @@ on:
     types:
       - created
   push:
-    branches:
-      - main
-      - release/V1.5
-      - 5-v1.5b
+    branches: ["main", "release/V1.5", "5-v15b"]
+      # - main
+      # - release/V1.5
+      # - 5-v1.5b
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -51,18 +51,20 @@ jobs:
         python-version: ["3.10"]
         node-version: ["16"]
     steps:
-      - uses: actions/checkout@v3
       # https://github.com/actions/checkout
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: recuperation git
+        uses: actions/checkout@v3      
+      - name: configuration Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Use node ${{ matrix.node-version }}
+      - name: Configuration node ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           #check-latest: true
-      - uses: actions/cache@v3
+      -name: gestion du cache
+        uses: actions/cache@v3
         id: cache
         with:
           path: ~/.cache/pip
@@ -70,7 +72,7 @@ jobs:
             ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-      - name: Install dependencies
+      - name: Installation des dependences
         run: |
           sudo apt-get install -y graphviz rhino lcov
           python -m pip install --upgrade pip
@@ -78,6 +80,8 @@ jobs:
           if [ -f ./devtools/requirements.txt ]; then
             pip install -r ./devtools/requirements.txt;
           fi
+      - name: execution des shells
+        run: |
           export TZ="Europe/Paris"
           bash ./devtools/lanceur_pytest.bash
           bash ./devtools/lanceur_pylint.bash
@@ -100,6 +104,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           #check-latest: true
+      - name: coverage
+        run: |
+            bash ./devtools/lanceur_pytest.bash
+            mv rapports/coverage.xml src/
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:
@@ -111,12 +119,12 @@ jobs:
           #SONAR_TOKEN: ${{ secrets.SONAR_REPAIRE_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_IO_TOKEN_CI }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # If you wish to fail your job when the Quality Gate is red, uncomment the
-        # following lines. This would typically be used to fail a deployment.
-        # - uses: sonarsource/sonarqube-quality-gate-action@master
-        #   timeout-minutes: 5
-        #   env:
-        #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # If you wish to fail your job when the Quality Gate is red, uncomment
+      # the following lines. This would typically be used to fail a deployment.
+      # - uses: sonarsource/sonarqube-quality-gate-action@master
+      #   timeout-minutes: 5
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       # - name: Run sonarqube
       #   run: sonar-scanner

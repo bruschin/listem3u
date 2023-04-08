@@ -12,7 +12,11 @@ jobs:
       - uses: actions/checkout@v3
         id: foo
         with:
-          projectBaseDir: src
+          #['repository', 'ref', 'token', 'ssh-key', 'ssh-known-hosts', \
+          # 'ssh-strict', 'persist-credentials', 'path', 'clean', \
+          # 'fetch-depth', 'lfs', 'submodules', 'set-safe-directory', \
+          # 'github-server-url']
+          repository: src
           who-to-greet: 'Mona the Octocat'
       - run: echo random-number ${{ steps.foo.outputs.random-number }}
         shell: bash

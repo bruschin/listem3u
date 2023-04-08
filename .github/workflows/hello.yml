@@ -10,7 +10,7 @@ jobs:
     name: A job to say hello
     steps:
       - uses: actions/checkout@v3
-      - id: foo
+        id: foo
         with:
           projectBaseDir: src
           who-to-greet: 'Mona the Octocat'

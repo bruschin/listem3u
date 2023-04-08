@@ -16,7 +16,7 @@ jobs:
           # 'ssh-strict', 'persist-credentials', 'path', 'clean', \
           # 'fetch-depth', 'lfs', 'submodules', 'set-safe-directory', \
           # 'github-server-url']
-          repository: src
+          path: src
           who-to-greet: 'Mona the Octocat'
       - run: echo random-number ${{ steps.foo.outputs.random-number }}
         shell: bash

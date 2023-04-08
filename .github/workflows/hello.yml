@@ -1,4 +1,4 @@
-run-name: GA ${{ github.sha }}
+run-name: GA ${{ github.event.head_commit.message }} ${{ github.sha }}
 on: [push]
 concurrency:
   group: "pages"
@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: foo
-        uses: actions/bruschin/listem3u@18fe5d1dd4747c668749b12594ab727519acbc0c
+        uses: actions/listem3u@ad6eaef5aa70de59b29b50985b5ec8b4f05b9018
         with:
           #['repository', 'ref', 'token', 'ssh-key', 'ssh-known-hosts', \
           # 'ssh-strict', 'persist-credentials', 'path', 'clean', \

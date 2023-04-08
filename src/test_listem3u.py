@@ -70,7 +70,7 @@ def test_version_versionmaj():
 
 def test_version_version_m():
     """
-        Verifie demande version selon parametres -v,-V,--VERSION,--version
+        Verifie demande version selon parametres --version,-m
     """
     try:
         assert parametres([f"{FILENAME}","--version","-m"]) == \

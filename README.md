@@ -1,9 +1,15 @@
-# listem3u [2023-04-09] 👉 BN V1.5
+# listem3u [2023-04-09] 👉 BN V1.6
 
 ![docs_pages_workflow](https://github.com/bruschin/listem3u/actions/workflows/listem3u.yml/badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bruschin_listem3u&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u&branch=5-v15b)
 <!--[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
  [![Quality Gate Status](https://sonar.cloudmf.dev/api/project_badges/measure?project=listem3u&metric=alert_status)](https://sonar.cloudmf.dev/dashboard?id=listem3u)-->
+
+## Action V1.6
+
++ tester executeur local pour github action
++ regarder doxygen + shellcheck
++ branch main n'accepte plus les pushs sans merger cf règles définies.
 
 ## Actions V1.5
 

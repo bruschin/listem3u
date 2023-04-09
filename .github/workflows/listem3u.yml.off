@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Code_source_Quality_Gate
+name: github_pages_sphinx_doc
 #https://docs.github.com/fr/actions/using-workflows/workflow-syntax-for-github-actions
 #https://www.githubstatus.com/
 #https://github.com/charliermarsh/ruff
@@ -7,7 +7,7 @@ name: Code_source_Quality_Gate
 #https://docs.github.com/fr/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
 #https://help.github.com/pages/
 #https://docs.github.com/fr/actions/learn-github-actions/understanding-github-actions
-run-name: GA ${{ github.event.head_commit.message }} ${{ github.sha }}
+run-name: ${{ github.job_workflow_sha }}
 
 on:
   label:
@@ -83,8 +83,8 @@ jobs:
           bash ./devtools/lanceur_pylint.bash
           bash ./devtools/lanceur_ruff.bash
           bash ./devtools/lanceur_sphinx.bash
-          # pwd
-          # ls -lrt
+          pwd
+          ls -lrt
           mv rapports/htmlcov docs/_build/html/
           mv rapports/coverage.xml src/
       - name: Upload artifact
@@ -103,16 +103,93 @@ jobs:
       - name: Run tox
         run: |
           bash ./devtools/lanceur_tox.bash
+          #tox -e py
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:
           projectBaseDir: src
         env:
           name: github-pages
-          # sonarcloud.io
+          #SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
           SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
+          #SONAR_TOKEN: ${{ secrets.SONAR_REPAIRE_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_IO_TOKEN_CI }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # sonar.cloudmf.dev
-          #SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          #SONAR_TOKEN: ${{ secrets.SONAR_REPAIRE_TOKEN }}
+        # If you wish to fail your job when the Quality Gate is red, uncomment the
+        # following lines. This would typically be used to fail a deployment.
+        # - uses: sonarsource/sonarqube-quality-gate-action@master
+        #   timeout-minutes: 5
+        #   env:
+        #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      # - name: Run sonarqube
+      #   run: sonar-scanner
+      #         -Dsonar.sources=src
+      #         -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+      #         -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+  # https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
+  # Sonarqube:
+  #   environment:
+  #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - uses: sonarsource/sonarqube-scan-action@master
+
+  # # Single deploy job since we're just deploying
+  # publication:
+  #   #echo "La vie est un court exil." | openssl enc -base64
+  #   #TGEgdmllIGVzdCB1biBjb3VydCBleGlsLgo=
+  #   #echo "TGEgdmllIGVzdCB1biBjb3VydCBleGlsLgo=" | openssl enc -base64 -d
+  #   needs: build
+  #   # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+  #   permissions:
+  #     pages: write      # to deploy to Pages
+  #     id-token: write   # to verify the deployment originates from
+  #                       # an appropriate source
+  #   environment:
+  #     name: github-pages
+  #     url: ${{ steps.deployment.outputs.page_url }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #     - name: Setup Pages
+  #       uses: actions/configure-pages@v3
+  #     - name: Upload artifact
+  #       uses: actions/upload-pages-artifact@v1
+  #       with:
+  #         # Upload entire repository
+  #         path: './docs/_build/html'
+  #     - name: Deploy to GitHub Pages
+  #       id: deployment
+  #       uses: actions/deploy-pages@v2
+
+  #deploy:
+    # Add a dependency to the build job
+    #needs: build
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    #permissions:
+      #pages: write      # to deploy to Pages
+      #id-token: write   # to verify the deployment originates from
+                        # an appropriate source
+    # Deploy to the github-pages environment
+    #environment:
+      #name: github-pages
+      #url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    #runs-on: ubuntu-latest
+    #steps:
+      #- name: Deploy to GitHub Pages
+        #id: deployment
+        #uses: actions/deploy-pages@v1

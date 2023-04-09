@@ -15,7 +15,8 @@ Tests unitaires de listemp3u.py
 import os
 import pytest
 from listem3u import  FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
-                        DEFAUT_FICMP3, FICS_LISTE_TAMPON, parametres, action
+                        DEFAUT_FICMP3, FICS_LISTE_TAMPON, parametres, action, \
+                        filtreligne
 
 ## GLOBAL
 # initial directory
@@ -27,6 +28,50 @@ pytestmark = pytest.mark.filterwarnings("error")
 
 ## Fonctions :
 ##############
+
+def test_filtreligne_maj(capsys):
+    """
+    test les alertes sur les noms de fichiers mp3 lus dans fic m3u
+    """
+    ssrep = "001"
+    unechaine = "Paint_it_Black-The_Rolling_Stones.mp3"
+    try:
+        chaineretour = filtreligne( unechaine , ssrep )
+        captured = capsys.readouterr()
+        assert captured.out == f"\n\t>>>> majuscules : {ssrep} # {unechaine}\n"
+        assert chaineretour == unechaine.strip()
+    except AssertionError as msg1:
+        assert False , f"\n\t>>>>ERREUR test_filtreligne :\n{msg1}"
+
+def test_filtreligne_tiret(capsys):
+    """
+    test les alertes sur les noms de fichiers mp3 lus dans fic m3u
+    """
+    ssrep = "001"
+    unechaine = "Paint_it_black-The_Rolling-Stones.mp3"
+    try:
+        chaineretour = filtreligne( unechaine , ssrep )
+        captured = capsys.readouterr()
+        assert captured.out == \
+            f"\n\t>>>> plus d'1 tiret : {ssrep} # {unechaine}\n"
+        assert chaineretour == unechaine.strip()
+    except AssertionError as msg1:
+        assert False , f"\n\t>>>>ERREUR test_filtreligne :\n{msg1}"
+
+def test_filtreligne_blanc(capsys):
+    """
+    test les alertes sur les noms de fichiers mp3 lus dans fic m3u
+    """
+    ssrep = "001"
+    unechaine = "Paint_it_black-The Rolling_Stones.mp3"
+    try:
+        chaineretour = filtreligne( unechaine , ssrep )
+        captured = capsys.readouterr()
+        assert captured.out == \
+            f"\n\t>>>> au moins un espace : {ssrep} # {unechaine}\n"
+        assert chaineretour == unechaine.strip()
+    except AssertionError as msg1:
+        assert False , f"\n\t>>>>ERREUR test_filtreligne :\n{msg1}"
 
 def test_version_v():
     """
@@ -70,7 +115,7 @@ def test_version_versionmaj():
 
 def test_version_version_m():
     """
-        Verifie demande version selon parametres -v,-V,--VERSION,--version
+        Verifie demande version selon parametres --version,-m
     """
     try:
         assert parametres([f"{FILENAME}","--version","-m"]) == \
@@ -86,7 +131,7 @@ def test_imprevu_t():
     """
     try:
         assert parametres([f"{FILENAME}","-t"]) == \
-            ( 1, f"\n\t>>>> ERREUR: option -t not recognized\n{USAGE}\n",
+            ( 1, f"\n\t>>>> ERREUR: option -t not recognized\n{USAGE}",
                 REP_TRAV, DEFAUT_FICMP3)
     except AssertionError as msg2:
         assert False , f"\n\t>>>>ERREUR test_imprevu_t :\n{msg2}"
@@ -97,7 +142,7 @@ def test_imprevu_tmaj():
     """
     try:
         assert parametres([f"{FILENAME}","-T"]) == \
-            ( 1, f"\n\t>>>> ERREUR: option -T not recognized\n{USAGE}\n",
+            ( 1, f"\n\t>>>> ERREUR: option -T not recognized\n{USAGE}",
                 REP_TRAV, DEFAUT_FICMP3)
     except AssertionError as msg2:
         assert False , f"\n\t>>>>ERREUR test_imprevu_T :\n{msg2}"
@@ -108,7 +153,7 @@ def test_imprevu_test():
     """
     try:
         assert parametres([f"{FILENAME}","--test"]) == \
-            ( 1, f"\n\t>>>> ERREUR: option --test not recognized\n{USAGE}\n",
+            ( 1, f"\n\t>>>> ERREUR: option --test not recognized\n{USAGE}",
                 REP_TRAV, DEFAUT_FICMP3)
     except AssertionError as msg2:
         assert False , f"\n\t>>>>ERREUR test_imprevu_test :\n{msg2}"
@@ -119,7 +164,7 @@ def test_imprevu_testmaj():
     """
     try:
         assert parametres([f"{FILENAME}","--TEST"]) == \
-            ( 1, f"\n\t>>>> ERREUR: option --TEST not recognized\n{USAGE}\n",
+            ( 1, f"\n\t>>>> ERREUR: option --TEST not recognized\n{USAGE}",
                 REP_TRAV, DEFAUT_FICMP3)
     except AssertionError as msg2:
         assert False , f"\n\t>>>>ERREUR test_imprevu_TEST :\n{msg2}"
@@ -131,7 +176,7 @@ def test_imprevu_testmaj_mmaj():
     try:
         # avec verif fic mp3
         assert parametres([f"{FILENAME}","--TEST","-M"]) == \
-            ( 1, f"\n\t>>>> ERREUR: option --TEST not recognized\n{USAGE}\n",
+            ( 1, f"\n\t>>>> ERREUR: option --TEST not recognized\n{USAGE}",
                 REP_TRAV, DEFAUT_FICMP3)
     except AssertionError as msg2:
         assert False , f"\n\t>>>>ERREUR test_imprevu_TEST_M :\n{msg2}"

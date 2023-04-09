@@ -109,8 +109,8 @@ def parametres(argv):
             else:
                 ### ne devrait pas passer là sans lever une exception
                 oncontinue = 2
-            scom += f"\n\t>>>>PARAMETRE(S): {opt}, {arg} IMPREVU(S)\n"
-        #print(f"debug param : {opt.upper()},{arg}\n")
+                scom = f"\n\t>>>>PARAMETRE(S): {opt}, {arg} IMPREVU(S)\n"
+
         match oncontinue:
             case 0:
                 if not os.path.exists(repertoire_travail):
@@ -130,10 +130,12 @@ def parametres(argv):
                 scom = f"\n\t>>>>DEMANDE VERSION:\n{VERSION}\n"
             case 11:
                 scom = f"\n\t>>>>DEMANDE AIDE + VERSION:\n{USAGE}\n{VERSION}\n"
+            case _:
+                scom = "\n\t>>>>Fct parametres : Cas IMPREVU\n"
+                codeexit = 1
 
     except getopt.GetoptError as error:
-        scom = f"\n\t>>>> ERREUR: {str(error)}\n"
-        scom += f"{USAGE}\n"
+        scom = f"\n\t>>>> ERREUR: {str(error)}\n{USAGE}"
         codeexit = 1
 
     return (codeexit, scom, repertoire_travail, test_presenceficmp3)
@@ -240,7 +242,7 @@ def filtreligne(unechaine=None, ssrep=None):
     ### parametre local
     if ' ' in unechaine:
         print(f"\n\t>>>> au moins un espace : {ssrep} # {unechaine}")
-    if unechaine.count('-') > 1:
+    elif unechaine.count('-') > 1:
         print(f"\n\t>>>> plus d'1 tiret : {ssrep} # {unechaine}")
     else:
         tamp = unechaine.split('-')
@@ -249,8 +251,8 @@ def filtreligne(unechaine=None, ssrep=None):
     return unechaine.strip()
 
 ### Principal
+# pragma: no cover
 if __name__ == "__main__":
-
     (CODE_RETOUR, SCOM, REP, TEST_PRESENCEFICMP3) = parametres(sys.argv)
     if CODE_RETOUR == 2:
         print(SCOM)

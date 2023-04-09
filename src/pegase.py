@@ -26,7 +26,7 @@
 
     [VERSIONS]
     [2023-03-14] BN V1.0 : Initialisation
-    [2023-04-08] BN V1.1 : Test unitaires
+    [2023-04-09] BN V1.1 : Test unitaires + gestion param aide + version
 """
 
 ## Bibliotheques ##
@@ -37,7 +37,7 @@ import getopt
 # VARIABLES GLOBALES :
 
 FILENAME = "pegase.py"
-VERSION = f"  {FILENAME}: [2023-04-08] BN V1.1\n"
+VERSION = f"  {FILENAME}: [2023-04-09] BN V1.1\n"
 USAGE = (f"  usage: {FILENAME} [OPTIONS]\n" +\
 "  OPTIONS:\n"
 "  [09:31 - 12h00 - 12H38] 1 ou 3 badgeage(s) OBLIGATOIRE(S)\n" +\
@@ -71,19 +71,35 @@ def parametres(argv):
     """
     scom = ""
     coderetour = 2
+    filtrevolonte = 0
     try:
-
         # pylint: disable=unused-variable
         options, remainder = getopt.getopt( argv[1:], "hHvV", ["help","HELP",
                                                         "version", "VERSION"])
 
         for opt, arg in options:
             if opt in ["-h", "-H", "--help", "--HELP"]:
+                filtrevolonte += 1
+            elif opt in ("-v", "-V", "--version", "--VERSION"):
+                filtrevolonte += 10
+
+        # selon cas ! attention code valable seulement en python 3.10
+        match filtrevolonte:
+            case 0:
+                # tout est ok
+                coderetour = 2
+            case 1: # help
                 scom = f"{USAGE}"
                 coderetour = 0
-            elif opt in ("-v", "-V", "--version", "--VERSION"):
+            case 10: # version
                 scom = f"{VERSION}"
                 coderetour = 0
+            case 11: # help + version
+                scom = f"\n\t>>>>DEMANDE AIDE + VERSION:\n{USAGE}\n{VERSION}"
+                coderetour = 0
+            case _:
+                scom = "\n\t>>>>Fct parametres : Cas IMPREVU\n"
+                coderetour = 1
 
     except getopt.GetoptError:
         scom = f'\n\t>>>> ERREUR: option imprévue.\n{USAGE}'

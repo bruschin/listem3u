@@ -70,7 +70,7 @@ def test_version_version_h():
     """
     try:
         assert parametres([f"{FILENAME}","--version","-h"]) == \
-            (0,f"{USAGE}")
+            (0,f"\n\t>>>>DEMANDE AIDE + VERSION:\n{USAGE}\n{VERSION}")
     except AssertionError as msg1:
         assert False , f"\n\t>>>>ERREUR test_version_version_h :\n{msg1}"
 
@@ -144,7 +144,7 @@ def test_aideversion():
     """
     try:
         assert parametres([f"{FILENAME}","-h","-v"]) == \
-            (0,f"{VERSION}")
+            (0,f"\n\t>>>>DEMANDE AIDE + VERSION:\n{USAGE}\n{VERSION}")
     except AssertionError as msg3:
         assert False , f"\n\t>>>>ERREUR test_aideversion :\n{msg3}"
 

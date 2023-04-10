@@ -17,8 +17,8 @@
         exemple 9h24 ou 09:24 ou 13H56 (:,h central accepte la casse min/maj)
         Si un seul arg on appliquera automatiquement une pause midi obligatoire
         de 45 minutes
-        Si 3 arg la duree entre arg 2 et arg 3 est la duree de la pause
-        meridienne ne pouvant etre inf a 45 minutes.
+        Si 3 arg, séparé par (-, ou /) la duree entre arg 2 et arg 3 est la
+        duree de la pause meridienne ne pouvant etre inf a 45 minutes.
     [ EN SORTIE ]
     0   OK => Affichage de l'heure du depart calcule ex: DEPART : 17H19
     1   KO Arguments appel incorrects ou en nombre incorrect.
@@ -47,6 +47,7 @@ USAGE = (f"  usage: {FILENAME} [OPTIONS]\n" +\
 DUREE_JOUR = 444  # 7h24 convertis en minutes (37h sur 5 j = 7h24 par jour)
 DUREE_PAUSE_DEFAUT = 45
 SEPARHM = ["H",":"]
+SEPARBADGE = ["-","/"]
 
 ## Fonctions :
 ##############
@@ -97,14 +98,13 @@ def parametres(argv):
             case 11: # help + version
                 scom = f"\n\t>>>>DEMANDE AIDE + VERSION:\n{USAGE}\n{VERSION}"
                 coderetour = 0
+            # ne devrait pas passer ici sans lever une exception
             case _:
                 scom = "\n\t>>>>Fct parametres : Cas IMPREVU\n"
                 coderetour = 1
-
     except getopt.GetoptError:
         scom = f'\n\t>>>> ERREUR: option imprévue.\n{USAGE}'
         coderetour = 1
-    #print(f'debug: {coderetour} {scom}')
     return coderetour, scom
 
 def gestion_parametre(*args):
@@ -129,25 +129,40 @@ def gestion_parametre(*args):
         scom = f'\n\t>>>> ERREUR: Au moins un badgeage OBLIGATOIRE\n{USAGE}'
         bretour = 1
     else:
+        #print(f"debug: {args[0]}")
         for chaine in args[0]:
             # controle au moins un param non vide
             # on passe la chaine en majuscule et on supprime tous les espaces
             ch_trav = chaine.upper().replace(" ","")
             longueur = len(ch_trav)
-
-            if longueur == 0:
-                scom = f"\n\tNombre de badgeage insuffisant\n{USAGE}"
-                bretour = 1
-            elif 4 <= longueur <= 5:
-                # la liste non vide est-elle un badgeage ?
-                bretour, scom, minutesici = \
+            #print(f"debug ici: {ch_trav} {longueur}" )
+            match longueur:
+                case 0:
+                    scom = f"\n\tNombre de badgeage insuffisant\n{USAGE}"
+                    bretour = 1
+                case 1:
+                    separateur = next(
+                        (sep for sep in SEPARBADGE if ch_trav == sep), "")
+                    if separateur == "":
+                        scom = \
+                            f"\nSeparateur badgeages = {ch_trav}" + \
+                            f" non conforme\n\n{USAGE}"
+                        bretour = 1
+                        break
+                case 4|5:
+                    # la liste non vide est-elle un badgeage ?
+                    #print(f"debug 4|5: {ch_trav} {longueur}" )
+                    bretour, scom, minutesici = \
                     est_un_badgeage_valide( ch_trav, minutesici)
-            elif longueur != 1:
-                # la liste non vide n'est pas un separateur conforme
-                scom = f"\nSeparateur badgeages = {ch_trav} non conforme\n"
-                bretour = 1
-            #else:
-                # la liste non vide est un separateur conforme
+                    if bretour == 1:
+                        break
+                case _:
+                    # imprevu
+                    #print("debug imprevu" )
+                    scom = f"\nSeparateur badgeages = {ch_trav}" + \
+                        f" non conforme\n\n{USAGE}"
+                    bretour = 1
+                    break
     return bretour,scom,minutesici
 
 def est_un_badgeage_valide(ch_trav, conversion):
@@ -169,11 +184,9 @@ def est_un_badgeage_valide(ch_trav, conversion):
     scom = ""
     separateur = ""
     # pylint: disable=unused-variable
-    for count,sep in enumerate(SEPARHM):
-        if sep in ch_trav:
-            separateur = sep
+    separateur = next((sep for sep in SEPARHM if sep in ch_trav), "")
     if separateur == "":
-        scom = f"\n\tBadgeage = {ch_trav} non conforme\n{USAGE}"
+        scom = f"\n\tBadgeage = {ch_trav} non conforme\n\n{USAGE}"
         ret = 1
     else:
         sheure,sminute = ch_trav.split(separateur)
@@ -225,35 +238,41 @@ def traitement(tabminutes):
         affichage finale selon nombre de badgeages recupérés.
 
         [ EN ENTREE ]
-        tabminutes (tableau d'entier)
+            tabminutes (tableau d'entier)
 
         [ EN SORTIE ]
-        ch_conv_retour (chaine) formatee
+            bret = 0 OK ou 1 KO
+            scom (chaine)
     """
+    bret = 0
+    scom = ""
     uncompteur = len(tabminutes)
     match uncompteur:
         case 3:
             pause = max((tabminutes[2] - tabminutes[1]), DUREE_PAUSE_DEFAUT)
-            _extracted_from_traitement(tabminutes, pause)
+            scom = _extracted_from_traitement(tabminutes, pause)
         case 1:
-            _extracted_from_traitement(tabminutes, DUREE_PAUSE_DEFAUT)
+            scom = _extracted_from_traitement(tabminutes, DUREE_PAUSE_DEFAUT)
         case _:
-            print( f'\n\t>>>> ERREUR: Nombre badgeage {uncompteur} imprevu\n')
-            sys.exit(1)
+            scom =  f'\n\t>>>> ERREUR: Nombre badgeage {uncompteur}' +\
+                    f' imprevu\n\n{USAGE}'
+            bret = 1
+    return bret, scom
 
 def _extracted_from_traitement(tabminutes, pause):
     """
         extraction de code dupliqué dans la fonction traitement
 
         [ EN ENTREE ]
-        tabminutes (tableau d'entier)
+            tabminutes (tableau d'entier)
 
         [ EN SORTIE ]
-        ch_conv_retour (chaine) formatee
+            ch_conv_retour (chaine) formatee
     """
     soir = tabminutes[0] + pause + DUREE_JOUR
     depart = conversion_heures(soir)
-    print( f"depart : {depart}")
+
+    return f"depart : {depart}"
 
 ### Principal
 if __name__ == "__main__":
@@ -262,9 +281,7 @@ if __name__ == "__main__":
         print(commentaire)
         sys.exit(retour)
     retour, commentaire, minutes = gestion_parametre(sys.argv[1:])
-    #print(f'debug: {retour} {commentaire} {minutes}')
-    if retour == 1:
-        print(commentaire)
-        sys.exit(retour)
-    traitement(minutes)
-    sys.exit(0)
+    if retour != 1:
+        retour, commentaire = traitement(minutes)
+    print(commentaire)
+    sys.exit(retour)

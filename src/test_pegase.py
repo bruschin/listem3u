@@ -14,7 +14,8 @@ import os
 import pytest
 from pegase import  FILENAME, VERSION, USAGE, DUREE_JOUR, DUREE_PAUSE_DEFAUT,\
                         SEPARHM, parametres, gestion_parametre, \
-                            est_un_badgeage_valide
+                        est_un_badgeage_valide, traitement, \
+                        _extracted_from_traitement
 
 ## GLOBAL
 
@@ -23,6 +24,72 @@ pytestmark = pytest.mark.filterwarnings("error")
 
 ## Fonctions :
 ##############
+
+def test_extracted_from_traitement():
+    """
+    test de la fonction _extracted_from_traitement
+    """
+    try:
+        assert _extracted_from_traitement([570],DUREE_PAUSE_DEFAUT) == \
+            'depart : 17H39'
+    except AssertionError as msgici:
+        assert False , \
+            f"\n\t>>>>ERREUR test_extracted_from_traitement :\n{msgici}"
+
+def test_est_badgeage_valide():
+    """
+    test de la fonction est_badgeage_valide
+    """
+    try:
+        assert est_un_badgeage_valide('9H30',[]) == (0, '', [570])
+    except AssertionError as msgici:
+        assert False , f"\n\t>>>>ERREUR test_est_badgeage_valide :\n{msgici}"
+
+def test_no_badgeage():
+    """
+    test aucun badgage renseigné
+    """
+    try:
+        assert gestion_parametre('') == \
+            (1,f'\n\t>>>> ERREUR: Au moins un badgeage OBLIGATOIRE\n{USAGE}',[])
+    except AssertionError as msgici:
+        assert False , f"\n\t>>>>ERREUR test_no_badgeage :\n{msgici}"
+
+def test_un_badgeage_vide():
+    """
+    test un badgage renseigné = espace
+    """
+    try:
+        assert gestion_parametre(' ') == \
+            (1,f"\n\tNombre de badgeage insuffisant\n{USAGE}",[])
+    except AssertionError as msgici:
+        assert False , f"\n\t>>>>ERREUR test_un_badgeage_vide :\n{msgici}"
+
+def test_un_separateur_non_conforme():
+    """
+    test badgage renseigné = '09h30 +- 11h30'
+    """
+    ch_trav = ['09h30', '-+', '11h30']
+    try:
+        assert gestion_parametre(ch_trav) == (   1, \
+            f"\nSeparateur badgeages = {ch_trav[1]} non conforme\n\n{USAGE}",
+            [570])
+    except AssertionError as msgici:
+        assert False , \
+            f"\n\t>>>>ERREUR test_un_separateur_non_conforme :\n{msgici}"
+
+def test_deux_badgeages():
+    """
+    test badgage renseigné = '09h30 - 11h30'
+    """
+    try:
+        assert traitement( [570, 690]) == (   1, \
+            '\n\t>>>> ERREUR: Nombre badgeage 2' +\
+                    f' imprevu\n\n{USAGE}')
+    except AssertionError as msgici:
+        assert False , \
+            f"\n\t>>>>ERREUR test_deux_badgeages :\n{msgici}"
+
 
 def test_version_v():
     """
@@ -166,7 +233,7 @@ def test_traite_un_badgeage_conforme():
     badges = ["09h30","9h30","09H30","9H30","09:30","9:30"]
     for ch_trav in badges:
         try:
-            assert gestion_parametre( [f"{FILENAME}", ch_trav]) == \
+            assert gestion_parametre( [ch_trav]) == \
                 (0,"",[570])
         except AssertionError as msg4:
             assert False , \
@@ -179,8 +246,8 @@ def test_traite_un_badgeage_nonconforme():
     badges = ["09;30","9-30"]
     for ch_trav in badges:
         try:
-            assert gestion_parametre( [f"{FILENAME}", ch_trav]) == \
-                (1,f"\n\tBadgeage = {ch_trav} non conforme\n{USAGE}",[])
+            assert gestion_parametre( [ch_trav]) == \
+                (1,f"\n\tBadgeage = {ch_trav} non conforme\n\n{USAGE}",[])
         except AssertionError as msg4:
             assert False , \
                 f"\n\t>>>>ERREUR test_traite_un_badgeage_nonconforme :\n{msg4}"

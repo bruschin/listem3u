@@ -5,6 +5,7 @@ __pycache__/
 automation/*m3u
 docs/conf.rst
 docs/modules.rst
+docs/*bak
 .coverage
 coverage.xml
 htmlcov/*
@@ -13,6 +14,8 @@ htmlcov/*
 src/reports/
 src/htmlcov/
 src/.tox/
+src/*xml
+src/*json
 .tox/*
 docs/_build/
 # But not these files...

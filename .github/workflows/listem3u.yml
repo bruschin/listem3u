@@ -69,7 +69,7 @@ jobs:
             ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
-          sudo apt-get install -y graphviz rhino lcov
+          sudo apt-get install -y graphviz rhino lcov dia doxygen shellcheck
           python -m pip install --upgrade pip
           python -m pip install pylint-common --use-pep517
           if [ -f ./devtools/requirements.txt ]; then
@@ -80,9 +80,12 @@ jobs:
           bash ./devtools/lanceur_pylint.bash
           bash ./devtools/lanceur_ruff.bash
           bash ./devtools/lanceur_sphinx.bash
+          bash ./devtools/lanceur_doxygen.bash
+          bash ./devtools/lanceur_shellcheck.bash
           # pwd
           # ls -lrt
           mv rapports/htmlcov docs/_build/html/
+          mv rapports/doxygen docs/_build/html/
           mv rapports/coverage.xml src/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1

@@ -183,7 +183,6 @@ def est_un_badgeage_valide(ch_trav, conversion):
     ret = 0
     scom = ""
     separateur = ""
-    # pylint: disable=unused-variable
     separateur = next((sep for sep in SEPARHM if sep in ch_trav), "")
     if separateur == "":
         scom = f"\n\tBadgeage = {ch_trav} non conforme\n\n{USAGE}"

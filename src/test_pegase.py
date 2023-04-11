@@ -10,10 +10,9 @@ Tests unitaires de pegase.py
 [VERSIONS]
     [2023-04-08] BN V1.0 :  Initialisation
 """
-import os
 import pytest
-from pegase import  FILENAME, VERSION, USAGE, DUREE_JOUR, DUREE_PAUSE_DEFAUT,\
-                        SEPARHM, parametres, gestion_parametre, \
+from pegase import  FILENAME, VERSION, USAGE, DUREE_PAUSE_DEFAUT,\
+                        parametres, gestion_parametre, \
                         est_un_badgeage_valide, traitement, \
                         _extracted_from_traitement
 
@@ -70,6 +69,19 @@ def test_un_separateur_non_conforme():
     test badgage renseigné = '09h30 +- 11h30'
     """
     ch_trav = ['09h30', '-+', '11h30']
+    try:
+        assert gestion_parametre(ch_trav) == (   1, \
+            f"\nSeparateur badgeages = {ch_trav[1]} non conforme\n\n{USAGE}",
+            [570])
+    except AssertionError as msgici:
+        assert False , \
+            f"\n\t>>>>ERREUR test_un_separateur_non_conforme :\n{msgici}"
+
+def test_separateur_non_conforme():
+    """
+    test badgage renseigné = '09h30 +- 11h30'
+    """
+    ch_trav = ['09h30', '+', '11h30']
     try:
         assert gestion_parametre(ch_trav) == (   1, \
             f"\nSeparateur badgeages = {ch_trav[1]} non conforme\n\n{USAGE}",

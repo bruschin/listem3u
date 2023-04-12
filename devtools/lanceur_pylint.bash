@@ -3,6 +3,8 @@
 ## genere rapport pylint
 ## nécessite d'avoir excute
 ## pylint --generate-rcfile > .pylintrc
+# https://pypi.org/project/isort/
+# https://pypi.org/project/black/
 ###########
 REPTRAV="$(dirname $0)"
 FICSORTIE="rapports/pylint-rapport.txt"

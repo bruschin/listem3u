@@ -9,7 +9,7 @@ Documentation du projet listem3u
 .. _website externe: http://sphinx-doc.org
 
 + 🐯 Sonarqube : `du projet`_. 🐯
-.. _du projet: https://sonarcloud.io/summary/new_code?id=bruschin_listem3u&branch=5-v15b
+.. _du projet: https://sonarcloud.io/project/overview?id=bruschin_listem3u
 
 + 🐺 Lien vers `la couverture du code générée avec pytest </listem3u/htmlcov/index.html>`_. 🐺
 + 🦁 Lien vers `la documentation du projet générée avec doxygen  </listem3u/doxygen/html/index.html>`_. 🦁

@@ -82,11 +82,12 @@ jobs:
           bash ./devtools/lanceur_sphinx.bash
           bash ./devtools/lanceur_doxygen.bash
           bash ./devtools/lanceur_shellcheck.bash
+          bash ./devtools/lanceur_tox.bash
           # pwd
           # ls -lrt
           mv rapports/htmlcov docs/_build/html/
           mv rapports/doxygen docs/_build/html/
-          mv rapports/coverage.xml src/
+          #mv rapports/coverage.xml src/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
@@ -100,9 +101,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           #check-latest: true
-      - name: Run tox
-        run: |
-          bash ./devtools/lanceur_tox.bash
+      # - name: Run tox
+      #   run: |
+      #     bash ./devtools/lanceur_tox.bash
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:

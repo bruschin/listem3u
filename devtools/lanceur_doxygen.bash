@@ -1,12 +1,10 @@
 #!/bin/bash
 ###########
-## genere rapport linter ruff
-## nécessite d'avoir excute
-## pip install ruff --user
-## https://github.com/charliermarsh/ruff
+## genere rapport doxygen
+## nécessite d'avoir installé doxygen dia et généré le fichier Doxyfile
 ###########
-REPTRAV="$(dirname $0)"
-FICSORTIE="rapports/tox-rapport.txt"
+REPTRAV="$(dirname "$0")"
+FICSORTIE="rapports/doxygen-rapport.txt"
 
 export TZ="Europe/Paris"
 
@@ -17,7 +15,7 @@ echo "### $0 DEBUT ###"
 exec 6>&1
 exec >"${FICSORTIE}"
 
-tox -c devtools/tox.ini > "${FICSORTIE}"
+doxygen docs/Doxyfile > "${FICSORTIE}"
 
 exec 1>&6 6>&-
 

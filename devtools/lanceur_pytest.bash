@@ -17,7 +17,6 @@ pytest  -c devtools/pytest.ini -q src/
 pytest  -c devtools/pytest.ini --cov-config=devtools/.coveragerc --cov=src  \
 				--cov-report xml:rapports/coverage.xml \
 				--cov-report=html:rapports/htmlcov -q src/
-
 exec 1>&6 6>&-
 
 cat "${FICSORTIE}"

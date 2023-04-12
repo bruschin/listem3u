@@ -1,10 +1,11 @@
 #!/bin/bash
 #################
 # Creer la liste des fichiers audios dans les ss-repertoires 
-# de P:\Morceaux_choisis 
-# par lectuire des fichier m3u
+# de P:\Morceaux_choisis par defaut
+# par lecture des fichiers m3u dans les sous répertoires
+# https://github.com/koalaman/shellcheck
 #################
-Version="[BN 19-03-2023 V1.1]"
+Version="[BN 12-04-2023 V1.2]" # shellcheck
 Repertoire_travail="p:\Morceaux_choisis"
 Fichier_liste_tampon="liste.m3u"
 Fichier_liste="liste-$(date "+%d-%m-%Y").m3u"
@@ -25,12 +26,12 @@ fi
 ficm3u=$(find . -mindepth 1 -maxdepth 2 -type f -print | grep "Playlist.m3u$")
 #echo "test ${ficm3u}"
 for fic in ${ficm3u}; do
-	cat ${fic} | LC_COLLATE=C sort --ignore-case >> ${Fichier_liste_tampon}
-	echo -e "\n" >> ${Fichier_liste_tampon}
+	cat "${fic}" | LC_COLLATE=C sort --ignore-case >> "${Fichier_liste_tampon}"
+	echo -e "\n" >> "${Fichier_liste_tampon}"
 done
-cat  ${Fichier_liste_tampon} | \
+cat  "${Fichier_liste_tampon}" | \
 grep -Ev -e "^[[:blank:]]*(#|$)" | \
-LC_COLLATE=C sort --ignore-case > ${Fichier_liste}
-sleep 4
-rm -f  ${Fichier_liste_tampon}
+LC_COLLATE=C sort --ignore-case > "${Fichier_liste}"
+#sleep 4
+rm -f  "${Fichier_liste_tampon}"
 exit 0

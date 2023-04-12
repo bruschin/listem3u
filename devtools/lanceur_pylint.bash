@@ -17,13 +17,14 @@ echo "### $0 DEBUT ###"
 exec 6>&1
 exec >"${FICSORTIE}"
 
-sed -i -e "s@indent-string='    '@indent-string='  '@g" src/.pylintrc
+sed -i -e "s@indent-string='    '@indent-string='  '@g" devtools/.pylintrc
 pylint \
     --rcfile \
-    src/.pylintrc \
+    devtools/.pylintrc \
     src/listem3u.py \
     src/test_listem3u.py \
     src/pegase.py \
+    src/test_pegase.py \
     -r \
     n \
     --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" \

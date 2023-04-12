@@ -14,7 +14,7 @@ on:
     types:
       - created
   push:
-    branches: [ "release/V1.6", "9-construction-v16", "main" ]
+    branches: [ "releases", "12-V1.7", "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

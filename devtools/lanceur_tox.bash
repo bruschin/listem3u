@@ -6,18 +6,18 @@
 ## https://github.com/charliermarsh/ruff
 ###########
 REPTRAV="$(dirname $0)"
-FICSORTIE="../rapports/tox-rapport.txt"
+FICSORTIE="rapports/tox-rapport.txt"
 
 export TZ="Europe/Paris"
 
-cd "${REPTRAV}/../src" || exit 1
+cd "${REPTRAV}/.." || exit 1
 
 echo "### $0 DEBUT ###"
 
 exec 6>&1
 exec >"${FICSORTIE}"
 
-tox -e py > "${FICSORTIE}"
+tox -c devtools/tox.ini > "${FICSORTIE}"
 
 exec 1>&6 6>&-
 

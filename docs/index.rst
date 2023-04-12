@@ -1,17 +1,18 @@
 Documentation du projet listem3u
 ================================
 
--   ``Branche`` : |version|
-    ``Release`` : |release|
-    ``Mise à jour`` : |today|
+-   ``Branche`` : |version| 🦄
+    ``Release`` : |release| 🐮
+    ``Mise à jour`` : |today| 🦏
 
 + 👉 Test écriture d'un lien vers un `website externe`_.
 .. _website externe: http://sphinx-doc.org
 
-+ Sonarqube : `du projet`_.
-.. _du projet: https://sonarcloud.io/summary/new_code?id=bruschin_listem3u&branch=5-v15b
++ 🐯 Sonarqube : `du projet`_. 🐯
+.. _du projet: https://sonarcloud.io/project/overview?id=bruschin_listem3u
 
-+ This is a link to `coverage 🛂 </listem3u/htmlcov/index.html>`_.
++ 🐺 Lien vers `la couverture du code générée avec pytest </listem3u/htmlcov/index.html>`_. 🐺
++ 🦁 Lien vers `la documentation du projet générée avec doxygen  </listem3u/doxygen/html/index.html>`_. 🦁
 + Since Pythagoras, we know that :math:`a^2 + b^2 = c^2`.
 
 Essai usage graphviz

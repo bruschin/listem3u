@@ -80,6 +80,7 @@ confidence=
 # --disable=W".
 disable=raw-checker-failed,
         bad-inline-option,
+        bad-indentation,
         locally-disabled,
         file-ignored,
         suppressed-message,
@@ -268,7 +269,7 @@ indent-after-paren=3
 
 # String used as indentation unit. This is usually "    " (4 spaces) or "\t" (1
 # tab).
-indent-string='  '
+indent-string=' '
 
 # Maximum number of characters on a single line.
 max-line-length=100

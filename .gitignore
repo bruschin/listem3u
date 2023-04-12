@@ -3,15 +3,21 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 automation/*m3u
-docs/_build/
 docs/conf.rst
 docs/modules.rst
-# But not these files...
-!docs/_build/html/*
+docs/*bak
 .coverage
 coverage.xml
 htmlcov/*
-.hypothesis/*
+.hypothesis/
 .vscode/
-src/reports/*
+src/reports/
+src/htmlcov/
+src/.tox/
+src/*xml
+src/*json
 .tox/*
+docs/_build/
+# But not these files...
+!docs/_build/html/*
+rapports/

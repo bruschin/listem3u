@@ -8,6 +8,7 @@
 
 ## Action V1.6
 
++ demo Sires
 + tester executeur local pour github action
 + regarder doxygen + shellcheck
 + branch main n'accepte plus les pushs sans merger cf règles définies.

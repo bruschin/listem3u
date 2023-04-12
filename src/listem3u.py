@@ -69,7 +69,7 @@ DEFAUT_FICMP3 = False
 ##############
 
 def parametres(argv):
-    """ 
+    """
         Gestion des parametres d'appel = repertoire, help et version
 
         [ EN ENTREE ]

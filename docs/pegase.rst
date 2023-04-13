@@ -2,6 +2,6 @@ pegase module
 =============
 
 .. automodule:: pegase
-   :members:
-   :undoc-members:
-   :show-inheritance:
+    :members:
+    :undoc-members:
+    :show-inheritance:

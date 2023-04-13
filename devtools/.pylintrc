@@ -80,7 +80,7 @@ confidence=
 # --disable=W".
 disable=raw-checker-failed,
         bad-inline-option,
-        bad-indentation,
+        #bad-indentation,
         locally-disabled,
         file-ignored,
         suppressed-message,
@@ -566,3 +566,4 @@ preferred-modules=
 # "BaseException, Exception".
 overgeneral-exceptions=builtins.BaseException,
                        builtins.Exception
+

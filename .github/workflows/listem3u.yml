@@ -49,7 +49,9 @@ jobs:
         node-version: ["16"]
     steps:
       - uses: actions/checkout@v3
-      # https://github.com/actions/checkout
+        # https://github.com/actions/checkout
+        with:
+          fetch-depth: 0
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:

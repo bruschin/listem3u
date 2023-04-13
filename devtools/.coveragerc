@@ -1,9 +1,11 @@
 # .coveragerc to control coverage.py
 [run]
 branch = True
+source = src/listem3u.py, src/pegase.py
 omit = src/test_listem3u.py, src/test_pegase.py
 
 [report]
+# https://coveralls-python.readthedocs.io/en/latest/tips/coveragerc.html
 # Regexes for lines to exclude from consideration
 exclude_lines =
     # Have to re-enable the standard pragma

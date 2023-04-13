@@ -8,7 +8,10 @@ Created on 8 avril 2023
 Tests unitaires de pegase.py
 
 [VERSIONS]
-    [2023-04-08] BN V1.0 :  Initialisation
+    [2023-04-09] BN V1.0 :  Initialisation
+    [2023-04-13] BN V1.1 :  Ajouts tests
+'https://docs.pytest.org/en/stable/how-to/assert.html#assertions-about-' + \
+'expected-exceptions'
 """
 import pytest
 from pegase import  FILENAME, VERSION, USAGE, DUREE_PAUSE_DEFAUT,\
@@ -101,17 +104,17 @@ def test_separateur_non_conforme():
         assert False , \
             f"\n\t>>>>ERREUR test_un_separateur_non_conforme :\n{msgici}"
 
-def test_deux_badgeages():
+def test_undeux_badgeages():
     """
-    test badgage renseigné = '09h30 - 11h30'
+    test badgages renseignés = '09h30' ou '09h30 - 11h30'
     """
-    try:
-        assert traitement( [570, 690]) == (   1, \
-            '\n\t>>>> ERREUR: Nombre badgeage 2' +\
-                    f' imprevu\n\n{USAGE}')
-    except AssertionError as msgici:
-        assert False , \
-            f"\n\t>>>>ERREUR test_deux_badgeages :\n{msgici}"
+    for lst_badges in [[570],[570, 690]]:
+        try:
+            assert traitement( lst_badges ) == (   0, \
+                'depart : 17H39')
+        except AssertionError as msgici:
+            assert False , \
+                f"\n\t>>>>ERREUR test_undeux_badgeages :\n{msgici}"
 
 
 def test_version_v():

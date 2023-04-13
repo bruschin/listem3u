@@ -216,7 +216,7 @@ def conversion_minutes(desheures,desminutes):
 
 def conversion_heures(desminutes):
     """
-        Conversion des minutes en xHmm
+        Conversion des minutes en xHmm ( 542 -> 09h02 et non pas 9H2)
 
         [ EN ENTREE ]
         desminutes (entier)
@@ -230,7 +230,7 @@ def conversion_heures(desminutes):
 
     lesheures = desminutes // 60
     lesminutes = desminutes % 60
-    return f"{lesheures}H{lesminutes}"
+    return f"{str(lesheures).zfill(2)}H{str(lesminutes).rjust(2,'0')}"
 
 def traitement(tabminutes):
     """

@@ -14,7 +14,7 @@ import pytest
 from pegase import  FILENAME, VERSION, USAGE, DUREE_PAUSE_DEFAUT,\
                         parametres, gestion_parametre, \
                         est_un_badgeage_valide, traitement, \
-                        _extracted_from_traitement
+                        _extracted_from_traitement, conversion_heures
 
 ## GLOBAL
 
@@ -34,6 +34,17 @@ def test_extracted_from_traitement():
     except AssertionError as msgici:
         assert False , \
             f"\n\t>>>>ERREUR test_extracted_from_traitement :\n{msgici}"
+
+def test_conversion_heures():
+    """
+    test de la fonction conversion_heures
+    """
+    try:
+        assert conversion_heures(542) == \
+            '09H02'
+    except AssertionError as msgici:
+        assert False , \
+            f"\n\t>>>>ERREUR test_conversion_heures :\n{msgici}"
 
 def test_est_badgeage_valide():
     """

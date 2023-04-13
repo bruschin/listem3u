@@ -17,7 +17,7 @@ echo "### $0 DEBUT ###"
 exec 6>&1
 exec >"${FICSORTIE}"
 
-tox -c devtools/tox.ini > "${FICSORTIE}"
+tox -c devtools/tox.ini --recreate > "${FICSORTIE}" 2>/dev/null
 
 exec 1>&6 6>&-
 

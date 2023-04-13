@@ -83,10 +83,6 @@ jobs:
           bash ./devtools/lanceur_doxygen.bash
           bash ./devtools/lanceur_shellcheck.bash
           bash ./devtools/lanceur_tox.bash
-          echo "### recherche dia ###"
-          which dia
-          # pwd
-          # ls -lrt
           mv rapports/htmlcov docs/_build/html/
           mv rapports/doxygen docs/_build/html/
           #mv rapports/coverage.xml src/

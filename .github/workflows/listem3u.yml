@@ -97,7 +97,11 @@ jobs:
       - uses: actions/cache@v3
         id: cache2
         with:
-          path: rapports
+          path: |
+            rapports
+            rapports/htmlcov1
+            rapports/htmlcov2
+            src
           key: rap-libellule
   deploy:
     needs: build
@@ -117,14 +121,17 @@ jobs:
       - uses: actions/cache@v3
         id: cache2
         with:
-          path: rapports
+          path:  |
+            rapports
+            rapports/htmlcov1
+            rapports/htmlcov2
+            src
           key: rap-libellule
       - name: Pre upload
         run: |
           echo "### ou suis-je ?"
           pwd
-          ls
-          cd listem3u
+          ls rapports
           mv rapports/htmlcov1 docs/_build/html/
           mv rapports/htmlcov2 docs/_build/html/
           mv rapports/doxygen docs/_build/html/
@@ -153,8 +160,17 @@ jobs:
       - uses: actions/cache@v3
         id: cache2
         with:
-          path: rapports
+          path:  |
+            rapports
+            rapports/htmlcov1
+            rapports/htmlcov2
+            src
           key: rap-libellule
+      - name: Pre sonar
+        run: |
+          echo "### ou suis-je ?"
+          pwd
+          ls rapports src 2>/dev/null
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:

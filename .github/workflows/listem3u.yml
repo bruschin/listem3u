@@ -121,6 +121,10 @@ jobs:
           key: rap-libellule
       - name: Pre upload
         run: |
+          echo "### ou suis-je ?"
+          pwd
+          ls
+          cd listem3u
           mv rapports/htmlcov1 docs/_build/html/
           mv rapports/htmlcov2 docs/_build/html/
           mv rapports/doxygen docs/_build/html/

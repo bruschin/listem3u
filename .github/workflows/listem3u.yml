@@ -115,9 +115,9 @@ jobs:
         node-version: ["16"]
     steps:
       - uses: actions/cache@v3
-          with:
-            path: rapports
-            key: rap-libellule
+        with:
+          path: rapports
+          key: rap-libellule
       -name: Pre upload
         run: |
           mv rapports/htmlcov1 docs/_build/html/
@@ -146,9 +146,9 @@ jobs:
     needs: build
     steps:
       - uses: actions/cache@v3
-          with:
-            path: rapports
-            key: rap-libellule
+        with:
+          path: rapports
+          key: rap-libellule
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:

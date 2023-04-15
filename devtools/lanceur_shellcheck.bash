@@ -4,7 +4,7 @@
 ## nécessite d'avoir installé doxygen dia et généré le fichier Doxyfile
 ###########
 REPTRAV="$(dirname "$0")"
-FICSORTIE="src/shellcheck-rapport.json"
+FICSORTIE="rapports/shellcheck-rapport.json"
 
 export TZ="Europe/Paris"
 
@@ -23,4 +23,3 @@ cat "${FICSORTIE}"
 #rm -f "${FICSORTIE}" 1>/dev/null 2>/dev/null
 echo "### $0 FIN ###"
 exit 0
-

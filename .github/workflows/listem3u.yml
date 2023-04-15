@@ -151,6 +151,8 @@ jobs:
       #   run: |
       #     bash ./devtools/lanceur_tox.bash
   sonarqube:
+      environment:
+        name: github-pages
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -166,9 +168,9 @@ jobs:
         run: |
           echo "### ou suis-je ?"
           pwd
-          ls
           sed -i -e "s/@SONAR_VERSION@/1.7/g" ./src/sonar-project.properties
           cp rapports/coverage*.xml ./src/
+          ls src/
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:

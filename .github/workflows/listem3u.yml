@@ -169,7 +169,8 @@ jobs:
           echo "### ou suis-je ?"
           pwd
           sed -i -e "s/@SONAR_VERSION@/1.7/g" ./src/sonar-project.properties
-          cp rapports/coverage*.xml ./src/
+          cp rapports/coverage*.xml src/
+          cp rapports/shellcheck-rapport.json src/
           cat src/sonar-project.properties
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master

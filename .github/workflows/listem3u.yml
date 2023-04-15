@@ -97,10 +97,11 @@ jobs:
         id: cache2
         with:
           path: |
+            .git
             rapports
             docs/_build/html
             src
-          key: rap-libellule
+          key: rap-libellule-${{ github.sha }}
   deploy:
     needs: build
     environment:
@@ -119,11 +120,12 @@ jobs:
       - uses: actions/cache@v3
         id: cache2
         with:
-          path:  |
+          path: |
+            .git
             rapports
             docs/_build/html
             src
-          key: rap-libellule
+          key: rap-libellule-${{ github.sha }}
       - name: Pre upload
         run: |
           echo "### ou suis-je ?"
@@ -159,11 +161,12 @@ jobs:
       - uses: actions/cache@v3
         id: cache2
         with:
-          path:  |
+          path: |
+            .git
             rapports
             docs/_build/html
             src
-          key: rap-libellule
+          key: rap-libellule-${{ github.sha }}
       - name: Pre sonar
         run: |
           echo "### ou suis-je ?"

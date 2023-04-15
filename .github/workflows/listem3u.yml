@@ -41,7 +41,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-      version: "1.7"
     # <Not provided for brevity>
     # At a minimum this job should upload artifacts using
     # actions/upload-pages-artifact

@@ -1,4 +1,4 @@
-# listem3u [2023-04-12] 👉 BN V1.7
+# listem3u [2023-04-15] 👉 BN V1.7
 
 ![docs_pages_workflow](https://github.com/bruschin/listem3u/actions/workflows/listem3u.yml/badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bruschin_listem3u&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u&branch=5-v15b)
@@ -9,7 +9,8 @@
 ## Action V1.7
 
 + création branche releases + réglages configuration
-+ création 2 issues
++ création 3 issues mergées dans releases
++ activation workflow en 3 jobs avec un cache.
 
 ## Action V1.6
 

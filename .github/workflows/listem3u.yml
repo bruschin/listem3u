@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Code_source_Quality_Gate
+name: Doc_Quality_Gate
 #https://docs.github.com/fr/actions/using-workflows/workflow-syntax-for-github-actions
 #https://www.githubstatus.com/
 #https://github.com/charliermarsh/ruff
@@ -14,7 +14,7 @@ on:
     types:
       - created
   push:
-    branches: [ "releases", "main", "16-test_jobs" ]
+    branches: [ "releases", "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -102,7 +102,7 @@ jobs:
             docs/_build/html
             src
           key: rap-libellule-${{ github.sha }}
-  deploy:
+  github-pages:
     needs: build
     environment:
       name: github-pages

@@ -23,9 +23,8 @@ exec 1>&6 6>&-
 
 cat "${FICSORTIE}"
 rm -f "${FICSORTIE}" 1>/dev/null 2>/dev/null
-if test -f "src/coverage.xml"; then
-    cat "src/coverage.xml"
+if test -f "rapports/coverage2.xml"; then
+    cat "rapports/coverage2.xml"
 fi
 echo "### $0 FIN ###"
 exit 0
-

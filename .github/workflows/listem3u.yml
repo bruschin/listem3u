@@ -65,7 +65,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           #check-latest: true
       - uses: actions/cache@v3
-        id: cache
+        id: cache1
         with:
           path: ~/.cache/pip
           key: |
@@ -95,7 +95,7 @@ jobs:
           mv rapports/coverage1.xml docs/_build/html/
           mv rapports/coverage2.xml docs/_build/html/
       - uses: actions/cache@v3
-        id: cache
+        id: cache2
         with:
           path: rapports
           key: rap-libellule
@@ -115,7 +115,7 @@ jobs:
         node-version: ["16"]
     steps:
       - uses: actions/cache@v3
-        id: cache
+        id: cache2
         with:
           path: rapports
           key: rap-libellule
@@ -147,7 +147,7 @@ jobs:
     needs: build
     steps:
       - uses: actions/cache@v3
-        id: cache
+        id: cache2
         with:
           path: rapports
           key: rap-libellule

@@ -159,6 +159,7 @@ jobs:
         with:
           path:  |
             rapports
+            docs/_build/html
             src
           key: rap-libellule
       - name: Pre sonar
@@ -166,12 +167,12 @@ jobs:
           echo "### ou suis-je ?"
           pwd
           ls
-          sed -i -e "s/@SONAR_VERSION@/1.7/g" src/sonar-project.properties
-          cp rapports/coverage*.xml src/
+          sed -i -e "s/@SONAR_VERSION@/1.7/g" ./src/sonar-project.properties
+          cp rapports/coverage*.xml ./src/
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:
-          projectBaseDir: devtools
+          projectBaseDir: src
         env:
           name: github-pages
           # sonarcloud.io

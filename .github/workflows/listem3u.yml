@@ -170,7 +170,7 @@ jobs:
           pwd
           sed -i -e "s/@SONAR_VERSION@/1.7/g" ./src/sonar-project.properties
           cp rapports/coverage*.xml ./src/
-          ls src/
+          cat src/sonar-project.properties
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:

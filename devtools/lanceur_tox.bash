@@ -17,12 +17,15 @@ echo "### $0 DEBUT ###"
 exec 6>&1
 exec >"${FICSORTIE}"
 
-tox -c devtools/tox.ini > "${FICSORTIE}"
+tox -c devtools/tox.ini --recreate > "${FICSORTIE}" 2>/dev/null
 
 exec 1>&6 6>&-
 
 cat "${FICSORTIE}"
 rm -f "${FICSORTIE}" 1>/dev/null 2>/dev/null
+if test -f "src/coverage.xml"; then
+    cat "src/coverage.xml"
+fi
 echo "### $0 FIN ###"
 exit 0
 

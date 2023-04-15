@@ -27,6 +27,8 @@
     [VERSIONS]
     [2023-03-14] BN V1.0 : Initialisation
     [2023-04-09] BN V1.1 : Test unitaires + gestion param aide + version
+    [2023-04-13] BN V1.2 : Test unitaires + corretion bug conversion_heures %02d
+                            prise en compte 1 ou 3 badgeages => 1 ou 2 ou 3.
 """
 
 ## Bibliotheques ##
@@ -37,7 +39,7 @@ import getopt
 # VARIABLES GLOBALES :
 
 FILENAME = "pegase.py"
-VERSION = f"  {FILENAME}: [2023-04-09] BN V1.1\n"
+VERSION = f"  {FILENAME}: [2023-04-13] BN V1.2\n"
 USAGE = (f"  usage: {FILENAME} [OPTIONS]\n" +\
 "  OPTIONS:\n"
 "  [09:31 - 12h00 - 12H38] 1 ou 3 badgeage(s) OBLIGATOIRE(S)\n" +\
@@ -129,13 +131,11 @@ def gestion_parametre(*args):
         scom = f'\n\t>>>> ERREUR: Au moins un badgeage OBLIGATOIRE\n{USAGE}'
         bretour = 1
     else:
-        #print(f"debug: {args[0]}")
         for chaine in args[0]:
             # controle au moins un param non vide
             # on passe la chaine en majuscule et on supprime tous les espaces
             ch_trav = chaine.upper().replace(" ","")
             longueur = len(ch_trav)
-            #print(f"debug ici: {ch_trav} {longueur}" )
             match longueur:
                 case 0:
                     scom = f"\n\tNombre de badgeage insuffisant\n{USAGE}"
@@ -151,14 +151,12 @@ def gestion_parametre(*args):
                         break
                 case 4|5:
                     # la liste non vide est-elle un badgeage ?
-                    #print(f"debug 4|5: {ch_trav} {longueur}" )
                     bretour, scom, minutesici = \
                     est_un_badgeage_valide( ch_trav, minutesici)
                     if bretour == 1:
                         break
                 case _:
                     # imprevu
-                    #print("debug imprevu" )
                     scom = f"\nSeparateur badgeages = {ch_trav}" + \
                         f" non conforme\n\n{USAGE}"
                     bretour = 1
@@ -216,7 +214,7 @@ def conversion_minutes(desheures,desminutes):
 
 def conversion_heures(desminutes):
     """
-        Conversion des minutes en xHmm
+        Conversion des minutes en xHmm ( 542 -> 09h02 et non pas 9H2)
 
         [ EN ENTREE ]
         desminutes (entier)
@@ -230,7 +228,8 @@ def conversion_heures(desminutes):
 
     lesheures = desminutes // 60
     lesminutes = desminutes % 60
-    return f"{lesheures}H{lesminutes}"
+    # test zfill et rjust
+    return f"{str(lesheures).zfill(2)}H{str(lesminutes).rjust(2,'0')}"
 
 def traitement(tabminutes):
     """
@@ -250,7 +249,7 @@ def traitement(tabminutes):
         case 3:
             pause = max((tabminutes[2] - tabminutes[1]), DUREE_PAUSE_DEFAUT)
             scom = _extracted_from_traitement(tabminutes, pause)
-        case 1:
+        case 1|2:
             scom = _extracted_from_traitement(tabminutes, DUREE_PAUSE_DEFAUT)
         case _:
             scom =  f'\n\t>>>> ERREUR: Nombre badgeage {uncompteur}' +\

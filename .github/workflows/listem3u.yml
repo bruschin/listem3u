@@ -151,8 +151,8 @@ jobs:
       #   run: |
       #     bash ./devtools/lanceur_tox.bash
   sonarqube:
-      environment:
-        name: github-pages
+    environment:
+      name: github-pages
     runs-on: ubuntu-latest
     needs: build
     steps:

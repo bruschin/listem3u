@@ -95,10 +95,10 @@ jobs:
           mv rapports/coverage1.xml docs/_build/html/
           mv rapports/coverage2.xml docs/_build/html/
       - uses: actions/cache@v3
+        id: cache
         with:
           path: rapports
           key: rap-libellule
-
   deploy:
     needs: build
     environment:
@@ -115,10 +115,11 @@ jobs:
         node-version: ["16"]
     steps:
       - uses: actions/cache@v3
+        id: cache
         with:
           path: rapports
           key: rap-libellule
-      -name: Pre upload
+      - name: Pre upload
         run: |
           mv rapports/htmlcov1 docs/_build/html/
           mv rapports/htmlcov2 docs/_build/html/
@@ -146,6 +147,7 @@ jobs:
     needs: build
     steps:
       - uses: actions/cache@v3
+        id: cache
         with:
           path: rapports
           key: rap-libellule

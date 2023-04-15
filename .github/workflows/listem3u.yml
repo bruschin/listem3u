@@ -113,7 +113,7 @@ jobs:
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:
-          projectBaseDir: src
+          projectBaseDir: devtools
         env:
           name: github-pages
           # sonarcloud.io

@@ -81,7 +81,6 @@ jobs:
             pip install -r ./devtools/requirements.txt;
           fi
           export TZ="Europe/Paris"
-          sed -i -e "s/@SONAR_VERSION@/1.7/g" ./devtools/sonar-project.properties
           bash ./devtools/lanceur_pytest.bash
           bash ./devtools/lanceur_pylint.bash
           bash ./devtools/lanceur_ruff.bash
@@ -89,18 +88,17 @@ jobs:
           bash ./devtools/lanceur_doxygen.bash
           bash ./devtools/lanceur_shellcheck.bash
           bash ./devtools/lanceur_tox.bash
-          mv rapports/htmlcov1 docs/_build/html/
-          mv rapports/htmlcov2 docs/_build/html/
-          mv rapports/doxygen docs/_build/html/
-          mv rapports/coverage1.xml docs/_build/html/
-          mv rapports/coverage2.xml docs/_build/html/
+          # mv rapports/htmlcov1 docs/_build/html/
+          # mv rapports/htmlcov2 docs/_build/html/
+          # mv rapports/doxygen docs/_build/html/
+          # mv rapports/coverage1.xml docs/_build/html/
+          # mv rapports/coverage2.xml docs/_build/html/
       - uses: actions/cache@v3
         id: cache2
         with:
           path: |
             rapports
-            rapports/htmlcov1
-            rapports/htmlcov2
+            docs/_build/html
             src
           key: rap-libellule
   deploy:
@@ -123,20 +121,19 @@ jobs:
         with:
           path:  |
             rapports
-            rapports/htmlcov1
-            rapports/htmlcov2
+            docs/_build/html
             src
           key: rap-libellule
       - name: Pre upload
         run: |
           echo "### ou suis-je ?"
           pwd
-          ls rapports
+          ls
           mv rapports/htmlcov1 docs/_build/html/
           mv rapports/htmlcov2 docs/_build/html/
           mv rapports/doxygen docs/_build/html/
-          mv rapports/coverage1.xml docs/_build/html/
-          mv rapports/coverage2.xml docs/_build/html/
+          cp rapports/coverage1.xml docs/_build/html/
+          cp rapports/coverage2.xml docs/_build/html/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
@@ -162,15 +159,15 @@ jobs:
         with:
           path:  |
             rapports
-            rapports/htmlcov1
-            rapports/htmlcov2
             src
           key: rap-libellule
       - name: Pre sonar
         run: |
           echo "### ou suis-je ?"
           pwd
-          ls rapports src 2>/dev/null
+          ls
+          sed -i -e "s/@SONAR_VERSION@/1.7/g" src/sonar-project.properties
+          cp rapports/coverage*.xml src/
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:

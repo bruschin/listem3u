@@ -10,6 +10,7 @@ name: github_pages_sphinx_doc
 #https://docs.github.com/fr/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
 #https://help.github.com/pages/
 #https://docs.github.com/fr/actions/learn-github-actions/understanding-github-actions
+#https://docs.github.com/en/rest/actions/cache?apiVersion=2022-11-28
 
 run-name: GA seq ${{ github.job_workflow_sha }}
 

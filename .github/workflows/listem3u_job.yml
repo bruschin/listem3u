@@ -51,7 +51,7 @@ jobs:
   build:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      #url: ${{ steps.deployment.outputs.page_url }}
     # <Not provided for brevity>
     # At a minimum this job should upload artifacts using
     # actions/upload-pages-artifact
@@ -82,6 +82,7 @@ jobs:
           key: |
             ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
           restore-keys: |
+            ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
             ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
@@ -117,7 +118,7 @@ jobs:
     needs: build
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      #url: ${{ steps.deployment.outputs.page_url }}
     # <Not provided for brevity>
     # At a minimum this job should upload artifacts using
     # actions/upload-pages-artifact
@@ -215,7 +216,8 @@ jobs:
             })
             for (const cache of caches.data.actions_caches) {
               console.log(cache)
-              if ( cache.key === rap-libellule-${{ github.sha }} ) {
+              console.log(cache.key)
+              if ( cache.key === 'rap-libellule-${{ github.sha }}' ) {
                 github.rest.actions.deleteActionsCacheById({
                   owner: context.repo.owner,
                   repo: context.repo.repo,

@@ -22,6 +22,9 @@ on:
   label:
     types:
       - created
+  push:
+    branches:
+      - 19-plusieurs_yaml
   pull_request:
     # Sequence of patterns matched against refs/heads
     branches:

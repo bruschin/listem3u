@@ -224,4 +224,4 @@ jobs:
                 })
               }
             }
-            console.log("### Clear completed cache = rap-libellule-${{ github.sha }}")
+            console.log("Clear completed cache")

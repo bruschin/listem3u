@@ -215,7 +215,7 @@ jobs:
             })
             for (const cache of caches.data.actions_caches) {
               console.log(cache)
-              if 'rap-libellule' in cache.key {
+              if (cache.key == rap-libellule-${{ github.sha }} ) {
                 github.rest.actions.deleteActionsCacheById({
                   owner: context.repo.owner,
                   repo: context.repo.repo,

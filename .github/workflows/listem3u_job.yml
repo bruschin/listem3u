@@ -215,8 +215,7 @@ jobs:
               repo: context.repo.repo,
             })
             for (const cache of caches.data.actions_caches) {
-              console.log(cache)
-              console.log(cache.key)
+              #console.log(cache)
               if ( cache.key === 'rap-libellule-${{ github.sha }}' ) {
                 github.rest.actions.deleteActionsCacheById({
                   owner: context.repo.owner,
@@ -225,4 +224,4 @@ jobs:
                 })
               }
             }
-            console.log("Clear completed")
+            console.log("### Clear completed cache = rap-libellule-${{ github.sha }}")

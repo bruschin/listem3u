@@ -200,7 +200,7 @@ jobs:
           #SONAR_TOKEN: ${{ secrets.SONAR_REPAIRE_TOKEN }}
 
   clear-cache:
-    needs: build|github-pages|sonarqube
+    needs: [ 'build', 'github-pages', 'sonarqube' ]
     runs-on: ubuntu-latest
     steps:
       - name: Clear cache

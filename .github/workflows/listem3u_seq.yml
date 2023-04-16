@@ -1,6 +1,6 @@
+name: Doc_Quality_Gate_Steps
 # Workflow en plusieurs étapes séquentielles pour déployer du contenu dynamique
-# vers GitHub Pages
-name: github_pages_sphinx_doc
+# vers GitHub Pages et résultats pour sonar
 
 #Documentations et refs:
 #https://docs.github.com/fr/actions/using-workflows/workflow-syntax-for-github-actions
@@ -12,7 +12,7 @@ name: github_pages_sphinx_doc
 #https://docs.github.com/fr/actions/learn-github-actions/understanding-github-actions
 #https://docs.github.com/en/rest/actions/cache?apiVersion=2022-11-28
 
-run-name: GA seq ${{ github.job_workflow_sha }}
+run-name: GA Steps ${{ github.job_workflow_sha }}
 
 on:
   issues:
@@ -49,8 +49,6 @@ jobs:
   build:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    # <Not provided for brevity>
     # At a minimum this job should upload artifacts using
     # actions/upload-pages-artifact
     runs-on: ubuntu-latest
@@ -70,7 +68,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          #check-latest: true
       - uses: actions/cache@v3
         id: cache
         with:
@@ -78,10 +75,11 @@ jobs:
           key: |
             ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
           restore-keys: |
+            ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
             ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
-          sudo apt-get install -y graphviz rhino lcov
+          sudo apt-get install -y graphviz rhino lcov dia doxygen shellcheck
           python -m pip install --upgrade pip
           python -m pip install pylint-common --use-pep517
           if [ -f ./devtools/requirements.txt ]; then
@@ -92,10 +90,17 @@ jobs:
           bash ./devtools/lanceur_pylint.bash
           bash ./devtools/lanceur_ruff.bash
           bash ./devtools/lanceur_sphinx.bash
-          pwd
-          ls -lrt
-          mv rapports/htmlcov docs/_build/html/
-          mv rapports/coverage.xml src/
+          bash ./devtools/lanceur_doxygen.bash
+          bash ./devtools/lanceur_shellcheck.bash
+          bash ./devtools/lanceur_tox.bash
+          mv rapports/htmlcov1 docs/_build/html/
+          mv rapports/htmlcov2 docs/_build/html/
+          mv rapports/doxygen docs/_build/html/
+          cp rapports/coverage*.xml docs/_build/html/
+          sed -i -e "s/@SONAR_VERSION@/1.8/g" src/sonar-project.properties
+          cp rapports/coverage*.xml src/
+          cp rapports/shellcheck-rapport.json src/
+          cat src/sonar-project.properties
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
@@ -108,20 +113,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          #check-latest: true
-      - name: Run tox
-        run: |
-          bash ./devtools/lanceur_tox.bash
-          #tox -e py
       - name: SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         with:
           projectBaseDir: src
         env:
           name: github-pages
-          #SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
           SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
-          #SONAR_TOKEN: ${{ secrets.SONAR_REPAIRE_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_IO_TOKEN_CI }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # If you wish to fail your job when the Quality Gate is red, uncomment the

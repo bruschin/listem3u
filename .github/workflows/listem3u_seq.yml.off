@@ -1,5 +1,8 @@
-# Simple workflow for deploying static content to GitHub Pages
+# Workflow en plusieurs étapes séquentielles pour déployer du contenu dynamique
+# vers GitHub Pages
 name: github_pages_sphinx_doc
+
+#Documentations et refs:
 #https://docs.github.com/fr/actions/using-workflows/workflow-syntax-for-github-actions
 #https://www.githubstatus.com/
 #https://github.com/charliermarsh/ruff
@@ -7,22 +10,27 @@ name: github_pages_sphinx_doc
 #https://docs.github.com/fr/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
 #https://help.github.com/pages/
 #https://docs.github.com/fr/actions/learn-github-actions/understanding-github-actions
-run-name: ${{ github.job_workflow_sha }}
+
+run-name: GA seq ${{ github.job_workflow_sha }}
 
 on:
+  issues:
+    types:
+      - created
+      - opened
   label:
     types:
       - created
-  push:
+  pull_request:
+    # Sequence of patterns matched against refs/heads
     branches:
       - main
-      - release/V1.5
-      - 5-v15b
+      - releases
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-  # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
@@ -52,7 +60,7 @@ jobs:
         node-version: ["16"]
     steps:
       - uses: actions/checkout@v3
-      # https://github.com/actions/checkout
+        # https://github.com/actions/checkout
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:

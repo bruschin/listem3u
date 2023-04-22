@@ -44,14 +44,14 @@ concurrency:
 
 jobs:
   call-build:
-    uses: bruschin/listem3u/.github/workflows/files/listem3u_file_build.yml@19-plusieurs_yaml
+    uses: bruschin/listem3u/.github/workflows/listem3u_file_build.yml@19-plusieurs_yaml
   call-github_pages:
     needs: call-build
-    uses: bruschin/listem3u/.github/workflows/files/listem3u_file_github_pages.yml@19-plusieurs_yaml
+    uses: bruschin/listem3u/.github/workflows/listem3u_file_github_pages.yml@19-plusieurs_yaml
   call-sonarqube:
     needs: call-build
-    uses: bruschin/listem3u/.github/workflows/files/listem3u_file_sonarqube.yml@19-plusieurs_yaml
+    uses: bruschin/listem3u/.github/workflows/listem3u_file_sonarqube.yml@19-plusieurs_yaml
     secrets: inherit # pass all secrets
   call-clear_cache:
     needs: [ 'call-build', 'call-github_pages', 'call-sonarqube' ]
-    uses: bruschin/listem3u/.github/workflows/files/listem3u_file_clear_cache.yml@19-plusieurs_yaml
+    uses: bruschin/listem3u/.github/workflows/listem3u_file_clear_cache.yml@19-plusieurs_yaml

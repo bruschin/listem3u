@@ -1,0 +1,55 @@
+name: Doc_Quality_Gate_Steps_File
+# Workflow en plusieurs séquences pour déployer du contenu dynamique
+# vers GitHub Pages et résultats pour sonar
+
+#Documentations et refs:
+#https://docs.github.com/en/actions/using-workflows/reusing-workflows
+
+run-name: GA File ${{ github.event.head_commit.message }} ${{ github.sha }}
+
+on:
+  issues:
+    types:
+      - created
+      - opened
+  label:
+    types:
+      - created
+  push:
+    branches:
+      - 19-plusieurs_yaml
+  pull_request:
+    # Sequence of patterns matched against refs/heads
+    branches:
+      - main
+      - releases
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run
+# in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production
+# deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  call-build:
+    uses: bruschin/listem3u/.github/workflows/listem3u_file_build.yml
+  call-github_pages:
+    needs: call-build
+    uses: bruschin/listem3u/.github/workflows/listem3u_file_github_pages.yml
+  call-sonarqube:
+    needs: call-build
+    uses: bruschin/listem3u/.github/workflows/listem3u_file_sonarqube.yml
+  call-clear_cache:
+    needs: [ 'call-build', 'call-github_pages', 'call-sonarqube' ]
+    uses: bruschin/listem3u/.github/workflows/listem3u_file_clear_cache.yml

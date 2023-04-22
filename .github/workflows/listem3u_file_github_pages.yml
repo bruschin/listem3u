@@ -1,0 +1,135 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: Doc_Quality_Gate_File_Github_Pages
+#https://docs.github.com/fr/actions/using-workflows/workflow-syntax-for-github-actions
+#https://www.githubstatus.com/
+#https://github.com/charliermarsh/ruff
+#https://github.com/bruschin/listem3u/new/main?filename=.github%2Fworkflows%2Fstatic.yml
+#https://docs.github.com/fr/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
+#https://help.github.com/pages/
+#https://docs.github.com/fr/actions/learn-github-actions/understanding-github-actions
+run-name: GA File_Github_Pages ${{ github.event.head_commit.message }} ${{ github.sha }}
+
+on: ["workflow_call"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+  # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  actions: write
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run
+# in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production
+# deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  github-pages:
+    # At a minimum this job should upload artifacts using
+    # actions/upload-pages-artifact
+    environment:
+      name: github-pages
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.10"]
+        node-version: ["16"]
+    steps:
+      # restauration cache
+      - uses: actions/cache@v3
+        id: cache2
+        with:
+          path: |
+            .git
+            rapports
+            docs/_build/html
+            src
+          key: rap-libellule-${{ github.sha }}
+      - name: Pre upload
+        run: |
+          mv rapports/htmlcov1 docs/_build/html/
+          mv rapports/htmlcov2 docs/_build/html/
+          mv rapports/doxygen docs/_build/html/
+          cp rapports/coverage1.xml docs/_build/html/
+          cp rapports/coverage2.xml docs/_build/html/
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload entire repository
+          path: 'docs/_build/html'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+      - name: Use node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+  sonarqube:
+    environment:
+      name: github-pages
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      # restauration cache
+      - uses: actions/cache@v3
+        id: cache2
+        with:
+          path: |
+            .git
+            rapports
+            docs/_build/html
+            src
+          key: rap-libellule-${{ github.sha }}
+      - name: Pre sonar
+        run: |
+          sed -i -e "s/@SONAR_VERSION@/1.8/g" ./src/sonar-project.properties
+          cp rapports/coverage*.xml src/
+          cp rapports/shellcheck-rapport.json src/
+          cat src/sonar-project.properties
+      - name: SonarQube
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          projectBaseDir: src
+        env:
+          name: github-pages
+          # sonarcloud.io
+          SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_IO_TOKEN_CI }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # sonar.cloudmf.dev
+          #SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          #SONAR_TOKEN: ${{ secrets.SONAR_REPAIRE_TOKEN }}
+  clear-cache:
+    needs: [ 'build', 'github-pages', 'sonarqube' ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clear cache
+        uses: actions/github-script@v6
+        with:
+          script: |
+            console.log("About to clear cache rap-libellule-${{ github.sha }}")
+            const caches = await github.rest.actions.getActionsCacheList({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+            for (const cache of caches.data.actions_caches) {
+              if ( cache.key === 'rap-libellule-${{ github.sha }}' ) {
+                console.log(cache)
+                github.rest.actions.deleteActionsCacheById({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  cache_id: cache.id,
+                })
+              }
+            }
+            console.log("Clear completed cache rap-libellule-${{ github.sha }}")

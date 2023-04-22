@@ -39,7 +39,7 @@ copyright = '2023, Nicolas Bruschi 😀'
 author = 'Nicolas Bruschi'
 
 # The full version, including alpha/beta/rc tags
-release = 'V1.4 beta'
+release = '@RELEASE_VERSION@'
 
 today_fmt = '%Y %b %d à %H:%M'
 
@@ -54,7 +54,7 @@ extensions = [  'sphinx_rtd_theme','sphinx.ext.todo', 'sphinx.ext.autodoc',\
                 'sphinx.ext.mathjax', 'sphinx.ext.viewcode',\
                 'sphinx.ext.graphviz', 'sphinx.ext.napoleon' ,\
                 'sphinx_multiversion',\
-              ]
+            ]
 """
 extensions = [  'sphinx_rtd_theme', 'sphinx.ext.autodoc',\
                 'sphinx.ext.autosummary', 'sphinx.ext.viewcode',\

@@ -30,7 +30,12 @@ jobs:
           key: rap-libellule-${{ github.sha }}
       - name: Pre sonar
         run: |
-          sed -i -e "s/@SONAR_VERSION@/1.8/g" ./src/sonar-project.properties
+          FIC_VERSION_EN_COURS="docs/version_en_cours.dat"
+          VERSION_EN_COURS=$( cat "${FIC_VERSION_EN_COURS}" | \
+                    awk -F"VERSION=" '{print $2}')
+          
+          sed -i -e "s/@SONAR_VERSION@/${VERSION_EN_COURS}/g" \
+            ./src/sonar-project.properties
           cp rapports/coverage*.xml src/
           cp rapports/shellcheck-rapport.json src/
           cat src/sonar-project.properties

@@ -39,7 +39,7 @@ permissions:
 # However, do NOT cancel in-progress runs as we want to allow these production
 # deployments to complete.
 concurrency:
-  group: "pages"
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -51,6 +51,7 @@ jobs:
   call-sonarqube:
     needs: call-build
     uses: bruschin/listem3u/.github/workflows/listem3u_file_sonarqube.yml@19-plusieurs_yaml
+    secrets: inherit # pass all secrets
   call-clear_cache:
     needs: [ 'call-build', 'call-github_pages', 'call-sonarqube' ]
     uses: bruschin/listem3u/.github/workflows/listem3u_file_clear_cache.yml@19-plusieurs_yaml

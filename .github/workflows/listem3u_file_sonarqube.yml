@@ -30,7 +30,7 @@ jobs:
           key: rap-libellule-${{ github.sha }}
       - name: Pre sonar
         run: |
-          FIC_VERSION_EN_COURS="docs/version_en_cours.dat"
+          FIC_VERSION_EN_COURS="./src/version_en_cours.dat"
           VERSION_EN_COURS=$( cat "${FIC_VERSION_EN_COURS}" | \
                     awk -F"VERSION=" '{print $2}')
           

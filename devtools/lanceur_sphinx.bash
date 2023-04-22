@@ -4,7 +4,7 @@
 ## nécessite d'avoir installé sphinx graphviz rhino
 ###########
 REPTRAV="$(dirname "$0")"
-FIC_VERSION_EN_COURS="./version_en_cours.dat"
+FIC_VERSION_EN_COURS="../src/version_en_cours.dat"
 
 export TZ="Europe/Paris"
 export REPO_NAME='https://bruschin.github.io/listem3u'

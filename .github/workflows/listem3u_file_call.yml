@@ -1,11 +1,11 @@
-name: Doc_Quality_Gate_Steps_File
+name: Doc_Quality_Gate_Files
 # Workflow en plusieurs séquences pour déployer du contenu dynamique
 # vers GitHub Pages et résultats pour sonar
 
 #Documentations et refs:
 #https://docs.github.com/en/actions/using-workflows/reusing-workflows
 
-run-name: GA File ${{ github.event.head_commit.message }} ${{ github.sha }}
+run-name: GA DQGF ${{ github.event.head_commit.message }} ${{ github.sha }}
 
 on:
   issues:

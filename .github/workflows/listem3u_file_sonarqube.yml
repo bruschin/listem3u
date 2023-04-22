@@ -31,10 +31,11 @@ jobs:
       - name: Pre sonar
         run: |
           FIC_VERSION_EN_COURS="./src/version_en_cours.dat"
-          VERSION_EN_COURS=$( cat "${FIC_VERSION_EN_COURS}" | \
-                    awk -F"VERSION=" '{print $2}')
+          VERSION_EN_COURS="$( cat "${FIC_VERSION_EN_COURS}" | \
+                    awk -F"VERSION=" '{print $2}' | tr -d "\n")"
           echo "### Version en cours = ${VERSION_EN_COURS}"
-          sed -i -e "s/@SONAR_VERSION@/${VERSION_EN_COURS}/g" ./src/sonar-project.properties
+          sed -i -e "s/@SONAR_VERSION@/${VERSION_EN_COURS}/g" \
+            ./src/sonar-project.properties
           cp rapports/coverage*.xml src/
           cp rapports/shellcheck-rapport.json src/
           cat src/sonar-project.properties

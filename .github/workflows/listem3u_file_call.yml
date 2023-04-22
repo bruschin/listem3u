@@ -40,7 +40,7 @@ permissions:
 # deployments to complete.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   call-build:

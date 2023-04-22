@@ -40,10 +40,6 @@ jobs:
           projectBaseDir: src
         env:
           name: github-pages
-          # sonarcloud.io
           SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_IO_TOKEN_CI }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # sonar.cloudmf.dev
-          #SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          #SONAR_TOKEN: ${{ secrets.SONAR_REPAIRE_TOKEN }}

@@ -1,18 +1,6 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Doc_Quality_Gate_File_Clear_cache
-#https://docs.github.com/fr/actions/using-workflows/workflow-syntax-for-github-actions
-#https://www.githubstatus.com/
-#https://github.com/charliermarsh/ruff
-#https://github.com/bruschin/listem3u/new/main?filename=.github%2Fworkflows%2Fstatic.yml
-#https://docs.github.com/fr/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
-#https://help.github.com/pages/
-#https://docs.github.com/fr/actions/learn-github-actions/understanding-github-actions
-run-name: GA File_Clear_cache ${{ github.event.head_commit.message }} ${{ github.sha }}
+name: Clear_cache
 
 on: ["workflow_call"]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
 
 defaults:
   run:
@@ -34,7 +22,6 @@ concurrency:
 
 jobs:
   clear-cache:
-    needs: [ 'build', 'github-pages', 'sonarqube' ]
     runs-on: ubuntu-latest
     steps:
       - name: Clear cache

@@ -1,4 +1,4 @@
-# listem3u [2023-04-22] 👉 BN V1.8
+# listem3u [2023-04-23] 👉 BN V1.8
 
 ![docs_pages_workflow](https://github.com/bruschin/listem3u/actions/workflows/listem3u.yml/badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bruschin_listem3u&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u&branch=5-v15b)
@@ -8,20 +8,23 @@
 
 ## Action V1.8
 
-+ mise au point workflow en plusieurs fichiers.
++ Mise au point et tests du workflow en 5 fichiers yaml.
++ Création d'une issue = plusieurs_yaml et d'une branche 19-plusieurs_yaml.
++ Merge de la branche de développement dans releases avec suppression auto de
+  la branche 19. Merge à suivre dans Main selon règles.
 
 ## Action V1.7
 
-+ création branche releases + réglages configuration
-+ création 3 issues mergées dans releases
-+ activation workflow en 3 jobs avec un cache.
++ Création branche releases + réglages configuration
++ Création 3 issues mergées dans releases
++ Activation workflow en 3 jobs avec un cache.
 
 ## Action V1.6
 
-+ demo Sires
-+ tester executeur local pour github action
-+ regarder doxygen + shellcheck
-+ branch main n'accepte plus les pushs sans merger cf règles définies.
++ Demo Sires
++ Tester executeur local pour github action
++ Regarder doxygen + shellcheck
++ Branche main n'accepte plus les pushs sans merger + cf règles définies.
 
 ## Actions V1.5
 
@@ -36,7 +39,7 @@
 
 ## Configuration environnement mini-conda
 
-+ conda config --add channels conda-forge
++ Conda config --add channels conda-forge
 
 + conda create -n myenv python=3.10
   + conda activate myenv

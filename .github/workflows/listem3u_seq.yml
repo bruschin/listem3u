@@ -12,7 +12,7 @@ name: Doc_Quality_Gate_Steps
 #https://docs.github.com/fr/actions/learn-github-actions/understanding-github-actions
 #https://docs.github.com/en/rest/actions/cache?apiVersion=2022-11-28
 
-run-name: GA Steps ${{ github.event.head_commit.message }} ${{ github.sha }}
+run-name: GA DQGS ${{ github.event.head_commit.message }} ${{ github.sha }}
 
 on:
   issues:
@@ -24,11 +24,11 @@ on:
       - created
   push:
     branches:
-      - 19-plusieurs_yaml
+      - main
+      - releases
   pull_request:
     # Sequence of patterns matched against refs/heads
     branches:
-      - main
       - releases
 
   # Allows you to run this workflow manually from the Actions tab

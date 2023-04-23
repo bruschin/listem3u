@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Doc_Quality_Gate
+name: Doc_Quality_Gate_Jobs
 #https://docs.github.com/fr/actions/using-workflows/workflow-syntax-for-github-actions
 #https://www.githubstatus.com/
 #https://github.com/charliermarsh/ruff
@@ -7,14 +7,24 @@ name: Doc_Quality_Gate
 #https://docs.github.com/fr/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
 #https://help.github.com/pages/
 #https://docs.github.com/fr/actions/learn-github-actions/understanding-github-actions
-run-name: GA ${{ github.event.head_commit.message }} ${{ github.sha }}
+run-name: GA Jobs ${{ github.event.head_commit.message }} ${{ github.sha }}
 
 on:
+  issues:
+    types:
+      - created
+      - opened
   label:
     types:
       - created
   push:
-    branches: [ "releases", "main" ]
+    branches:
+      - 19-plusieurs_yaml
+  pull_request:
+    # Sequence of patterns matched against refs/heads
+    branches:
+      - main
+      - releases
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -25,6 +35,7 @@ defaults:
   # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
+  actions: write
   pages: write
   id-token: write
 
@@ -40,10 +51,6 @@ jobs:
   build:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    # <Not provided for brevity>
-    # At a minimum this job should upload artifacts using
-    # actions/upload-pages-artifact
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -71,6 +78,7 @@ jobs:
           key: |
             ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
           restore-keys: |
+            ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
             ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
@@ -88,11 +96,6 @@ jobs:
           bash ./devtools/lanceur_doxygen.bash
           bash ./devtools/lanceur_shellcheck.bash
           bash ./devtools/lanceur_tox.bash
-          # mv rapports/htmlcov1 docs/_build/html/
-          # mv rapports/htmlcov2 docs/_build/html/
-          # mv rapports/doxygen docs/_build/html/
-          # mv rapports/coverage1.xml docs/_build/html/
-          # mv rapports/coverage2.xml docs/_build/html/
       - uses: actions/cache@v3
         id: cache2
         with:
@@ -103,13 +106,11 @@ jobs:
             src
           key: rap-libellule-${{ github.sha }}
   github-pages:
+    # At a minimum this job should upload artifacts using
+    # actions/upload-pages-artifact
     needs: build
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    # <Not provided for brevity>
-    # At a minimum this job should upload artifacts using
-    # actions/upload-pages-artifact
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -117,6 +118,7 @@ jobs:
         python-version: ["3.10"]
         node-version: ["16"]
     steps:
+      # restauration cache
       - uses: actions/cache@v3
         id: cache2
         with:
@@ -128,9 +130,6 @@ jobs:
           key: rap-libellule-${{ github.sha }}
       - name: Pre upload
         run: |
-          echo "### ou suis-je ?"
-          pwd
-          ls
           mv rapports/htmlcov1 docs/_build/html/
           mv rapports/htmlcov2 docs/_build/html/
           mv rapports/doxygen docs/_build/html/
@@ -148,16 +147,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          #check-latest: true
-      # - name: Run tox
-      #   run: |
-      #     bash ./devtools/lanceur_tox.bash
   sonarqube:
     environment:
       name: github-pages
     runs-on: ubuntu-latest
     needs: build
     steps:
+      # restauration cache
       - uses: actions/cache@v3
         id: cache2
         with:
@@ -169,9 +165,7 @@ jobs:
           key: rap-libellule-${{ github.sha }}
       - name: Pre sonar
         run: |
-          echo "### ou suis-je ?"
-          pwd
-          sed -i -e "s/@SONAR_VERSION@/1.7/g" ./src/sonar-project.properties
+          sed -i -e "s/@SONAR_VERSION@/1.8/g" ./src/sonar-project.properties
           cp rapports/coverage*.xml src/
           cp rapports/shellcheck-rapport.json src/
           cat src/sonar-project.properties
@@ -188,3 +182,27 @@ jobs:
           # sonar.cloudmf.dev
           #SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           #SONAR_TOKEN: ${{ secrets.SONAR_REPAIRE_TOKEN }}
+  clear-cache:
+    needs: [ 'build', 'github-pages', 'sonarqube' ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clear cache
+        uses: actions/github-script@v6
+        with:
+          script: |
+            console.log("About to clear cache rap-libellule-${{ github.sha }}")
+            const caches = await github.rest.actions.getActionsCacheList({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+            for (const cache of caches.data.actions_caches) {
+              if ( cache.key === 'rap-libellule-${{ github.sha }}' ) {
+                console.log(cache)
+                github.rest.actions.deleteActionsCacheById({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  cache_id: cache.id,
+                })
+              }
+            }
+            console.log("Clear completed cache rap-libellule-${{ github.sha }}")

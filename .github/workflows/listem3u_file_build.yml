@@ -1,0 +1,73 @@
+name: Build
+
+on: ["workflow_call"]
+
+defaults:
+  run:
+    shell: bash
+  # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+
+permissions:
+  contents: read
+  actions: write
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    environment:
+      name: github-pages
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.10"]
+        node-version: ["16"]
+    steps:
+      - uses: actions/checkout@v3
+        # https://github.com/actions/checkout
+        with:
+          fetch-depth: 0
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Use node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          #check-latest: true
+      - uses: actions/cache@v3
+        id: cache1
+        with:
+          path: ~/.cache/pip
+          key: |
+            ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
+            ${{ runner.os }}-pip-
+      - name: Install dependencies
+        run: |
+          sudo apt-get install -y graphviz rhino lcov dia doxygen shellcheck
+          python -m pip install --upgrade pip
+          python -m pip install pylint-common --use-pep517
+          if [ -f ./devtools/requirements.txt ]; then
+            pip install -r ./devtools/requirements.txt;
+          fi
+          export TZ="Europe/Paris"
+          bash ./devtools/lanceur_pytest.bash
+          bash ./devtools/lanceur_pylint.bash
+          bash ./devtools/lanceur_ruff.bash
+          bash ./devtools/lanceur_sphinx.bash
+          bash ./devtools/lanceur_doxygen.bash
+          bash ./devtools/lanceur_shellcheck.bash
+          bash ./devtools/lanceur_tox.bash
+      - uses: actions/cache@v3
+        id: cache2
+        with:
+          path: |
+            .git
+            rapports
+            docs/_build/html
+            src
+          key: rap-libellule-${{ github.sha }}

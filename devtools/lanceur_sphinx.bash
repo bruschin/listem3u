@@ -4,12 +4,18 @@
 ## nécessite d'avoir installé sphinx graphviz rhino
 ###########
 REPTRAV="$(dirname "$0")"
+FIC_VERSION_EN_COURS="../src/version_en_cours.dat"
 
 export TZ="Europe/Paris"
 export REPO_NAME='https://bruschin.github.io/listem3u'
 
 cd "${REPTRAV}/../docs" || exit 1
 echo -e "### $0 DEBUT ###\n"
+
+VERSION_EN_COURS="$( cat "${FIC_VERSION_EN_COURS}" | \
+                    awk -F"VERSION=" '{print $2}'| tr -d "\n")"
+sed -i -e "s/@RELEASE_VERSION@/${VERSION_EN_COURS}/g" ./conf.py
+
 make -C ./ clean
 #sphinx-build . _build
 sphinx-apidoc -f -o ./ ../src

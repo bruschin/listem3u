@@ -1,0 +1,50 @@
+name: Sonarqube
+
+on: ["workflow_call"]
+
+defaults:
+  run:
+    shell: bash
+  # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  actions: write
+  pages: write
+  id-token: write
+
+jobs:
+  sonarqube:
+    environment:
+      name: github-pages
+    runs-on: ubuntu-latest
+    steps:
+      # restauration cache
+      - uses: actions/cache@v3
+        id: cache2
+        with:
+          path: |
+            .git
+            rapports
+            docs/_build/html
+            src
+          key: rap-libellule-${{ github.sha }}
+      - name: Pre sonar
+        run: |
+          FIC_VERSION_EN_COURS="./src/version_en_cours.dat"
+          VERSION_EN_COURS="$( cat "${FIC_VERSION_EN_COURS}" | \
+                    awk -F"VERSION=" '{print $2}' | tr -d "\n")"
+          echo "### Version en cours = ${VERSION_EN_COURS}"
+          sed -i -e "s/@SONAR_VERSION@/${VERSION_EN_COURS}/g" \
+            ./src/sonar-project.properties
+          cp rapports/coverage*.xml src/
+          cp rapports/shellcheck-rapport.json src/
+          cat src/sonar-project.properties
+      - name: SonarQube
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          projectBaseDir: src
+        env:
+          name: github-pages
+          SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_IO_TOKEN_CI }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

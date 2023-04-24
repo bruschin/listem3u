@@ -1,4 +1,4 @@
-name: Github_Pages
+name: Github_pages
 
 on: ["workflow_call"]
 

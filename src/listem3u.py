@@ -26,6 +26,7 @@
                                                         Tests unitaires
         [2023-03-28] BN V1.2 :  Debug repertoire travail PureWindowsPath
         [2023-03-29] BN V1.3 :  issue 1-listemp3upy-sans-fichier-mp3
+        [2023-05-15] BN V1.4 :  introduction 1 parametre OBLIGATOIRE
 
     [REFERENCES]
         https://www.githubstatus.com/
@@ -50,14 +51,14 @@ from os.path import exists as file_exists
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
-VERSION = f"\n {FILENAME} version : [2023-03-29 BN V1.3]"
+VERSION = f"\n {FILENAME} version : [2023-05-15 BN V1.4]"
 REP_TRAV = "P:\\Morceaux_choisis"
 USAGE = (f"\n  usage: {FILENAME} [OPTIONS]\n"
 "  OPTIONS:\n"
 "  [-h |--help : Demande usage] Optionnel\n"
 "  [-m |--mp3 : Verification existence fic mp3] Optionnel. Defaut = False\n"
-"  [-r |--repertoire] <repertoire de travail> Optionnel\n"
-f"                                             defaut = {REP_TRAV}\n"
+"  [-r |--repertoire]   <repertoire de travail> OBLIGATOIRE.\n"
+f"                      defaut si absent= {REP_TRAV}\n"
 "  [-v |--version : Demande version] Optionnel\n"
 "  Tous les parametres acceptent casse minuscules/majuscules.\n")
 FICS_LISTE_TAMPON = "liste.m3u"
@@ -65,17 +66,17 @@ NOW = datetime.now()
 FICS_LISTE = f"liste-{NOW.strftime('%d-%m-%Y')}.m3u"
 DEFAUT_FICMP3 = False
 
-## Fonctions :
-##############
+### Fonctions ###
+#################
 
 def parametres(argv):
     """
         Gestion des parametres d'appel = repertoire, help et version
 
-        [ EN ENTREE ]
+       [ EN ENTREE ]
             argv = Les parametres d'appel du script
 
-        [ EN SORTIE ]
+       [ EN SORTIE ]
             codeexit (entier) 0, 1 ou 2
             scom (chaine) commentaire
             repertoire_travail (chaine)
@@ -87,6 +88,8 @@ def parametres(argv):
     oncontinue = 0  # si demande aide = 1 ou version = 10 ou les 2 = 11
     scom = ""  # commentaire si parametre imprevu
     test_presenceficmp3 = DEFAUT_FICMP3 # val defaut
+    nb_param = 0
+
     try:
         # pylint: disable=unused-variable
         options, remainder = getopt.getopt( argv[1:], "hHmMvVr:R:",
@@ -96,6 +99,7 @@ def parametres(argv):
         #print(f"debug param : {options},{remainder}\n")
 
         for opt, arg in options:
+            nb_param += 1
             if opt.upper() in ["-H", "--HELP"]:
                 oncontinue += 1
             elif opt.upper() in ["-M", "--MP3"]:
@@ -111,28 +115,33 @@ def parametres(argv):
                 oncontinue = 2
                 scom = f"\n\t>>>>PARAMETRE(S): {opt}, {arg} IMPREVU(S)\n"
 
-        match oncontinue:
-            case 0:
-                if not os.path.exists(repertoire_travail):
-                    scom = f"\n\t>>>>REPERTOIRE: {repertoire_travail} "\
-                                "INACESSIBLE.\n"
+        if nb_param == 0:
+            scom = f"\n\t>>>>PARAMETRE OBLIGATOIRE MANQUANT:\n{USAGE}\n"
+            codeexit = 1
+        else:
+            match oncontinue:
+                case 0:
+                    if not os.path.exists(repertoire_travail):
+                        scom = f"\n\t>>>>REPERTOIRE: {repertoire_travail} "\
+                                    "INACESSIBLE.\n"
+                        codeexit = 1
+                    else:
+                        scom = "\n\t>>>>REPERTOIRE CHOISI: "\
+                            f"{repertoire_travail} [OK]\n"
+                        codeexit = 2
+                case 1:
+                    scom = f"\n\t>>>>DEMANDE AIDE:\n{USAGE}\n"
+                # Ne devrait pas passer dans ce cas.
+                case 2:
                     codeexit = 1
-                else:
-                    scom = f"\n\t>>>>REPERTOIRE CHOISI: {repertoire_travail} "\
-                                "[OK]\n"
-                    codeexit = 2
-            case 1:
-                scom = f"\n\t>>>>DEMANDE AIDE:\n{USAGE}\n"
-            # Ne devrait pas passer dans ce cas.
-            case 2:
-                codeexit = 1
-            case 10:
-                scom = f"\n\t>>>>DEMANDE VERSION:\n{VERSION}\n"
-            case 11:
-                scom = f"\n\t>>>>DEMANDE AIDE + VERSION:\n{USAGE}\n{VERSION}\n"
-            case _:
-                scom = "\n\t>>>>Fct parametres : Cas IMPREVU\n"
-                codeexit = 1
+                case 10:
+                    scom = f"\n\t>>>>DEMANDE VERSION:\n{VERSION}\n"
+                case 11:
+                    scom = f"\n\t>>>>DEMANDE AIDE + VERSION:\n{USAGE}\n"\
+                           f"{VERSION}\n"
+                case _:
+                    scom = "\n\t>>>>Fct parametres : Cas IMPREVU\n"
+                    codeexit = 1
 
     except getopt.GetoptError as error:
         scom = f"\n\t>>>> ERREUR: {str(error)}\n{USAGE}"
@@ -140,41 +149,19 @@ def parametres(argv):
 
     return (codeexit, scom, repertoire_travail, test_presenceficmp3)
 
-def find(pattern, path):
-    """
-        Trouve les fichiers selon pattern sous path
-
-    [ EN ENTREE ]
-            pattern (chaine) recherche de fichier
-            path (chaine) repertoire
-
-    [ EN SORTIE ]
-            result (tableau de chaine) basename + fichier
-    """
-    ### parametre local
-    result = []
-
-    # pylint: disable=unused-variable
-    for root, dirs, files in os.walk(path):
-        result.extend( os.path.join(root, basename) for \
-            basename in files \
-                if fnmatch.fnmatch(basename, pattern))
-    #print(f"debug find {result}")
-    return result
-
 def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
-    """_
+    """
         Gestion des parametres d'appel = repertoire, help et version
 
     [ EN ENTREE ]
-            repert (chaine) répertoire de travail
-            fic_tampon (chaine) fichier de travail
-            fic (chaine) fichier resultat
-            testmp3 (boolean) DEFAUT_FICMP3
+        repert (chaine) répertoire de travail
+        fic_tampon (chaine) fichier de travail
+        fic (chaine) fichier resultat
+        testmp3 (boolean) DEFAUT_FICMP3
 
     [ EN SORTIE ]
-            constitution du fichier de sortie dans le repertoire de travail
-            coderetour (entier) 0 OK - 1 KO
+        constitution du fichier de sortie dans le repertoire de travail
+        coderetour (entier) 0 OK - 1 KO
     """
     ### parametre local
     fichiersmp3 = []
@@ -197,7 +184,7 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
         return 1
 
     # trouve tous les fichiers de nom contenant -Playlist.m3u sous ./
-    ficm3u = find("*-Playlist.m3u", './')
+    ficm3u = _find("*-Playlist.m3u", './')
 
     # traite chaque fichier de nom contenant -Playlist.m3u sous repert
     for fichier in ficm3u:
@@ -206,7 +193,7 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
         with open(fichier,"r", encoding="utf-8") as lefic:
             for ligne in lefic:
                 # filtre sur ligne contenant des blancs...
-                ficfiltre = filtreligne(ligne, ssrep)
+                ficfiltre = _filtreligne(ligne, ssrep)
                 # mention du ssrep...
                 miseenforme = f"{ficfiltre} # {ssrep}"
                 fichiersmp3.append(miseenforme)
@@ -225,19 +212,44 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
     resultat.close()
     return 0
 
-def filtreligne(unechaine=None, ssrep=None):
+### Sous Fonctions ###
+######################
+
+def _find(pattern, path):
+    """
+        Trouve les fichiers selon pattern sous path
+
+    [ EN ENTREE ]
+        pattern (chaine) recherche de fichier
+        path (chaine) repertoire
+
+    [ EN SORTIE ]
+        result (tableau de chaine) basename + fichier
+    """
+    ### parametre local
+    result = []
+
+    # pylint: disable=unused-variable
+    for root, dirs, files in os.walk(path):
+        result.extend( os.path.join(root, basename) for \
+            basename in files \
+                if fnmatch.fnmatch(basename, pattern))
+    #print(f"debug _find {result}")
+    return result
+
+def _filtreligne(unechaine=None, ssrep=None):
     """
         Filtre une ligne de fichier m3u, alerte si contient un espace, ou plus
         d'un tiret et renvoie nom du fichier mp3
 
     [ EN ENTREE ]
-            unechaine (chaine) une ligne du fichier m3u
-            ssrep (chaine) un repertoire
+        unechaine (chaine) une ligne du fichier m3u
+        ssrep (chaine) un repertoire
 
     [ EN SORTIE ]
-            unechaine (chaine)  nom du fichier mp3 retourné
-                                suppression trailing-space.
-                                alerte si contient un espace.
+        unechaine (chaine)  nom du fichier mp3 retourné
+                            suppression trailing-space.
+                            alerte si contient un espace.
     """
     ### parametre local
     if ' ' in unechaine:
@@ -250,7 +262,9 @@ def filtreligne(unechaine=None, ssrep=None):
             print(f"\n\t>>>> majuscules : {ssrep} # {unechaine}")
     return unechaine.strip()
 
-### Principal
+### Principal ####
+##################
+
 # pragma: no cover
 if __name__ == "__main__":
     (CODE_RETOUR, SCOM, REP, TEST_PRESENCEFICMP3) = parametres(sys.argv)

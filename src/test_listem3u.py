@@ -16,7 +16,7 @@ import os
 import pytest
 from listem3u import  FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
                         DEFAUT_FICMP3, FICS_LISTE_TAMPON, parametres, action, \
-                        filtreligne
+                        _filtreligne
 
 ## GLOBAL
 # initial directory
@@ -36,7 +36,7 @@ def test_filtreligne_maj(capsys):
     ssrep = "001"
     unechaine = "Paint_it_Black-The_Rolling_Stones.mp3"
     try:
-        chaineretour = filtreligne( unechaine , ssrep )
+        chaineretour = _filtreligne( unechaine , ssrep )
         captured = capsys.readouterr()
         assert captured.out == f"\n\t>>>> majuscules : {ssrep} # {unechaine}\n"
         assert chaineretour == unechaine.strip()
@@ -50,7 +50,7 @@ def test_filtreligne_tiret(capsys):
     ssrep = "001"
     unechaine = "Paint_it_black-The_Rolling-Stones.mp3"
     try:
-        chaineretour = filtreligne( unechaine , ssrep )
+        chaineretour = _filtreligne( unechaine , ssrep )
         captured = capsys.readouterr()
         assert captured.out == \
             f"\n\t>>>> plus d'1 tiret : {ssrep} # {unechaine}\n"
@@ -65,7 +65,7 @@ def test_filtreligne_blanc(capsys):
     ssrep = "001"
     unechaine = "Paint_it_black-The Rolling_Stones.mp3"
     try:
-        chaineretour = filtreligne( unechaine , ssrep )
+        chaineretour = _filtreligne( unechaine , ssrep )
         captured = capsys.readouterr()
         assert captured.out == \
             f"\n\t>>>> au moins un espace : {ssrep} # {unechaine}\n"
@@ -124,6 +124,27 @@ def test_version_version_m():
         assert False , f"\n\t>>>>ERREUR test_version_version_m :\n{msg1}"
 
 
+def test_obligatoire_manquant():
+    """
+        Verifie demande sans argument 
+    """
+    try:
+        assert parametres([f"{FILENAME}"]) == \
+            ( 1, f"\n\t>>>>PARAMETRE OBLIGATOIRE MANQUANT:\n{USAGE}\n",
+                REP_TRAV, DEFAUT_FICMP3)
+    except AssertionError as msg2:
+        assert False , f"\n\t>>>>ERREUR test_obligatoire_manquant :\n{msg2}"
+
+def test_obligatoire_vide():
+    """
+        Verifie demande avec argument -r mais rien d'autre 
+    """
+    try:
+        assert parametres([f"{FILENAME}","-r"]) == \
+            ( 1, f"\n\t>>>> ERREUR: option -r requires argument\n{USAGE}",
+                REP_TRAV, DEFAUT_FICMP3)
+    except AssertionError as msg2:
+        assert False , f"\n\t>>>>ERREUR test_obligatoire_vide :\n{msg2}"
 
 def test_imprevu_t():
     """

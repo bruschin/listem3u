@@ -16,8 +16,8 @@ Tests unitaires de pegase.py
 import pytest
 from pegase import  FILENAME, VERSION, USAGE, DUREE_PAUSE_DEFAUT,\
                         parametres, gestion_parametre, \
-                        est_un_badgeage_valide, traitement, \
-                        _extracted_from_traitement, conversion_heures
+                        _est_un_badgeage_valide, traitement, \
+                        _extracted_from_traitement, _conversion_heures
 
 ## GLOBAL
 
@@ -43,7 +43,7 @@ def test_conversion_heures():
     test de la fonction conversion_heures
     """
     try:
-        assert conversion_heures(542) == \
+        assert _conversion_heures(542) == \
             '09H02'
     except AssertionError as msgici:
         assert False , \
@@ -54,7 +54,7 @@ def test_est_badgeage_valide():
     test de la fonction est_badgeage_valide
     """
     try:
-        assert est_un_badgeage_valide('9H30',[]) == (0, '', [570])
+        assert _est_un_badgeage_valide('9H30',[]) == (0, '', [570])
     except AssertionError as msgici:
         assert False , f"\n\t>>>>ERREUR test_est_badgeage_valide :\n{msgici}"
 

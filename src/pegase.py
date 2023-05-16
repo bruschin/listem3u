@@ -27,8 +27,8 @@
     [VERSIONS]
     [2023-03-14] BN V1.0 : Initialisation
     [2023-04-09] BN V1.1 : Test unitaires + gestion param aide + version
-    [2023-04-13] BN V1.2 : Test unitaires + corretion bug conversion_heures %02d
-                            prise en compte 1 ou 3 badgeages => 1 ou 2 ou 3.
+    [2023-04-13] BN V1.2 : Test unitaires + corretion bug _conversion_heures 
+                           %02d prise en compte 1 ou 3 badgeages => 1 ou 2 ou 3.
 """
 
 ## Bibliotheques ##
@@ -152,7 +152,7 @@ def gestion_parametre(*args):
                 case 4|5:
                     # la liste non vide est-elle un badgeage ?
                     bretour, scom, minutesici = \
-                    est_un_badgeage_valide( ch_trav, minutesici)
+                    _est_un_badgeage_valide( ch_trav, minutesici)
                     if bretour == 1:
                         break
                 case _:
@@ -162,74 +162,6 @@ def gestion_parametre(*args):
                     bretour = 1
                     break
     return bretour,scom,minutesici
-
-def est_un_badgeage_valide(ch_trav, conversion):
-    """
-        la liste non vide traitée est-elle un badgeage ?
-
-    [ EN ENTREE ]
-        ch_trav (chaine) badgeage ?
-        conversion (tableau d'entier) badgeage hh:mm converti en minute
-
-    [ EN SORTIE ]
-        ret (int) 0 ou 1
-        som (chaine) commentaire
-        conversion (tableau d'entier) avec ce badgeage en plus
-    """
-    # la chaine de la liste de bonne longueur est-elle un badgeage ?
-    # separateur entre h et minute
-    ret = 0
-    scom = ""
-    separateur = ""
-    separateur = next((sep for sep in SEPARHM if sep in ch_trav), "")
-    if separateur == "":
-        scom = f"\n\tBadgeage = {ch_trav} non conforme\n\n{USAGE}"
-        ret = 1
-    else:
-        sheure,sminute = ch_trav.split(separateur)
-        try:
-            sheure = int(sheure, base=10)
-            sminute = int(sminute, base=10)
-            conversion.append(conversion_minutes(sheure,sminute))
-        except ValueError:
-            scom = f"\n\tBadgeage = {ch_trav} non conforme\n"
-            ret = 1
-
-    return ret, scom, conversion
-
-def conversion_minutes(desheures,desminutes):
-    """_
-    Conversion heures et minutes passe en appel (de type hh et mm)
-    en un entier = minutes
-
-    [ EN ENTREE ]
-        desheures (entier) 09 converti en 9
-        desminutes (entier)
-
-    [ EN SORTIE ]
-        minutes : entier exemple 9*60 + 15 = 555
-
-    """
-    return (60 * desheures) + desminutes
-
-def conversion_heures(desminutes):
-    """
-        Conversion des minutes en xHmm ( 542 -> 09h02 et non pas 9H2)
-
-        [ EN ENTREE ]
-        desminutes (entier)
-
-        [ EN SORTIE ]
-        ch_conv_retour (chaine) formatee
-    """
-    # Variables locales
-    lesheures = 0
-    lesminutes = 0
-
-    lesheures = desminutes // 60
-    lesminutes = desminutes % 60
-    # test zfill et rjust
-    return f"{str(lesheures).zfill(2)}H{str(lesminutes).rjust(2,'0')}"
 
 def traitement(tabminutes):
     """
@@ -257,6 +189,77 @@ def traitement(tabminutes):
             bret = 1
     return bret, scom
 
+### Sous Fonctions ###
+######################
+
+def _est_un_badgeage_valide(ch_trav, conversion):
+    """
+        la liste non vide traitée est-elle un badgeage ?
+
+    [ EN ENTREE ]
+        ch_trav (chaine) badgeage ?
+        conversion (tableau d'entier) badgeage hh:mm converti en minute
+
+    [ EN SORTIE ]
+        ret (int) 0 ou 1
+        som (chaine) commentaire
+        conversion (tableau d'entier) avec ce badgeage en plus
+    """
+    # la chaine de la liste de bonne longueur est-elle un badgeage ?
+    # separateur entre h et minute
+    ret = 0
+    scom = ""
+    separateur = ""
+    separateur = next((sep for sep in SEPARHM if sep in ch_trav), "")
+    if separateur == "":
+        scom = f"\n\tBadgeage = {ch_trav} non conforme\n\n{USAGE}"
+        ret = 1
+    else:
+        sheure,sminute = ch_trav.split(separateur)
+        try:
+            sheure = int(sheure, base=10)
+            sminute = int(sminute, base=10)
+            conversion.append(_conversion_minutes(sheure,sminute))
+        except ValueError:
+            scom = f"\n\tBadgeage = {ch_trav} non conforme\n"
+            ret = 1
+
+    return ret, scom, conversion
+
+def _conversion_minutes(desheures,desminutes):
+    """_
+    Conversion heures et minutes passe en appel (de type hh et mm)
+    en un entier = minutes
+
+    [ EN ENTREE ]
+        desheures (entier) 09 converti en 9
+        desminutes (entier)
+
+    [ EN SORTIE ]
+        minutes : entier exemple 9*60 + 15 = 555
+
+    """
+    return (60 * desheures) + desminutes
+
+def _conversion_heures(desminutes):
+    """
+        Conversion des minutes en xHmm ( 542 -> 09h02 et non pas 9H2)
+
+        [ EN ENTREE ]
+        desminutes (entier)
+
+        [ EN SORTIE ]
+        ch_conv_retour (chaine) formatee
+    """
+    # Variables locales
+    lesheures = 0
+    lesminutes = 0
+
+    lesheures = desminutes // 60
+    lesminutes = desminutes % 60
+    # test zfill et rjust
+    return f"{str(lesheures).zfill(2)}H{str(lesminutes).rjust(2,'0')}"
+
 def _extracted_from_traitement(tabminutes, pause):
     """
         extraction de code dupliqué dans la fonction traitement
@@ -268,11 +271,13 @@ def _extracted_from_traitement(tabminutes, pause):
             ch_conv_retour (chaine) formatee
     """
     soir = tabminutes[0] + pause + DUREE_JOUR
-    depart = conversion_heures(soir)
+    depart = _conversion_heures(soir)
 
     return f"depart : {depart}"
 
-### Principal
+### Principal ###
+#################
+
 if __name__ == "__main__":
     retour, commentaire = parametres(sys.argv)
     if retour < 2:

@@ -27,6 +27,7 @@
         [2023-03-28] BN V1.2 :  Debug repertoire travail PureWindowsPath
         [2023-03-29] BN V1.3 :  issue 1-listemp3upy-sans-fichier-mp3
         [2023-05-15] BN V1.4 :  introduction 1 parametre OBLIGATOIRE
+        [2025-04-04] BN V1.5 :  modification contenus fichiers .m3u
 
     [REFERENCES]
         https://www.githubstatus.com/
@@ -51,7 +52,7 @@ from os.path import exists as file_exists
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
-VERSION = f"\n {FILENAME} version : [2023-05-15 BN V1.4]"
+VERSION = f"\n {FILENAME} version : [2025-04-04 BN V1.5]"
 REP_TRAV = "P:\\Morceaux_choisis"
 USAGE = (f"\n  usage: {FILENAME} [OPTIONS]\n"
 "  OPTIONS:\n"
@@ -192,11 +193,12 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
         #print(f"debug action : {ssrep}")
         with open(fichier,"r", encoding="utf-8") as lefic:
             for ligne in lefic:
-                # filtre sur ligne contenant des blancs...
-                ficfiltre = _filtreligne(ligne, ssrep)
-                # mention du ssrep...
-                miseenforme = f"{ficfiltre} # {ssrep}"
-                fichiersmp3.append(miseenforme)
+                if _estexploitable(ligne):
+                    # filtre sur ligne contenant des blancs...
+                    ficfiltre = _filtreligne(ligne, ssrep)
+                    # mention du ssrep...
+                    miseenforme = f"{ficfiltre} # {ssrep}"
+                    fichiersmp3.append(miseenforme)
         lefic.close()
     # on classe selon ordre alphabetic des chaines considérées en minuscules
     fichiersmp3.sort(key=str.lower)
@@ -236,6 +238,26 @@ def _find(pattern, path):
                 if fnmatch.fnmatch(basename, pattern))
     #print(f"debug _find {result}")
     return result
+
+def _estexploitable(unechaine=None):
+    """
+        Pour ne pas avoir à traiter ensuite les lignes vides ou commentées
+    
+    [ EN ENTREE ]
+        unechaine (chaine) une ligne du fichier m3u
+
+    [ EN SORTIE ]
+        booleen True ou False
+    """
+    bretour = True
+    if unechaine is None or len(unechaine) == 0:
+        bretour = False
+    else:
+        tamp = unechaine.strip()
+        if tamp.startswith('#'):
+            bretour = False
+    return bretour
+            
 
 def _filtreligne(unechaine=None, ssrep=None):
     """

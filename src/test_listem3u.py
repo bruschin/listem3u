@@ -11,12 +11,13 @@ Tests unitaires de listemp3u.py
     [2023-03-26] BN V1.0 :  Initialisation
     [2023-03-29] BN V1.1 :  issue 1-listemp3upy-sans-fichier-mp3
     [2023-04-05] BN V1.2 :  3-sonarqube
+    [2025-04-06] BN V1.3 :  Filtre lignes vides ou commentées fichiers m3u
 """
 import os
 import pytest
 from listem3u import  FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
                         DEFAUT_FICMP3, FICS_LISTE_TAMPON, parametres, action, \
-                        _filtreligne
+                        _filtreligne, _estexploitable
 
 ## GLOBAL
 # initial directory
@@ -42,6 +43,20 @@ def test_filtreligne_maj(capsys):
         assert chaineretour == unechaine.strip()
     except AssertionError as msg1:
         assert False , f"\n\t>>>>ERREUR test_filtreligne :\n{msg1}"
+
+def test_estexploitable(): 
+    try:
+        assert _estexploitable( "Paint_it_black-The_Rolling-Stones.mp3" ) \
+            == True
+        assert _estexploitable( " #EXTM3U " ) \
+            == False
+        assert _estexploitable( "#PLAYLIST:019" ) \
+            == False
+        assert _estexploitable( " " ) \
+            == False
+    except AssertionError as msg1:
+        assert False , f"\n\t>>>>ERREUR test_estexploitable :\n{msg1}"
+"#EXTM3U"
 
 def test_filtreligne_tiret(capsys):
     """

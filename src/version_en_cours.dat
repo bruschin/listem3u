@@ -1,2 +1,6 @@
-### Pour marquer les productions avec la version en cours
-VERSION=1.8
+### Pour marquer les productions avec les versions en cours
+VERSION_PROJET=1.9
+VERSION_LISTEM3U=V1.5
+VERSION_TEST_LISTEM3U=V1.3
+VERSION_PEGASE=V1.3
+VERSION_SONARQUBE_LISTEM3U=V3.11

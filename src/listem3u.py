@@ -28,6 +28,7 @@
         [2023-03-29] BN V1.3 :  issue 1-listemp3upy-sans-fichier-mp3
         [2023-05-15] BN V1.4 :  introduction 1 parametre OBLIGATOIRE
         [2025-04-04] BN V1.5 :  modification contenus fichiers .m3u
+        [2025-06-01] BN V1.6 :  modification contenus fichiers .m3u
 
     [REFERENCES]
         https://www.githubstatus.com/
@@ -52,7 +53,7 @@ from os.path import exists as file_exists
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
-VERSION = f"\n {FILENAME} version : [2025-04-04 BN V1.5]"
+VERSION = f"\n {FILENAME} version : [2025-06-01 BN V1.6]"
 REP_TRAV = "P:\\Morceaux_choisis"
 USAGE = (f"\n  usage: {FILENAME} [OPTIONS]\n"
 "  OPTIONS:\n"
@@ -205,6 +206,8 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
     #print(f"debug {fichiersmp3}")
     #ecriture du resultat
     with open(fic,"a",encoding="utf-8") as resultat:
+        #print("Debug:\n#EXTM3U\n#PLAYLIST:000\n")
+        resultat.write("#EXTM3U\n#PLAYLIST:000\n")
         for elmt in fichiersmp3:
             miseenforme = elmt.split('#')
             lefich = f"{miseenforme[1].strip()}/{miseenforme[0].strip()}"

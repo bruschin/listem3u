@@ -29,6 +29,7 @@
         [2023-05-15] BN V1.4 :  introduction 1 parametre OBLIGATOIRE
         [2025-04-04] BN V1.5 :  modification contenus fichiers .m3u
         [2025-06-01] BN V1.6 :  modification contenus fichiers .m3u
+        [2025-11-02] BN V1.6.1 :  modification nom fichier .m3u
 
     [REFERENCES]
         https://www.githubstatus.com/
@@ -65,7 +66,7 @@ f"                      defaut si absent= {REP_TRAV}\n"
 "  Tous les parametres acceptent casse minuscules/majuscules.\n")
 FICS_LISTE_TAMPON = "liste.m3u"
 NOW = datetime.now()
-FICS_LISTE = f"liste-{NOW.strftime('%d-%m-%Y')}.m3u"
+FICS_LISTE = f"000-liste-{NOW.strftime('%d-%m-%Y')}.m3u"
 DEFAUT_FICMP3 = False
 
 ### Fonctions ###

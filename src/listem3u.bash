@@ -5,11 +5,11 @@
 # par lecture des fichiers m3u dans les sous répertoires
 # https://github.com/koalaman/shellcheck
 #################
-Version="[BN 24-04-2023 V1.3]"
+Version="[BN 02-11-2025 V1.3.1]"
 #Repertoire_travail="p:\Morceaux_choisis"
 Repertoire_travail="/home/bruschin/workspace/listem3u/automation"
 Fichier_liste_tampon="liste.m3u"
-Fichier_liste="liste-$(date "+%d-%m-%Y").m3u"
+Fichier_liste="000-liste-$(date "+%d-%m-%Y").m3u"
 
 cd "${Repertoire_travail}" || { echo "${Repertoire_travail} inexistant"; \
                                 exit 1; }

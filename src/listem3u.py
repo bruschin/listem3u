@@ -254,12 +254,13 @@ def _estexploitable(unechaine=None):
         booleen True ou False
     """
     bretour = True
-    if unechaine is None or len(unechaine) == 0:
+    if unechaine is None or len(unechaine.strip()) == 0:
         bretour = False
     else:
         tamp = unechaine.strip()
         if tamp.startswith('#'):
             bretour = False
+        
     return bretour
             
 

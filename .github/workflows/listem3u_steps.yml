@@ -105,7 +105,7 @@ jobs:
           cp rapports/shellcheck-rapport.json src/
           cat src/sonar-project.properties
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v4
         with:
           # Upload entire repository
           path: 'docs/_build/html'

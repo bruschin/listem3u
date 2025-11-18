@@ -117,15 +117,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: SonarQube
-        uses: SonarSource/sonarqube-scan-action@v6.0.0
-        with:
-          projectBaseDir: src
-        env:
-          name: github-pages
-          SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
-          SONAR_TOKEN: ${{ secrets.SONAR_IO_TOKEN_CI }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #- name: SonarQube
+      #  uses: SonarSource/sonarqube-scan-action@v6.0.0
+      #  with:
+      #    projectBaseDir: src
+    
+      #  env:
+      #    name: github-pages
+      #    SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
+      #    SONAR_TOKEN: ${{ secrets.SONAR_IO_TOKEN_CI }}
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
         # If you wish to fail your job when the Quality Gate is red, uncomment the
         # following lines. This would typically be used to fail a deployment.

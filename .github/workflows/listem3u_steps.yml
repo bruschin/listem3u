@@ -111,7 +111,7 @@ jobs:
           path: 'docs/_build/html'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
       - name: Use node ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:

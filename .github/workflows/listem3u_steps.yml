@@ -118,7 +118,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: SonarQube
-        uses: sonarsource/sonarqube-scan-action@master
+        uses: SonarSource/sonarqube-scan-action@v6.0.0
         with:
           projectBaseDir: src
         env:

@@ -83,6 +83,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install -y graphviz rhino lcov dia doxygen shellcheck
+          echo "######## dia installé = $(which dia)"
           python -m pip install --upgrade pip
           python -m pip install pylint-common --use-pep517
           if [ -f ./devtools/requirements.txt ]; then

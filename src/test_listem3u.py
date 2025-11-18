@@ -34,7 +34,7 @@ def test_filtreligne_maj(capsys):
     """
     test les alertes sur les noms de fichiers mp3 lus dans fic m3u
     """
-    ssrep = "001"
+    ssrep = "004"
     unechaine = "Paint_it_Black-The_Rolling_Stones.mp3"
     try:
         chaineretour = _filtreligne( unechaine , ssrep )
@@ -46,14 +46,10 @@ def test_filtreligne_maj(capsys):
 
 def test_estexploitable(): 
     try:
-        assert _estexploitable( "Paint_it_black-The_Rolling-Stones.mp3" ) \
-            == True
-        assert _estexploitable( " #EXTM3U " ) \
-            == False
-        assert _estexploitable( "#PLAYLIST:019" ) \
-            == False
-        assert _estexploitable( " " ) \
-            == False
+        assert _estexploitable( "Paint_it_black-The_Rolling-Stones.mp3" )
+        assert not _estexploitable( " #EXTM3U " )
+        assert not _estexploitable( "#PLAYLIST:004" )
+        assert not _estexploitable( " " )
     except AssertionError as msg1:
         assert False , f"\n\t>>>>ERREUR test_estexploitable :\n{msg1}"
 "#EXTM3U"
@@ -62,7 +58,7 @@ def test_filtreligne_tiret(capsys):
     """
     test les alertes sur les noms de fichiers mp3 lus dans fic m3u
     """
-    ssrep = "001"
+    ssrep = "004"
     unechaine = "Paint_it_black-The_Rolling-Stones.mp3"
     try:
         chaineretour = _filtreligne( unechaine , ssrep )
@@ -77,7 +73,7 @@ def test_filtreligne_blanc(capsys):
     """
     test les alertes sur les noms de fichiers mp3 lus dans fic m3u
     """
-    ssrep = "001"
+    ssrep = "004"
     unechaine = "Paint_it_black-The Rolling_Stones.mp3"
     try:
         chaineretour = _filtreligne( unechaine , ssrep )

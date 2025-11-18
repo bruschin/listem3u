@@ -83,6 +83,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install -y graphviz rhino lcov dia doxygen shellcheck
+          echo "######## dia installé = $(which dia)"
           python -m pip install --upgrade pip
           python -m pip install pylint-common --use-pep517
           if [ -f ./devtools/requirements.txt ]; then
@@ -111,24 +112,26 @@ jobs:
           path: 'docs/_build/html'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
       - name: Use node ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: SonarQube
-        uses: sonarsource/sonarqube-scan-action@master
-        with:
-          projectBaseDir: src
-        env:
-          name: github-pages
-          SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
-          SONAR_TOKEN: ${{ secrets.SONAR_IO_TOKEN_CI }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #- name: SonarQube
+      #  uses: SonarSource/sonarqube-scan-action@v6.0.0
+      #  with:
+      #    projectBaseDir: src
+    
+      #  env:
+      #    name: github-pages
+      #    SONAR_HOST_URL: ${{ secrets.SONAR_IO_HOST_URL }}
+      #    SONAR_TOKEN: ${{ secrets.SONAR_IO_TOKEN_CI }}
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
         # If you wish to fail your job when the Quality Gate is red, uncomment the
         # following lines. This would typically be used to fail a deployment.
         # - uses: sonarsource/sonarqube-quality-gate-action@master
-        #   timeout-minutes: 5
+        #   timeout-minutes: 5 test 
         #   env:
         #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 

@@ -22,7 +22,7 @@ declare -a FICS_A_MODIFIER=(
 "${FIC_INDEX}"
 "${REPCONF}/Doxyfile"
 "${REPCONF}/conf.py"
-"sonar-project.properties"
+"${REPCONF}/sonar-project.properties"
 )
 
 

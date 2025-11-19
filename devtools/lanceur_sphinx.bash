@@ -13,7 +13,7 @@ export GIT_PYTHON_GIT_EXECUTABLE="/usr/bin/git"
 export TZ="Europe/Paris"
 export REPO_NAME='https://bruschin.github.io/listem3u'
 
-cd "${REPTRAV}/../docs" || exit 1
+cd "${REPTRAV}/.." || exit 1
 echo -e "### $0 DEBUT ###\n"
 
 if ! test -d "${REPLOG}"; then

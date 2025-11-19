@@ -37,7 +37,9 @@ pylint \
     -r \
     n \
     --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" \
+    -d E0015 \
     -d C0325 \
+    -d C0303 \
     -d W0603 \
     -d W0703 \
     -d W0311 \

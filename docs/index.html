@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+<!--
+  Template il faudra remplacer les 4 chaines entre @@: 
+  RELEASE_VERSION DATE COMMIT PIPELINE
+  avant mise en place
+-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset: iso-8859-15" />
+<meta name="language" content="french" />
+<meta name="robots" content="index,follow" />
+<meta  name="description" content="Menu Gitlab-pages" />
+<title>listem3u pages (Version = @RELEASE_VERSION@ - @DATE@)</title>
+<link rel="ICON" href="listem3u.png"/>
+</head>
+<body>
+<div style="text-align:left; background-color: rgb(214, 203, 139);
+border: 3px solid rgb(62, 66, 1);">
+<span style="text-align:left; background-color: rgb(214, 203, 139);
+opacity: 0.3;border: 3px solid rgb(62, 66, 1);"><img src="listem3u.png" 
+style="width:48px;height:48px;border-style: none;vertical-align:middle;" 
+alt="listem3u Version = @RELEASE_VERSION@" 
+title="listem3u Version = @RELEASE_VERSION@" />&nbsp;Projet: 
+listem3u Version = @RELEASE_VERSION@ g&eacute;n&eacute;r&eacute; 
+le @DATE@&nbsp; Commit <a 
+href="https://github.com/bruschin/listem3u/commit/@COMMIT@" 
+target="_blank">@COMMIT@</a>&nbsp;
+Pipeline <a href="https://github.com/bruschin/listem3u/actions/runs/@PIPELINE@" 
+target="_blank">@PIPELINE@</a></span><br />
+<ul>
+<li>🤏 <a href="doxygen/html/index.html" id="Documentation_Doxygen" 
+target="_blank" 
+title="Documentation du code source générée par Doxygen">Documentation
+générée par Doxygen</a></li>
+<li>🤌 <a href="sphinx-html/index.html" id="Documentation_sphinx_html" 
+target="_blank" 
+title="Documentation du code source générée par sphinx">Documentation
+html générée par Sphinx</a></li>
+<li>🙏 Couverture du code source par des tests 
+unitaires en python version : <a href="htmlcov/3.12/index.html" 
+id="cov_3.12" target="_blank" 
+title="Couverture du code source python 3.12 par des tests 
+unitaires. Générée avec pytest">3.12</a>&nbsp;<a href="htmlcov/3.11/index.html" 
+id="cov_3.11" target="_blank" 
+title="Couverture du code source python 3.11 par des tests 
+unitaires. Générée avec pytest">3.11</a>&nbsp;<a href="htmlcov/3.10/index.html" 
+id="cov_3.10" target="_blank" 
+title="Couverture du code source python 3.10 par des tests 
+unitaires. Générée avec pytest">3.10</a></li>
+<li>🤝 <a href="htmlcov2/index.html" id="tox coverage" target="_blank" 
+title="Couverture du code source python 3.12 par des tests 
+unitaires. Générée par tox">3.12</a>Coverage tox</a></li>
+<li>🤞 <a href="https://sonarcloud.io/project/overview?id=bruschin_listem3u" 
+id="projet_sonarcoverage" target="_blank" 
+title="Projet requete_fin_mois dans SonarQube"><img 
+src="https://sonarcloud.io/api/project_badges/measure?project=
+bruschin_listem3u&metric=alert_status" 
+alt="listem3u Quality Gate" title="listem3u Quality Gate" 
+width="48px"/> Projet listem3u dans SonarQube</a></li>
+</ul>
+<br />
+
+<span style="text-align:left; background-color: rgb(214, 203, 139);
+border: 3px solid rgb(62, 66, 1);">Fichiers des Logs : </span><br />
+<ul>
+<li>🤡 <a href="build-rapport.txt" id="build" target="_blank" 
+title="Log packaging">Build</a></li>
+<li>🤏 <a href="doxygen-rapport.txt" id="doxygen" target="_blank" 
+title="Log doxygen">Doxygen</a></li>
+<li>🙈 <a href="mefversions-rapport.txt" id="mise_en_forme" target="_blank" 
+title="Log mise en forme">Mef_versions</a></li>
+<li>🤪 <a href="pylint-rapport.txt" id="pylint" target="_blank" 
+title="Log pylint">Pylint</a></li>
+<li>🤞 <a href="sonar-rapport.txt" id="sonar" target="_blank" 
+title="Log sonar">Sonar-scanner</a></li>
+<li>🙏 Pytest en python Version : <a href="pytest-rapport.3.12.txt" 
+id="pytest312" target="_blank" title="Log pytest 3.12">3.12</a>,&nbsp;<a 
+href="pytest-rapport.3.11.txt" id="pytest311" 
+target="_blank" title="Log pytest 3.11">3.11</a>,&nbsp;<a 
+href="pytest-rapport.3.10.txt" id="pytest310" 
+target="_blank" title="Log pytest 3.10">3.10</a></li>
+<li>😻 <a href="ruff-rapport.txt" id="ruff" target="_blank" 
+title="Log ruff">Ruff</a></li>
+<li>😀 <a href="shellcheck-rapport.txt" id="shellcheck" target="_blank" 
+title="Log shellcheck">Shellcheck</a></li>
+<li>🤌 <a href="sphinx-rapport.txt" id="sphinx" target="_blank" 
+title="Log sphinx">Sphinx</a></li>
+<li>🤝 <a href="tox-rapport.txt" id="tuff" target="_blank" 
+title="Log tox">Tox</a></li>
+</ul></div>
+</body>
+</html>

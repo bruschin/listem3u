@@ -98,22 +98,24 @@ jobs:
           bash ./devtools/lanceur_ruff.bash
           bash ./devtools/lanceur_sphinx.bash
           bash ./devtools/lanceur_doxygen.bash
+          mv ./rapports/doxygen ./build/html/ || true
           bash ./devtools/lanceur_shellcheck.bash
           bash ./devtools/lanceur_tox.bash
+          bash ./devtools/lanceur_build.bash || true
+          echo "######### ls divers"
           ls -ail *
           ls rapports
-          mv rapports/htmlcov docs/_build/html/ || true
-          mv rapports/doxygen docs/_build/html/ || true
-          cp rapports/coverage*.xml docs/_build/html/ || true
-          cp rapports/coverage*.xml src/ || true
-          cp rapports/shellcheck-rapport.txt src/ || true
-          cp docs/index.html docs/_build/html/|| true 
-          cat src/sonar-project.properties || true
+          echo "####### deplacement fichiers "
+          mv ./rapports/htmlcov ./build/html/ || true
+          mv ./rapports/htmlcov2 ./build/html/ || true
+          
+          cp ./rapports/coverage*.xml ./build/html/ || true
+          cp ./rapports/shellcheck-rapport.txt ./build/html/ || true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
           # Upload entire repository
-          path: 'docs/_build/html'
+          path: './build/html/'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

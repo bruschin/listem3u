@@ -1,6 +1,6 @@
 #!/bin/bash
 ###########
-## genere package wheel requete_fin_mois
+## genere package wheel listem3u
 ## pip install builf --user
 ## https://packaging.python.org/en/latest/tutorials/packaging-projects/
 ###########

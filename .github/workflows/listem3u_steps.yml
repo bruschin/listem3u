@@ -90,6 +90,7 @@ jobs:
             pip install -r ./devtools/requirements.txt;
           fi
           export TZ="Europe/Paris"
+          bash ./devtools/lanceur_mefversions.bash $GITHUB_SHA $GITHUB_RUN_ID
           bash ./devtools/lanceur_pytest.bash
           bash ./devtools/lanceur_pylint.bash
           bash ./devtools/lanceur_ruff.bash

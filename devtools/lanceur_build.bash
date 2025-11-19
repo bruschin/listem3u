@@ -1,17 +1,23 @@
 #!/bin/bash
 ###########
-## genere rapport doxygen
-## nécessite d'avoir installé doxygen dia et généré le fichier Doxyfile
+## genere package wheel requete_fin_mois
+## pip install builf --user
+## https://packaging.python.org/en/latest/tutorials/packaging-projects/
 ###########
 REPTRAV="$(dirname "$0")"
 REPLOG="rapports"
-FICSORTIE="${REPLOG}/shellcheck-rapport.txt"
+REPBUILD="build"
+FICSORTIE="${REPLOG}/build-rapport.txt"
 
 export TZ="Europe/Paris"
 
 cd "${REPTRAV}/.." || exit 1
 
 echo "### $0 DEBUT ###"
+
+if ! test -d "${REPBUILD}"; then
+  mkdir -p "${REPBUILD}" 2>/dev/null
+fi
 
 if ! test -d "${REPLOG}"; then
   mkdir -p "${REPLOG}" 2>/dev/null
@@ -20,13 +26,13 @@ fi
 exec 6>&1
 exec >"${FICSORTIE}" 2>&1
 
-echo "$0 : shellchek divers scripts bash"
+echo "$0 : Lanceur packaging build"
 
-shellcheck -f json src/listem3u.bash
+python3 -m build
 
 exec 1>&6 6>&-
 
 cat "${FICSORTIE}"
-#rm -f "${FICSORTIE}" 1>/dev/null 2>/dev/null
+
 echo "### $0 FIN ###"
 exit 0

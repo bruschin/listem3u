@@ -2,59 +2,49 @@
 ###########
 ## genere documentation avec sphinx
 ## nécessite d'avoir installé sphinx graphviz rhino
+## gestion version dans conf.py gérée par mef_versions.bash
 ###########
 REPTRAV="$(dirname "$0")"
-FIC_VERSION_EN_COURS="../src/version_en_cours.dat"
+REPLOG="rapports"
+FICSORTIE="${REPLOG}/sphinx-rapport.txt"
 
+export GIT_PYTHON_REFRESH=quiet
+export GIT_PYTHON_GIT_EXECUTABLE="/usr/bin/git"
 export TZ="Europe/Paris"
 export REPO_NAME='https://bruschin.github.io/listem3u'
 
 cd "${REPTRAV}/../docs" || exit 1
 echo -e "### $0 DEBUT ###\n"
 
-VERSION_EN_COURS="$( cat "${FIC_VERSION_EN_COURS}" | \
-                    awk -F"VERSION=" '{print $2}'| tr -d "\n")"
-sed -i -e "s/@RELEASE_VERSION@/${VERSION_EN_COURS}/g" ./conf.py
+if ! test -d "${REPLOG}"; then
+  mkdir -p "${REPLOG}" 2>/dev/null
+fi
 
-make -C ./ clean
-#sphinx-build . _build
-sphinx-apidoc -f -o ./ ../src
-#sphinx-multiversion ./ _build/html
+exec 6>&1
+exec >"${FICSORTIE}" 2>&1
 
-### generation entree index.html pour https://bruschin.github.io/listem3u
-#sphinx-build  -b "html" "./" "./_build/html"
+echo "$0 : Génération documentation par sphinx des scripts python sous src"
 
-langues="$(find ./locales/ -mindepth 1 -maxdepth 1 -type d \
-                -exec basename '{}' \;)"
-
-# make the current version = main available to conf.py
-#current_version="main"
-export current_version="main"
-
-echo "INFO: Building sites for ${current_version}"
-
-for current_language in ${langues}; do
-
-    # make the current language available to conf.py
-    export current_language
-
-    ##########
-    # BUILDS #
-    ##########
-    echo "### INFO: Building for ${current_language} ###"
-
-    # HTML #
-    if test "${current_language}" == "fr"; then
-        sphinx-build  -b "html" "./" "./_build/html" -D language="fr"
-    fi
-
-    # EPUB #
-    sphinx-build  -b "epub" "./" "_build/html/epub" \
-                    -D language="${current_language}"
-
-    # PDF #
-    #sphinx-build -b rinoh ./ ./_build/html/rinoh/fr -D language=fr
+#précautions répertoires sous build
+reps_utils="build/sphinx-html build/sphinx-epub"
+for direct in ${reps_utils}; do
+  if ! test -d "${direct}"; then
+    mkdir -p "${direct}" 2>/dev/null || true
+  fi
 done
+
+(
+        echo "### INFO: cleaning ###"
+        make -C docs clean
+        echo "### INFO: Building html for french language ###"
+
+        sphinx-build -a -v -c docs -b html docs build/sphinx-html
+        #echo "### INFO: Building epub for french language ###"
+        #sphinx-build -a -v -c docs -b epub docs build/sphinx-epub
+)
+
+exec 1>&6 6>&-
+
+cat "${FICSORTIE}"
 echo -e "\n### $0 FIN ###"
 exit 0
-

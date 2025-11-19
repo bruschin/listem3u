@@ -101,24 +101,25 @@ jobs:
           bash ./devtools/lanceur_ruff.bash
           bash ./devtools/lanceur_sphinx.bash
           bash ./devtools/lanceur_doxygen.bash
-          cp -rfv ./rapports/doxygen ./build/html/ || true
           bash ./devtools/lanceur_shellcheck.bash
           bash ./devtools/lanceur_tox.bash
           bash ./devtools/lanceur_build.bash || true
           echo "######### ls divers"
           ls -ail *
           ls ./rapports/*
-          echo "####### copie fichiers"
-          cp -rfv ./rapports/htmlcov ./build/html/ || true
-          cp -rfv ./rapports/htmlcov2 ./build/html/ || true
-          cp -fv ./docs/index.html ./build/html/ || true
-          cp -fv ./rapports/coverage*.xml ./build/html/ || true
-          cp -fv ./rapports/shellcheck-rapport.txt ./build/html/ || true
+          echo "####### mise en place des fichiers pour github-pages"
+
+          mv ./rapports/doxygen ./docs/_build/html/ || true
+          mv ./rapports/htmlcov ./docs/_build/html/ || true
+          mv ./rapports/htmlcov2 ./docs/_build/html/ || true
+          cp -fv ./docs/index.html ./docs/_build/html/ || true
+          cp -fv ./rapports/coverage*.xml ./docs/_build/html/ || true
+          cp -fv ./rapports/*.txt ./docs/_build/html/ || true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
           # Upload entire repository
-          path: './build/html'
+          path: './docs/_build/html/'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

@@ -86,8 +86,8 @@ jobs:
           echo "######## dia installé = $(which dia)"
           python -m pip install --upgrade pip
           python -m pip install pylint-common --use-pep517
-          if [ -f ./devtools/requirements.txt ]; then
-            pip install -r ./devtools/requirements.txt;
+          if [ -f ./docs/requirements.txt ]; then
+            pip install -r ./docs/requirements.txt;
           fi
           export PATH="$HOME/.local/bin":"${PATH}" 
           echo "######## tox installé = $(which tox)"

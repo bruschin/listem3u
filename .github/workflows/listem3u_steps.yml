@@ -89,6 +89,7 @@ jobs:
           if [ -f ./devtools/requirements.txt ]; then
             pip install -r ./devtools/requirements.txt;
           fi
+          echo "######## tox installé = $(which tox)"
           export TZ="Europe/Paris"
           bash ./devtools/lanceur_mefversions.bash $GITHUB_SHA $GITHUB_RUN_ID
           bash ./devtools/lanceur_pytest.bash

@@ -105,7 +105,6 @@ jobs:
           mv rapports/htmlcov docs/_build/html/ || true
           mv rapports/doxygen docs/_build/html/ || true
           cp rapports/coverage*.xml docs/_build/html/ || true
-          sed -i -e "s/@SONAR_VERSION@/1.8/g" src/sonar-project.properties
           cp rapports/coverage*.xml src/ || true
           cp rapports/shellcheck-rapport.txt src/ || true
           cp docs/index.html docs/_build/html/|| true 

@@ -45,6 +45,9 @@ def test_filtreligne_maj(capsys):
         assert False , f"\n\t>>>>ERREUR test_filtreligne :\n{msg1}"
 
 def test_estexploitable(): 
+    """
+    test fct extexploitable
+    """
     try:
         assert _estexploitable( "Paint_it_black-The_Rolling-Stones.mp3" )
         assert not _estexploitable( " #EXTM3U " )

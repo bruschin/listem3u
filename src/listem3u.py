@@ -295,11 +295,11 @@ def _filtreligne(unechaine=None, ssrep=None):
 
 # pragma: no cover
 if __name__ == "__main__":
-    (CODE_RETOUR, SCOM, REP, TEST_PRESENCEFICMP3) = parametres(sys.argv)
-    if CODE_RETOUR == 2:
+    (CODERETOUR, SCOM, REP, TEST_PRESENCEFICMP3) = parametres(sys.argv)
+    if CODERETOUR == 2:
         print(SCOM)
-        CODE_RETOUR = action( REP, FICS_LISTE_TAMPON, FICS_LISTE, \
+        CODERETOUR = action( REP, FICS_LISTE_TAMPON, FICS_LISTE, \
                                                     TEST_PRESENCEFICMP3)
     else:
         print(SCOM)
-    sys.exit(CODE_RETOUR)
+    sys.exit(CODERETOUR)

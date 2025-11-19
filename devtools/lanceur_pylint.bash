@@ -42,6 +42,7 @@ pylint \
     -d C0303 \
     -d W0603 \
     -d W0703 \
+    -d W0105 \
     -d W0311 \
     -d R0801 \
     -d too-many-arguments \

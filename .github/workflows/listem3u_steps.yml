@@ -98,14 +98,14 @@ jobs:
           bash ./devtools/lanceur_doxygen.bash
           bash ./devtools/lanceur_shellcheck.bash
           bash ./devtools/lanceur_tox.bash
-          mv rapports/htmlcov1 docs/_build/html/
-          mv rapports/htmlcov2 docs/_build/html/
-          mv rapports/doxygen docs/_build/html/
-          cp rapports/coverage*.xml docs/_build/html/
+          mv rapports/htmlcov1 docs/_build/html/ || True
+          mv rapports/htmlcov2 docs/_build/html/ || True
+          mv rapports/doxygen docs/_build/html/ || True
+          cp rapports/coverage*.xml docs/_build/html/ || True
           sed -i -e "s/@SONAR_VERSION@/1.8/g" src/sonar-project.properties
-          cp rapports/coverage*.xml src/
-          cp rapports/shellcheck-rapport.json src/
-          cat src/sonar-project.properties
+          cp rapports/coverage*.xml src/ || True
+          cp rapports/shellcheck-rapport.json src/ || True
+          cat src/sonar-project.properties || True
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:

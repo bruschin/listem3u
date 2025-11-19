@@ -100,9 +100,9 @@ jobs:
           bash ./devtools/lanceur_doxygen.bash
           bash ./devtools/lanceur_shellcheck.bash
           bash ./devtools/lanceur_tox.bash
+          ls -ail *
           ls rapports
-          mv rapports/htmlcov1 docs/_build/html/ || true
-          mv rapports/htmlcov2 docs/_build/html/ || true
+          mv rapports/htmlcov docs/_build/html/ || true
           mv rapports/doxygen docs/_build/html/ || true
           cp rapports/coverage*.xml docs/_build/html/ || true
           sed -i -e "s/@SONAR_VERSION@/1.8/g" src/sonar-project.properties

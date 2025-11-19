@@ -110,8 +110,9 @@ jobs:
           echo "####### mise en place des fichiers pour github-pages"
 
           mv ./rapports/doxygen ./docs/_build/html/ || true
-          mv ./rapports/htmlcov ./docs/_build/html/ || true
+          mv ./rapports/htmlcov ./docs/_build/html/ || true          
           mv ./rapports/htmlcov2 ./docs/_build/html/ || true
+          mv ./build/sphinx-html ./docs/_build/html/ || true
           cp -fv ./docs/index.html ./docs/_build/html/ || true
           cp -fv ./rapports/coverage*.xml ./docs/_build/html/ || true
           cp -fv ./rapports/*.txt ./docs/_build/html/ || true

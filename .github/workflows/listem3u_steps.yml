@@ -76,8 +76,6 @@ jobs:
         with:
           path: |
              ~/.cache/pip
-             build/html
-             rapports
           key: |
             ${{ runner.os }}-pip-${{ hashFiles('**/docs/requirements.*') }}
           restore-keys: |
@@ -89,12 +87,12 @@ jobs:
           echo "######## dia installé = $(which dia)"
           python -m pip install --upgrade pip
           python -m pip install pylint-common --use-pep517
-          if [ -f ./docs/requirements.txt ]; then
-            pip install -r ./docs/requirements.txt;
+          if [ -f "./docs/requirements.txt" ]; then
+            pip install -r "./docs/requirements.txt";
           fi
-          export PATH="$HOME/.local/bin":"${PATH}" 
+          # export PATH="$HOME/.local/bin":"${PATH}" 
           echo "######## tox installé = $(which tox)"
-          export TZ="Europe/Paris"
+          # export TZ="Europe/Paris"
           bash ./devtools/lanceur_mefversions.bash $GITHUB_SHA $GITHUB_RUN_ID
           bash ./devtools/lanceur_pytest.bash
           bash ./devtools/lanceur_pylint.bash
@@ -105,22 +103,22 @@ jobs:
           bash ./devtools/lanceur_tox.bash
           bash ./devtools/lanceur_build.bash || true
           echo "######### ls divers"
-          ls -ail *
-          ls ./rapports/*
+          ls -ail */*
+
           echo "####### mise en place des fichiers pour github-pages"
 
-          mv ./rapports/doxygen ./docs/_build/html/ || true
-          mv ./rapports/htmlcov ./docs/_build/html/ || true          
-          mv ./rapports/htmlcov2 ./docs/_build/html/ || true
-          mv ./build/sphinx-html ./docs/_build/html/ || true
-          cp -fv ./docs/index.html ./docs/_build/html/ || true
-          cp -fv ./rapports/coverage*.xml ./docs/_build/html/ || true
-          cp -fv ./rapports/*.txt ./docs/_build/html/ || true
+          mv rapports/doxygen docs/_build/html/ || true
+          mv rapports/htmlcov docs/_build/html/ || true          
+          mv rapports/htmlcov2 docs/_build/html/ || true
+          mv build/sphinx-html docs/_build/html/ || true
+          cp -fv docs/index.html docs/_build/html/ || true
+          cp -fv rapports/coverage*.xml docs/_build/html/ || true
+          cp -fv rapports/*.txt docs/_build/html/ || true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
           # Upload entire repository
-          path: './docs/_build/html'
+          path: 'docs/_build/html'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

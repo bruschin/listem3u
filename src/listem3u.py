@@ -30,6 +30,7 @@
         [2025-04-04] BN V1.5 :  modification contenus fichiers .m3u
         [2025-06-01] BN V1.6 :  modification contenus fichiers .m3u
         [2025-11-02] BN V1.6.1 :  modification nom fichier .m3u
+        [2025-11-19] BN V1.9.0 :  pipeline github action
 
     [REFERENCES]
         https://www.githubstatus.com/
@@ -54,7 +55,7 @@ from os.path import exists as file_exists
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
-VERSION = f"\n {FILENAME} version : [2025-06-01 BN V1.6]"
+VERSION = f"\n {FILENAME} version : [2025-11-19 BN V1.9.0]"
 REP_TRAV = "P:\\Morceaux_choisis"
 USAGE = (f"\n  usage: {FILENAME} [OPTIONS]\n"
 "  OPTIONS:\n"

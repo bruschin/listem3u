@@ -6,7 +6,7 @@
 # https://github.com/koalaman/shellcheck
 #################
 # shellcheck disable=SC2034  # Unused variables left for readability
-Version="[BN 19-11-2025 V1.6.0]"
+Version="[BN 19-11-2025 V1.9.0]"
 #Repertoire_travail="p:\Morceaux_choisis"
 Repertoire_travail="/home/bruschin/workspace/listem3u/automation"
 Fichier_liste_tampon="liste.m3u"

@@ -26,7 +26,7 @@ exec >"${FICSORTIE}"
 
 echo "$0 : Linter des fichiers python sous src"
 
-sed -i -e "s@indent-string='    '@indent-string='  '@g" devtools/.pylintrc
+sed -i -e "s@indent-string='    '@indent-string='  '@g" "${FICCONF}"
 pylint \
     --rcfile \
     "${FICCONF}" \

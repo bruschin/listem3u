@@ -31,7 +31,7 @@
         [2025-06-01] BN V1.6 :  modification contenus fichiers .m3u
         [2025-11-02] BN V1.6.1 :  modification nom fichier .m3u
         [2025-11-19] BN V1.9.0 :  pipeline github action
-        [2025-11-22] BN V1.9.1 :  suppression saut ligne après écriture + nb fic
+        [2025-11-23] BN V1.9.1 :  suppression saut ligne après écriture + nb fic
 
     [REFERENCES]
         https://www.githubstatus.com/
@@ -56,7 +56,7 @@ from os.path import exists as file_exists
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
-VERSION = f"\n {FILENAME} version : [2025-11-22 BN V1.9.1]"
+VERSION = f"\n {FILENAME} version : [2025-11-23 BN V1.9.1]"
 REP_TRAV = "P:\\Morceaux_choisis"
 USAGE = (f"\n  usage: {FILENAME} [OPTIONS]\n"
 "  OPTIONS:\n"
@@ -305,6 +305,5 @@ if __name__ == "__main__":
         print(SCOM)
         (CODERETOUR,SCOM) = action( REP, FICS_LISTE_TAMPON, FICS_LISTE, \
                                                     TEST_PRESENCEFICMP3)
-    else:
-        print(SCOM)
+    print(SCOM)
     sys.exit(CODERETOUR)

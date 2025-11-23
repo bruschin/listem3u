@@ -56,7 +56,7 @@ from os.path import exists as file_exists
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
-VERSION = f"\n {FILENAME} version : [2025-11-19 BN V1.9.0]"
+VERSION = f"\n {FILENAME} version : [2025-11-22 BN V1.9.1]"
 REP_TRAV = "P:\\Morceaux_choisis"
 USAGE = (f"\n  usage: {FILENAME} [OPTIONS]\n"
 "  OPTIONS:\n"

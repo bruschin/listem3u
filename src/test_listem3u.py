@@ -12,6 +12,7 @@ Tests unitaires de listemp3u.py
     [2023-03-29] BN V1.1 :  issue 1-listemp3upy-sans-fichier-mp3
     [2023-04-05] BN V1.2 :  3-sonarqube
     [2025-04-06] BN V1.3 :  Filtre lignes vides ou commentées fichiers m3u
+    [2025-11-22] BN V1.3.1 : Test Action
 """
 import os
 import pytest

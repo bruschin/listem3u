@@ -31,6 +31,7 @@
         [2025-06-01] BN V1.6 :  modification contenus fichiers .m3u
         [2025-11-02] BN V1.6.1 :  modification nom fichier .m3u
         [2025-11-19] BN V1.9.0 :  pipeline github action
+        [2025-11-22] BN V1.9.1 :  suppression saut ligne après écriture + nb fic
 
     [REFERENCES]
         https://www.githubstatus.com/
@@ -170,7 +171,9 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
     ### parametre local
     fichiersmp3 = []
     ficfiltre = ""
-    ssrep = ""
+    ssrep = ""    
+    nbrfics = 0
+    sunecom = ""
 
     # initial directory
     #cwd = os.getcwd()
@@ -209,15 +212,17 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
     #ecriture du resultat
     with open(fic,"a",encoding="utf-8") as resultat:
         #print("Debug:\n#EXTM3U\n#PLAYLIST:000\n")
-        resultat.write("#EXTM3U\n#PLAYLIST:000\n")
+        resultat.write("#EXTM3U\n#PLAYLIST:000")
         for elmt in fichiersmp3:
             miseenforme = elmt.split('#')
             lefich = f"{miseenforme[1].strip()}/{miseenforme[0].strip()}"
-            resultat.write(f"{lefich}\n")
+            resultat.write(f"\n{lefich}")
+            nbrfics += 1
             if testmp3 and not file_exists(lefich):
                 print(f"\n\t>>>> inexistant : {lefich}")
     resultat.close()
-    return 0
+    sunecom = f"\n\t>>>> {nbrfics} fichiers dans {fic}\n"
+    return 0, sunecom
 
 ### Sous Fonctions ###
 ######################
@@ -298,7 +303,7 @@ if __name__ == "__main__":
     (CODERETOUR, SCOM, REP, TEST_PRESENCEFICMP3) = parametres(sys.argv)
     if CODERETOUR == 2:
         print(SCOM)
-        CODERETOUR = action( REP, FICS_LISTE_TAMPON, FICS_LISTE, \
+        (CODERETOUR,SCOM) = action( REP, FICS_LISTE_TAMPON, FICS_LISTE, \
                                                     TEST_PRESENCEFICMP3)
     else:
         print(SCOM)

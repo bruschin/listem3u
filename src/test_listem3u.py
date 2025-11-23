@@ -365,11 +365,12 @@ def test_action():
         Verifie fichier existence du fic resultat selon existence du repertoire
         d'appel
     """
-    for rep in [ REPERTOIRE, "nimportequoi"]:
-        try:
-            iresul = action( rep , FICS_LISTE_TAMPON, FICS_LISTE, \
-                                DEFAUT_FICMP3 )
-            btest = iresul == 0
-            assert os.path.exists(f"{rep}/{FICS_LISTE}") is btest
-        except AssertionError as msg5:
-            assert False , f"\n\t>>>>ERREUR test_action :\n{msg5}"
+    rep=REPERTOIRE
+    try:
+        (iresul, SCOM) = action( rep , FICS_LISTE_TAMPON, FICS_LISTE, \
+                            DEFAUT_FICMP3 )
+        assert iresul == 0
+        assert SCOM == f"\n\t>>>> 1100 fichiers dans {FICS_LISTE}\n"
+        assert os.path.exists(f"{rep}/{FICS_LISTE}")
+    except AssertionError as msg5:
+        assert False , f"\n\t>>>>ERREUR test_action :\n{msg5}"

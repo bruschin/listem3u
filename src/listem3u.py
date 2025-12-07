@@ -29,9 +29,10 @@
         [2023-05-15] BN V1.4 :  introduction 1 parametre OBLIGATOIRE
         [2025-04-04] BN V1.5 :  modification contenus fichiers .m3u
         [2025-06-01] BN V1.6 :  modification contenus fichiers .m3u
-        [2025-11-02] BN V1.6.1 :  modification nom fichier .m3u
-        [2025-11-19] BN V1.9.0 :  pipeline github action
-        [2025-11-23] BN V1.9.1 :  suppression saut ligne après écriture + nb fic
+        [2025-11-02] BN V1.6.1 : modification nom fichier .m3u
+        [2025-11-19] BN V1.9.0 : pipeline github action
+        [2025-11-23] BN V1.9.1 : suppression saut ligne après écriture + nb fic
+        [2025-12-07] BN V1.9.2 : ajout fct md5
 
     [REFERENCES]
         https://www.githubstatus.com/
@@ -50,13 +51,14 @@ import sys
 import getopt
 import os
 import fnmatch
+import hashlib
 from datetime import datetime
 from os.path import exists as file_exists
 
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
-VERSION = f"\n {FILENAME} version : [2025-11-23 BN V1.9.1]"
+VERSION = f"\n {FILENAME} version : [2025-12-07 BN V1.9.2]"
 REP_TRAV = "P:\\Morceaux_choisis"
 USAGE = (f"\n  usage: {FILENAME} [OPTIONS]\n"
 "  OPTIONS:\n"
@@ -73,6 +75,13 @@ DEFAUT_FICMP3 = False
 
 ### Fonctions ###
 #################
+
+def md5(fname):
+    hash_md5 = hashlib.md5()
+    with open(fname, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
 
 def parametres(argv):
     """

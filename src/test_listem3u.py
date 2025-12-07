@@ -18,7 +18,7 @@ import os
 import pytest
 from listem3u import  FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
                         DEFAUT_FICMP3, FICS_LISTE_TAMPON, parametres, action, \
-                        _filtreligne, _estexploitable
+                        _filtreligne, _estexploitable, md5
 
 ## GLOBAL
 # initial directory
@@ -367,11 +367,16 @@ def test_action():
         d'appel
     """
     rep=REPERTOIRE
+    fic_ctrl=f"{rep}/000-liste-07-12-2025_ctrl.m3u"
     try:
         (iresul, SCOM) = action( rep , FICS_LISTE_TAMPON, FICS_LISTE, \
                             DEFAUT_FICMP3 )
         assert iresul == 0
-        assert SCOM == f"\n\t>>>> 1100 fichiers dans {FICS_LISTE}\n"
-        assert os.path.exists(f"{rep}/{FICS_LISTE}")
+        assert SCOM == f"\n\t>>>> 1121 fichiers dans {FICS_LISTE}\n"
+        fic_produit=f"{rep}/{FICS_LISTE}"
+        assert os.path.exists(fic_produit)
+        assert os.path.exists(fic_ctrl)
+
+        assert md5(fic_ctrl) == md5(fic_produit)
     except AssertionError as msg5:
         assert False , f"\n\t>>>>ERREUR test_action :\n{msg5}"

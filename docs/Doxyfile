@@ -2364,7 +2364,7 @@ EXTERNAL_PAGES         = YES
 # If left empty dia is assumed to be found in the default search path.
 
 #DIA_PATH               =
-DIA_PATH               = '/usr/bin/dia'
+DIA_PATH               = /usr/bin/dia
 
 # If set to YES the inheritance and collaboration graphs will hide inheritance
 # and usage relations if the target is undocumented or is not a class.

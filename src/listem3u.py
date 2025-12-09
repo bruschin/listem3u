@@ -191,6 +191,7 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
 		constitution du fichier de sortie dans le repertoire de travail
 		coderetour (entier) 0 OK - 1 KO
 	"""
+	# pylint: disable=too-many-locals
 	### parametre local
 	fichiersmp3 = []
 	ficfiltre = ""

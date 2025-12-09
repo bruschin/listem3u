@@ -111,7 +111,9 @@ jobs:
 
           echo "####### mise en place des fichiers pour github-pages"
 
-          cp -rfv rapports/doxygen docs/_build/html/doxygen || true
+          mkdir -p docs/_build/html/doxygen || true
+          
+          mv rapports/doxygen docs/_build/html/ || true
           mv rapports/htmlcov docs/_build/html/ || true          
           mv rapports/htmlcov2 docs/_build/html/ || true
           mv build/sphinx-html docs/_build/html/ || true

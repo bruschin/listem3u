@@ -6,9 +6,15 @@
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
 <!-- [![Quality Gate Status](https://sonar.cloudmf.dev/api/project_badges/measure?project=listem3u&metric=alert_status)](https://sonar.cloudmf.dev/dashboard?id=listem3u)-->
 
+## Action V1.9.0.3
+
++ Séparateur répertoire | fichier = \ et non plus /
++ Generation possible d'une signature sha512 pour comparaison fichiers m3u
++ Révision du pipeline github et des tests unitaires
+
 ## Action V1.9
 
-+ Reprise du projet en novemnre 2025 après 2 ans sans changement.
++ Reprise du projet en novembre 2025 après 2 ans sans changement.
 + Réactivation sonarcloud.io (le projet est en mode auto scan sonarqube)
 + Python v 3.12
 + Gestion version multiples

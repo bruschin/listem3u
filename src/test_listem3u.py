@@ -18,7 +18,7 @@ import os
 import pytest
 from listem3u import  FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
                         DEFAUT_FICMP3, FICS_LISTE_TAMPON, parametres, action, \
-                        _filtreligne, _estexploitable, md5
+                        _filtreligne, _estexploitable, hashlib_md5
 
 ## GLOBAL
 # initial directory
@@ -377,6 +377,6 @@ def test_action():
         assert os.path.exists(fic_produit)
         assert os.path.exists(fic_ctrl)
 
-        assert md5(fic_ctrl) == md5(fic_produit)
+        assert hashlib_md5(fic_ctrl) == hashlib_md5(fic_produit)
     except AssertionError as msg5:
         assert False , f"\n\t>>>>ERREUR test_action :\n{msg5}"

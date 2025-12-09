@@ -80,12 +80,12 @@ DEFAUT_FICMP3 = False
 ### Fonctions ###
 #################
 
-def hashlib_md5(fname):
-	hash_md5 = hashlib.md5()
+def hashlib_sha512(fname):
+	hash_sha512 = hashlib.sha512()
 	with open(fname, "rb") as f:
 		for chunk in iter(lambda: f.read(4096), b""):
-			hash_md5.update(chunk)
-	return hash_md5.hexdigest()
+			hash_sha512.update(chunk)
+	return hash_sha512.hexdigest()
 
 def parametres(argv):
 	"""

@@ -13,6 +13,7 @@ Tests unitaires de listemp3u.py
     [2023-04-05] BN V1.2 :  3-sonarqube
     [2025-04-06] BN V1.3 :  Filtre lignes vides ou commentées fichiers m3u
     [2025-11-23] BN V1.3.1 : Test Action
+		[2025-12-09] BN V1.3.2 : Test Action + production
 """
 import os
 import pytest

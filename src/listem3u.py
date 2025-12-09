@@ -188,8 +188,9 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
 		testmp3 (boolean) DEFAUT_FICMP3
 
 	[ EN SORTIE ]
-		constitution du fichier de sortie dans le repertoire de travail
+		# constitution du fichier de sortie dans le repertoire de travail
 		coderetour (entier) 0 OK - 1 KO
+		sunecom (chaine) commentaire
 	"""
 	# pylint: disable=too-many-locals
 	### parametre local
@@ -211,8 +212,8 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
 			os.unlink(fic)
 	except (FileNotFoundError, NotADirectoryError, PermissionError):
 		print(f"Something wrong with specified\
-								directory {repert}. Exception- ", sys.exc_info())
-		return 1
+				directory {repert}. Exception- ", sys.exc_info())
+		return (1, sunecom)
 
 	# trouve tous les fichiers de nom contenant -Playlist.m3u sous ./
 	ficm3u = _find("*-Playlist.m3u", './')
@@ -249,7 +250,7 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
 		# resultat.write("\n")
 	resultat.close()
 	sunecom = f"\n\t>>>> {nbrfics} fichiers dans {fic}\n"
-	return 0, sunecom
+	return (0, sunecom)
 
 ### Sous Fonctions ###
 ######################
@@ -331,6 +332,6 @@ if __name__ == "__main__":
 	if CODERETOUR == 2:
 		print(SCOM)
 		(CODERETOUR,SCOM) = action( REP, FICS_LISTE_TAMPON, FICS_LISTE, \
-																								TEST_PRESENCEFICMP3)
+																TEST_PRESENCEFICMP3)
 	print(SCOM)
 	sys.exit(CODERETOUR)

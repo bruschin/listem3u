@@ -102,7 +102,11 @@ jobs:
           bash ./devtools/lanceur_shellcheck.bash
           bash ./devtools/lanceur_tox.bash
           bash ./devtools/lanceur_build.bash || true
+          echo "###### recherche dia"
+          which dia
+
           echo "######### ls divers"
+          
           ls -ail */*
 
           echo "####### mise en place des fichiers pour github-pages"
@@ -114,6 +118,9 @@ jobs:
           cp -fv docs/index.html docs/_build/html/ || true
           cp -fv rapports/coverage*.xml docs/_build/html/ || true
           cp -fv rapports/*.txt docs/_build/html/ || true
+          echo "######### ls docs/_build/html/"
+          ls -ail docs/_build/html/*
+          
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:

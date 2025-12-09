@@ -366,14 +366,13 @@ def test_action():
         Verifie fichier existence du fic resultat selon existence du repertoire
         d'appel
     """
-    rep=REPERTOIRE
-    fic_ctrl=f"{rep}/000-liste-07-12-2025_ctrl.m3u"
+    fic_ctrl=f"{REPERTOIRE}/000-liste-07-12-2025_ctrl.m3u"
     try:
-        (iresul, SCOM) = action( rep , FICS_LISTE_TAMPON, FICS_LISTE, \
+        (iresul, scom) = action( REPERTOIRE , FICS_LISTE_TAMPON, FICS_LISTE, \
                             DEFAUT_FICMP3 )
         assert iresul == 0
-        assert SCOM == f"\n\t>>>> 1121 fichiers dans {FICS_LISTE}\n"
-        fic_produit=f"{rep}/{FICS_LISTE}"
+        assert scom == f"\n\t>>>> 1121 fichiers dans {FICS_LISTE}\n"
+        fic_produit=f"{REPERTOIRE}/{FICS_LISTE}"
         assert os.path.exists(fic_produit)
         assert os.path.exists(fic_ctrl)
 

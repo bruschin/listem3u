@@ -81,6 +81,15 @@ DEFAUT_FICMP3 = False
 #################
 
 def hashlib_sha512(fname):
+	"""
+		somme de controle sha512 d'un fichier
+
+		[ EN ENTREE ]
+			fname (chaine) fichier
+
+		[ EN SORTIE ]
+			somme_de_controle (chaine) sha512
+	"""
 	hash_sha512 = hashlib.sha512()
 	with open(fname, "rb") as f:
 		for chunk in iter(lambda: f.read(4096), b""):
@@ -236,7 +245,7 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
 			if testmp3 and not file_exists(lefich):
 				print(f"\n\t>>>> inexistant : {lefich}")
 		# pour la gestion de EOF
-		resultat.write("\n")
+		# resultat.write("\n")
 	resultat.close()
 	sunecom = f"\n\t>>>> {nbrfics} fichiers dans {fic}\n"
 	return 0, sunecom

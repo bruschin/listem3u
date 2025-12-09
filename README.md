@@ -67,11 +67,11 @@
 
 + Pour extraire l'environnement conda et l'importer
   + conda list -e > requirements_conda.txt
-  + conda create --name <environment_name> --file requirements_conda.txt
+  + conda create --name "environment_name" --file requirements_conda.txt
   + conda install --file requirements_conda.txt
 
 ## Documentations
 
 + [reStructuredText](https://docutils.sourceforge.io/rst.html)
-+ [documentation des modules pyhton du projet](https://bruschin.github.io/listem3u/)
++ [documentation des modules python du projet](https://bruschin.github.io/listem3u/)
 + [wiki du projet](https://bruschin.github.io/listem3u/wiki)

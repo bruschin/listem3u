@@ -33,7 +33,7 @@
 		[2025-11-19] BN V1.9.0 : pipeline github action
 		[2025-11-23] BN V1.9.1 : suppression saut ligne après écriture + nb fic
 		[2025-12-07] BN V1.9.2 : ajout fct md5
-		[2025-12-09] BN V1.9.3 : revision format fichier m3u 
+		[2025-12-09] BN V1.9.3 : revision format fichier m3u + sha512
                              # https://fr.wikipedia.org/wiki/M3U
 
 	[REFERENCES]

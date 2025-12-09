@@ -1,4 +1,4 @@
-# listem3u [2025-11-18] 👉 BN V1.9
+# listem3u [2025-12-09] 👉 BN V1.9.0.3
 
 [![GITHUB Actions status](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml/badge.svg?branch=releases))](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml)
 [![SonarQube Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bruschin_listem3u&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)

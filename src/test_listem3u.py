@@ -22,8 +22,8 @@ from listem3u import  FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
 
 ## GLOBAL
 # initial directory
-CWD = os.getcwd()
-REPERTOIRE = f"{CWD}/automation"
+# CWD = os.getcwd()
+REPERTOIRE = "../automation"
 
 # turns all warnings into errors for this module
 pytestmark = pytest.mark.filterwarnings("error")

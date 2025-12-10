@@ -202,7 +202,8 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
 	sunecom = ""
 
 	# initial directory
-	#cwd = os.getcwd()
+	cwd = os.getcwd()
+	print(f"DEBUG: {cwd}")
 
 	try:
 		os.chdir(repert)

@@ -90,7 +90,7 @@ jobs:
           if [ -f "./docs/requirements.txt" ]; then
             pip install -r "./docs/requirements.txt";
           fi
-          # export PATH="$HOME/.local/bin":"${PATH}" 
+          # export PATH="$HOME/.local/bin":"${PATH}"
           echo "######## tox installé = $(which tox)"
           # export TZ="Europe/Paris"
           bash ./devtools/lanceur_mefversions.bash $GITHUB_SHA $GITHUB_RUN_ID

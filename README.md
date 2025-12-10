@@ -6,7 +6,7 @@
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
 <!-- [![Quality Gate Status](https://sonar.cloudmf.dev/api/project_badges/measure?project=listem3u&metric=alert_status)](https://sonar.cloudmf.dev/dashboard?id=listem3u)-->
 
-## Action V1.9.0.3
+## Action V1.9.0.4
 
 + Séparateur répertoire | fichier = \ et non plus /
 + Generation possible d'une signature sha512 pour comparaison fichiers m3u

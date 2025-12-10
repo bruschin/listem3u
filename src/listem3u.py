@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
-"""
+r"""
 	Created on 25 mars 2023
 
 	@author: Nicolas Bruschi
@@ -35,6 +35,7 @@
 		[2025-12-07] BN V1.9.2 : ajout fct md5
 		[2025-12-09] BN V1.9.3 : revision format fichier m3u + sha512
                              # https://fr.wikipedia.org/wiki/M3U
+    [2025-12-10] BN V1.9.4 : mise au point
 
 	[REFERENCES]
 		https://www.githubstatus.com/
@@ -61,7 +62,7 @@ from os.path import exists as file_exists
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
-VERSION = f"\n {FILENAME} version : [2025-12-09 BN V1.9.3]"
+VERSION = f"\n {FILENAME} version : [2025-12-10 BN V1.9.4]"
 SEPARATEUR_REP = "\\"
 REP_TRAV = f"P:{SEPARATEUR_REP}Morceaux_choisis"
 USAGE = (f"\n  usage: {FILENAME} [OPTIONS]\n"
@@ -81,7 +82,7 @@ DEFAUT_FICMP3 = False
 #################
 
 def hashlib_sha512(fname):
-	"""
+	r"""
 		somme de controle sha512 d'un fichier
 
 		[ EN ENTREE ]
@@ -97,7 +98,7 @@ def hashlib_sha512(fname):
 	return hash_sha512.hexdigest()
 
 def parametres(argv):
-	"""
+	r"""
 		Gestion des parametres d'appel = repertoire, help et version
 
 		[ EN ENTREE ]
@@ -178,7 +179,7 @@ def parametres(argv):
 	return (codeexit, scom, repertoire_travail, test_presenceficmp3)
 
 def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
-	"""
+	r"""
 		Gestion des parametres d'appel = repertoire, help et version
 
 	[ EN ENTREE ]
@@ -256,7 +257,7 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
 ######################
 
 def _find(pattern, path):
-	"""
+	r"""
 		Trouve les fichiers selon pattern sous path
 
 	[ EN ENTREE ]
@@ -278,7 +279,7 @@ def _find(pattern, path):
 	return result
 
 def _estexploitable(unechaine=None):
-	"""
+	r"""
 		Pour ne pas avoir à traiter ensuite les lignes vides ou commentées
 	
 	[ EN ENTREE ]
@@ -299,7 +300,7 @@ def _estexploitable(unechaine=None):
             
 
 def _filtreligne(unechaine=None, ssrep=None):
-	"""
+	r"""
 		Filtre une ligne de fichier m3u, alerte si contient un espace, ou plus
 		d'un tiret et renvoie nom du fichier mp3
 
@@ -328,10 +329,10 @@ def _filtreligne(unechaine=None, ssrep=None):
 
 # pragma: no cover
 if __name__ == "__main__":
-	(CODERETOUR, SCOM, REP, TEST_PRESENCEFICMP3) = parametres(sys.argv)
-	if CODERETOUR == 2:
+	(coderetour, SCOM, REP, TEST_PRESENCEFICMP3) = parametres(sys.argv)
+	if coderetour == 2:
 		print(SCOM)
-		(CODERETOUR,SCOM) = action( REP, FICS_LISTE_TAMPON, FICS_LISTE, \
+		(coderetour,SCOM) = action( REP, FICS_LISTE_TAMPON, FICS_LISTE, \
 																TEST_PRESENCEFICMP3)
 	print(SCOM)
-	sys.exit(CODERETOUR)
+	sys.exit(coderetour)

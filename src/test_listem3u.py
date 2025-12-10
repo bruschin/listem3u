@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
-"""
+r"""
 Created on 26 mars 2023
 
 @author: Nicolas Bruschi
@@ -33,7 +33,7 @@ pytestmark = pytest.mark.filterwarnings("error")
 ##############
 
 def test_filtreligne_maj(capsys):
-	"""
+	r"""
 	test les alertes sur les noms de fichiers mp3 lus dans fic m3u
 	"""
 	ssrep = "004"
@@ -47,7 +47,7 @@ def test_filtreligne_maj(capsys):
 		assert False , f"\n\t>>>>ERREUR test_filtreligne :\n{msg1}"
 
 def test_estexploitable(): 
-	"""
+	r"""
 	test fct extexploitable
 	"""
 	try:
@@ -60,7 +60,7 @@ def test_estexploitable():
 
 
 def test_filtreligne_tiret(capsys):
-	"""
+	r"""
 	test les alertes sur les noms de fichiers mp3 lus dans fic m3u
 	"""
 	ssrep = "004"
@@ -75,7 +75,7 @@ def test_filtreligne_tiret(capsys):
 		assert False , f"\n\t>>>>ERREUR test_filtreligne :\n{msg1}"
 
 def test_filtreligne_blanc(capsys):
-	"""
+	r"""
 	test les alertes sur les noms de fichiers mp3 lus dans fic m3u
 	"""
 	ssrep = "004"
@@ -90,7 +90,7 @@ def test_filtreligne_blanc(capsys):
 		assert False , f"\n\t>>>>ERREUR test_filtreligne :\n{msg1}"
 
 def test_version_v():
-	"""
+	r"""
 	demande version selon parametre -v
 	"""
 	try:
@@ -100,7 +100,7 @@ def test_version_v():
 		assert False , f"\n\t>>>>ERREUR test_version_v :\n{msg1}"
 
 def test_version_vmaj():
-	"""
+	r"""
 			Verifie demande version selon parametre -V
 	"""
 	try:
@@ -110,7 +110,7 @@ def test_version_vmaj():
 		assert False , f"\n\t>>>>ERREUR test_version_V :\n{msg1}"
 
 def test_version_version():
-	"""
+	r"""
 			Verifie demande version selon parametre --VERSION
 	"""
 	try:
@@ -120,7 +120,7 @@ def test_version_version():
 		assert False , f"\n\t>>>>ERREUR test_version_version :\n{msg1}"
 
 def test_version_versionmaj():
-	"""
+	r"""
 			Verifie demande version selon parametre --VERSION
 	"""
 	try:
@@ -130,7 +130,7 @@ def test_version_versionmaj():
 		assert False , f"\n\t>>>>ERREUR test_version_VERSION :\n{msg1}"
 
 def test_version_version_m():
-	"""
+	r"""
 			Verifie demande version selon parametres --version,-m
 	"""
 	try:
@@ -141,7 +141,7 @@ def test_version_version_m():
 
 
 def test_obligatoire_manquant():
-	"""
+	r"""
 			Verifie demande sans argument 
 	"""
 	try:
@@ -152,7 +152,7 @@ def test_obligatoire_manquant():
 		assert False , f"\n\t>>>>ERREUR test_obligatoire_manquant :\n{msg2}"
 
 def test_obligatoire_vide():
-	"""
+	r"""
 			Verifie demande avec argument -r mais rien d'autre 
 	"""
 	try:
@@ -163,7 +163,7 @@ def test_obligatoire_vide():
 		assert False , f"\n\t>>>>ERREUR test_obligatoire_vide :\n{msg2}"
 
 def test_imprevu_t():
-	"""
+	r"""
 			Verifie demande imprevue -t
 	"""
 	try:
@@ -174,7 +174,7 @@ def test_imprevu_t():
 		assert False , f"\n\t>>>>ERREUR test_imprevu_t :\n{msg2}"
 
 def test_imprevu_tmaj():
-	"""
+	r"""
 			Verifie demande imprevue -T
 	"""
 	try:
@@ -185,7 +185,7 @@ def test_imprevu_tmaj():
 		assert False , f"\n\t>>>>ERREUR test_imprevu_T :\n{msg2}"
 
 def test_imprevu_test():
-	"""
+	r"""
 			Verifie demande imprevue --test
 	"""
 	try:
@@ -196,7 +196,7 @@ def test_imprevu_test():
 		assert False , f"\n\t>>>>ERREUR test_imprevu_test :\n{msg2}"
 
 def test_imprevu_testmaj():
-	"""
+	r"""
 			Verifie demande imprevue --TEST
 	"""
 	try:
@@ -207,7 +207,7 @@ def test_imprevu_testmaj():
 		assert False , f"\n\t>>>>ERREUR test_imprevu_TEST :\n{msg2}"
 
 def test_imprevu_testmaj_mmaj():
-	"""
+	r"""
 			Verifie demande imprevue --TEST, -M
 	"""
 	try:
@@ -220,7 +220,7 @@ def test_imprevu_testmaj_mmaj():
 
 
 def test_aide_h():
-	"""
+	r"""
 			Verifie demande aide selon parametre -h
 	"""
 	try:
@@ -230,7 +230,7 @@ def test_aide_h():
 		assert False , f"\n\t>>>>ERREUR test_aide_h :\n{msg2}"
 
 def test_aide_hmaj():
-	"""
+	r"""
 			Verifie demande aide selon parametre -H
 	"""
 	try:
@@ -240,7 +240,7 @@ def test_aide_hmaj():
 		assert False , f"\n\t>>>>ERREUR test_aide_H :\n{msg2}"
 
 def test_aide_help():
-	"""
+	r"""
 			Verifie demande aide selon parametre --help
 	"""
 	try:
@@ -250,7 +250,7 @@ def test_aide_help():
 		assert False , f"\n\t>>>>ERREUR test_aide_help :\n{msg2}"
 
 def test_aide_helpmaj():
-	"""
+	r"""
 			Verifie demande aide selon parametre --HELP
 	"""
 	try:
@@ -260,7 +260,7 @@ def test_aide_helpmaj():
 		assert False , f"\n\t>>>>ERREUR test_aide_HELP :\n{msg2}"
 
 def test_aide_helpmaj_mmaj():
-	"""
+	r"""
 			Verifie demande aide selon parametres --HELP, -M
 	"""
 	try:
@@ -271,7 +271,7 @@ def test_aide_helpmaj_mmaj():
 		assert False , f"\n\t>>>>ERREUR test_aide_HELP_M :\n{msg2}"
 
 def test_aideversion():
-	"""
+	r"""
 			Verifie demande aide + version selon parametres -h + -v
 	"""
 	try:
@@ -282,7 +282,7 @@ def test_aideversion():
 		assert False , f"\n\t>>>>ERREUR test_aideversion :\n{msg3}"
 
 def test_aideversion_mp3():
-	"""
+	r"""
 			Verifie demande aide + version selon parametres -h + -v + --mp3
 	"""
 	try:
@@ -295,7 +295,7 @@ def test_aideversion_mp3():
 
 
 def test_repertoire_r():
-	"""
+	r"""
 			Verifie parametre -r
 	"""
 	for rep in [REPERTOIRE, "nimportequoi"]:
@@ -312,7 +312,7 @@ def test_repertoire_r():
 			assert False , f"\n\t>>>>ERREUR test_repertoire_r :\n{msg4}"
 
 def test_repertoire_rmaj():
-	"""
+	r"""
 			Verifie parametre -R
 	"""
 	for rep in [REPERTOIRE, "nimportequoi"]:
@@ -329,7 +329,7 @@ def test_repertoire_rmaj():
 			assert False , f"\n\t>>>>ERREUR test_repertoire_R :\n{msg4}"
 
 def test_repertoire_repertoire():
-	"""
+	r"""
 			Verifie parametre --repertoire
 	"""
 	for rep in [REPERTOIRE, "nimportequoi"]:
@@ -346,7 +346,7 @@ def test_repertoire_repertoire():
 			assert False, f"\n\t>>>>ERREUR test_repertoire_repertoire :\n{msg4}"
 
 def test_repertoire_repertoiremaj():
-	"""
+	r"""
 			Verifie parametre --REPERTOIRE
 	"""
 	for rep in [REPERTOIRE, "nimportequoi"]:
@@ -363,7 +363,7 @@ def test_repertoire_repertoiremaj():
 			assert False, f"\n\t>>>>ERREUR test_repertoire_REPERTOIRE :\n{msg4}"
 
 def test_action():
-	"""
+	r"""
 			Verifie fichier existence du fic resultat selon existence du repertoire
 			d'appel
 	"""

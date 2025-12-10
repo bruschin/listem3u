@@ -6,7 +6,7 @@
 # https://pypi.org/project/isort/
 # https://pypi.org/project/black/
 ###########
-REPTRAV="$(dirname $0)"
+REPTRAV="$(dirname "$0")"
 REPLOG="rapports"
 REPCONF="docs"
 FICCONF="${REPCONF}/.pylintrc"

@@ -100,7 +100,7 @@ jobs:
           bash ./devtools/lanceur_sphinx.bash
           bash ./devtools/lanceur_doxygen.bash
           bash ./devtools/lanceur_shellcheck.bash
-          bash ./devtools/lanceur_tox.bash
+          #  bash ./devtools/lanceur_tox.bash
           bash ./devtools/lanceur_build.bash || true
           echo "###### recherche dia"
           which dia

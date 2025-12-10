@@ -5,7 +5,7 @@
 ## pip install ruff --user
 ## https://github.com/charliermarsh/ruff
 ###########
-REPTRAV="$(dirname $0)"
+REPTRAV="$(dirname "$0")"
 REPLOG="rapports"
 REPCONF="docs"
 FICSORTIE="${REPLOG}/tox-rapport.txt"
@@ -15,7 +15,7 @@ export TZ="Europe/Paris"
 
 cd "${REPTRAV}/.." || exit 1
 
-echo "### $0 DEBUT ###"
+echo "### $0 DEBUT ${PWD} ###"
 
 if ! test -d "${REPLOG}"; then
   mkdir -p "${REPLOG}" 2>/dev/null

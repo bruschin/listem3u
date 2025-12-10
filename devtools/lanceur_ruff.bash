@@ -5,7 +5,7 @@
 ## pip install ruff --user
 ## https://github.com/charliermarsh/ruff
 ###########
-REPTRAV="$(dirname $0)"
+REPTRAV="$(dirname "$0")"
 REPLOG="rapports"
 FICSORTIE="${REPLOG}/ruff-rapport.txt"
 

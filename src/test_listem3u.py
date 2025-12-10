@@ -371,7 +371,7 @@ def test_action():
 	scom = ""
 	fic_ctrl = "../automation/000-liste-07-12-2025_ctrl.m3u"
 	try:
-		(iresul, scom) = action( 	"automation" , FICS_LISTE_TAMPON, FICS_LISTE, \
+		(iresul, scom) = action( 	"../automation" , FICS_LISTE_TAMPON, FICS_LISTE, \
 															DEFAUT_FICMP3 )
 		assert iresul == 0
 		assert scom == f"\n\t>>>> 1121 fichiers dans {FICS_LISTE}\n"

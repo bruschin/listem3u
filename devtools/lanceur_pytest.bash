@@ -2,7 +2,7 @@
 ###########
 ## genere rapport pytest
 ###########
-REPTRAV="$(dirname $0)"
+REPTRAV="$(dirname "$0")"
 VERSION_PYTHON="$1"
 if test -z "${VERSION_PYTHON}"; then
   # gestion valeur defaut

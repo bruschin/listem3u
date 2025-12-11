@@ -57,8 +57,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # python-version: ["3.10", "3.11", "3.12", "3.13"]
-        python-version: ["3.10"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        # python-version: ["3.10"]
         node-version: ["16"]
     steps:
       - uses: actions/checkout@v3
@@ -100,7 +100,7 @@ jobs:
           bash ./devtools/lanceur_sphinx.bash
           bash ./devtools/lanceur_doxygen.bash
           bash ./devtools/lanceur_shellcheck.bash
-          #  bash ./devtools/lanceur_tox.bash
+          # bash ./devtools/lanceur_tox.bash
           bash ./devtools/lanceur_build.bash || true
           echo "###### recherche dia"
           which dia
@@ -112,11 +112,13 @@ jobs:
           echo "####### mise en place des fichiers pour github-pages"
 
           mkdir -p docs/_build/html/doxygen || true
+          mkdir -p docs/_build/html/htmlcov || true
           
           mv rapports/doxygen docs/_build/html/ || true
           mv rapports/htmlcov docs/_build/html/ || true          
-          mv rapports/htmlcov2 docs/_build/html/ || true
+          # mv rapports/htmlcov2 docs/_build/html/ || true
           mv build/sphinx-html docs/_build/html/ || true
+          cp -fv docs/listem3u.png docs/_build/html/ || true
           cp -fv docs/index.html docs/_build/html/ || true
           cp -fv rapports/coverage*.xml docs/_build/html/ || true
           cp -fv rapports/*.txt docs/_build/html/ || true

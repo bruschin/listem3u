@@ -34,7 +34,7 @@ pylint \
     tests/test_listem3u.py \
     src/pegase.py \
     tests/test_pegase.py \
-    tests/test.py \
+    src/test.py \
     -r \
     n \
     --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" \

@@ -14,7 +14,7 @@ Tests unitaires de pegase.py
 'expected-exceptions'
 """
 import pytest
-from pegase import  FILENAME, VERSION, USAGE, DUREE_PAUSE_DEFAUT,\
+from src.pegase import  FILENAME, VERSION, USAGE, DUREE_PAUSE_DEFAUT,\
                         parametres, gestion_parametre, \
                         _est_un_badgeage_valide, traitement, \
                         _extracted_from_traitement, _conversion_heures

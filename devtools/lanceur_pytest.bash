@@ -36,7 +36,7 @@ pytest  -c "${FICCONF}" \
 	--cov-config="${REPCONF}/.coveragerc" \
 	--cov-report xml:"${REPLOG}/coverage.${VERSION_PYTHON}.xml" \
 	--cov-report=html:"${REPTESTS}" \
-	--cov="src"
+	--cov="src/"
 
 exec 1>&6 6>&-
 

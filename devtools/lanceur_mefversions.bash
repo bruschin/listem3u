@@ -23,6 +23,7 @@ declare -a FICS_A_MODIFIER=(
 "${REPCONF}/Doxyfile"
 "${REPCONF}/conf.py"
 "${REPCONF}/sonar-project.properties"
+"pyproject.toml"
 )
 
 

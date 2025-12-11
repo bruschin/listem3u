@@ -1,6 +1,6 @@
 [project]
 name = "listem3u"
-version = "1.9.0"
+version = "@RELEASE_VERSION@"
 description = """
 Exploite fichiers extension m3u dans les sous-répertoires du repertoire de
 travail, pour constituer la liste des fichiers mp3 classés.
@@ -31,6 +31,7 @@ include = [
 ]
 exclude =[
    "src/test*.py",
+   "tests/test*.py",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -131,3 +132,4 @@ python = "*"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.4"
+

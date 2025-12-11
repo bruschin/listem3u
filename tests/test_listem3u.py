@@ -13,11 +13,12 @@ Tests unitaires de listemp3u.py
     [2023-04-05] BN V1.2 :  3-sonarqube
     [2025-04-06] BN V1.3 :  Filtre lignes vides ou commentées fichiers m3u
     [2025-11-23] BN V1.3.1 : Test Action
-		[2025-12-09] BN V1.3.2 : Test Action + production
+	[2025-12-09] BN V1.3.2 : Test Action + production
+	[2025-12-11] BN V1.3.3 : modification structure repertoires
 """
 import os
 import pytest
-from listem3u import  FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
+from src.listem3u import  FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
 											DEFAUT_FICMP3, FICS_LISTE_TAMPON, parametres, action, \
 											_filtreligne, _estexploitable, hashlib_sha512
 
@@ -25,6 +26,7 @@ from listem3u import  FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
 # initial directory
 CWD = os.getcwd()
 REPERTOIRE = f"{CWD}/automation"
+
 
 # turns all warnings into errors for this module
 pytestmark = pytest.mark.filterwarnings("error")
@@ -369,13 +371,13 @@ def test_action():
 	"""
 	iresul = 0
 	scom = ""
-	fic_ctrl = "../automation/000-liste-07-12-2025_ctrl.m3u"
+	fic_ctrl = f"{REPERTOIRE}/000-liste-07-12-2025_ctrl.m3u"
 	try:
-		(iresul, scom) = action( 	"../automation" , FICS_LISTE_TAMPON, FICS_LISTE, \
-															DEFAUT_FICMP3 )
+		(iresul, scom) = \
+			action(REPERTOIRE, FICS_LISTE_TAMPON, FICS_LISTE, DEFAUT_FICMP3)
 		assert iresul == 0
 		assert scom == f"\n\t>>>> 1121 fichiers dans {FICS_LISTE}\n"
-		fic_produit=f"../automation/{FICS_LISTE}"
+		fic_produit = f"{REPERTOIRE}/{FICS_LISTE}"
 		assert os.path.exists(fic_produit)
 		assert os.path.exists(fic_ctrl)
 		assert hashlib_sha512(fic_ctrl) == hashlib_sha512(fic_produit)

@@ -31,9 +31,10 @@ pylint \
     --rcfile \
     "${FICCONF}" \
     src/listem3u.py \
-    src/test_listem3u.py \
+    tests/test_listem3u.py \
     src/pegase.py \
-    src/test_pegase.py \
+    tests/test_pegase.py \
+    tests/test.py \
     -r \
     n \
     --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" \

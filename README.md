@@ -1,4 +1,4 @@
-# listem3u [2025-12-10] 👉 BN V1.9.0.4
+# listem3u [2025-12-12] 👉 BN V1.9.4
 
 [![GITHUB Actions status](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml/badge.svg?branch=releases))](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml)
 [![SonarQube Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bruschin_listem3u&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
@@ -6,11 +6,11 @@
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
 <!-- [![Quality Gate Status](https://sonar.cloudmf.dev/api/project_badges/measure?project=listem3u&metric=alert_status)](https://sonar.cloudmf.dev/dashboard?id=listem3u)-->
 
-## Action V1.9.0.4
+## Action V1.9.4
 
 + Séparateur répertoire | fichier = \ et non plus /
 + Generation possible d'une signature sha512 pour comparaison fichiers m3u
-+ Révision du pipeline github et des tests unitaires
++ Révision du pipeline github, des tests unitaires + couverture (pytest/tox)
 
 ## Action V1.9
 

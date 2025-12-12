@@ -84,6 +84,9 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install -y graphviz rhino lcov dia doxygen shellcheck
+          sudo apt install python3.12 python3.12-venv
+          python3 -m venv envdev
+          source envdev/bin/activate
           echo "######## dia installé = $(which dia)"
           python -m pip install --upgrade pip
           python -m pip install pylint-common --use-pep517

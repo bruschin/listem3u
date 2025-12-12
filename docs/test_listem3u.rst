@@ -1,4 +1,4 @@
-test\_listem3u module
+test_listem3u
 =====================
 
 .. automodule:: test_listem3u

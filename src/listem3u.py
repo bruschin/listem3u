@@ -10,6 +10,7 @@ r"""
 
 	[EN ENTREE]
 		[-h |--help : Demande usage] Optionnel
+		
 		[-m |--mp3 : Verification existence fic mp3] Optionnel. Defaut = False
 		[-r |--repertoire] <repertoire de travail>  Optionnel
 																								defaut = Repertoire_travail

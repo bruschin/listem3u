@@ -84,7 +84,10 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install -y graphviz rhino lcov dia doxygen shellcheck
-          sudo apt install python3.12 python3.12-venv
+          sudo apt-get install build-essential zlib1g-dev libffi-dev libssl-dev 
+          sudo apt-get install libbz2-dev libreadline-dev libsqlite3-dev liblzma-dev libncurses-dev tk-dev 
+          sudo apt install python3.12 python3.12-venv          
+
           echo "##### Gestion environnements virtuels #######"
           python3 -m venv envdev
           source envdev/bin/activate

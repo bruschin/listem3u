@@ -31,9 +31,5 @@ tox -c "${FICCONF}" --recreate
 exec 1>&6 6>&-
 
 cat "${FICSORTIE}"
-#rm -f "${FICSORTIE}" 1>/dev/null 2>/dev/null
-if test -f "rapports/coverage2.xml"; then
-    cat "rapports/coverage2.xml"
-fi
 echo "### $0 FIN ###"
 exit 0

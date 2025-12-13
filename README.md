@@ -19,12 +19,12 @@
 + python3 -m venv envdev
 + gestion .bashrc et .profile
 + lanceur_tox :
-++ clean: OK (1.20=setup[1.13]+cmd[0.07] seconds)
-  +++ lint: OK (2.53=setup[2.20]+cmd[0.33] seconds)
-  +++ type: OK (2.57=setup[2.24]+cmd[0.32] seconds)
-  +++ 3.10: OK (2.52=setup[2.21]+cmd[0.30] seconds)
-  +++ 3.11: OK (2.69=setup[2.36]+cmd[0.33] seconds)
-  +++ 3.12: OK (2.42=setup[2.10]+cmd[0.32] seconds)
+	+ clean: OK (1.20=setup[1.13]+cmd[0.07] seconds)
+  + lint: OK (2.53=setup[2.20]+cmd[0.33] seconds)
+  + type: OK (2.57=setup[2.24]+cmd[0.32] seconds)
+  + 3.10: OK (2.52=setup[2.21]+cmd[0.30] seconds)
+  + 3.11: OK (2.69=setup[2.36]+cmd[0.33] seconds)
+  + 3.12: OK (2.42=setup[2.10]+cmd[0.32] seconds)
 
 
 ## Action V1.9.4

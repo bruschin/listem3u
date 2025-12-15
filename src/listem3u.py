@@ -55,7 +55,7 @@ r"""
 import sys
 import getopt
 import os
-import re
+import unicodedata
 import fnmatch
 import hashlib
 from datetime import datetime
@@ -316,18 +316,21 @@ def _filtreligne(unechaine=None, ssrep=None):
 												suppression trailing-space.
 												alerte si contient un espace.
 	"""
-	pattern = r'[a-zA-Z0-9&\\-_.]+'
-	tamp = unechaine.split('-')
+	pattern = unicodedata.normalize('NFKD', unechaine).encode('ascii', 'ignore').decode('ascii')
+	#print(f"debug : {pattern}")
+	
 	### parametre local
 	
-	if ' ' in unechaine:
+	if pattern != unechaine:
+		print(f"\n\t>>>> Au moins un caractere imprevu : {ssrep} # {unechaine}")
+	elif ' ' in unechaine:
 		print(f"\n\t>>>> au moins un espace : {ssrep} # {unechaine}")
 	elif unechaine.count('-') > 1:
 		print(f"\n\t>>>> plus d'1 tiret : {ssrep} # {unechaine}")
-	elif tamp[0].capitalize() != tamp[0]:
+	else:
+		tamp = unechaine.split('-')
+		if tamp[0].capitalize() != tamp[0]:
 			print(f"\n\t>>>> majuscules : {ssrep} # {unechaine}")
-	elif re.fullmatch(pattern,unechaine) is None:
-		print(f"\n\t>>>> Au moins un caractère imprévu : {ssrep} # {unechaine}")
   
 	return unechaine.strip()
 

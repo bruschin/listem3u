@@ -86,7 +86,7 @@ def test_filtreligne_accent(capsys):
 		chaineretour = _filtreligne( unechaine , ssrep )
 		captured = capsys.readouterr()
 		assert captured.out == \
-				f"\n\t>>>> Au moins un caractère imprévu : {ssrep} # {unechaine}\n"
+			f"\n\t>>>> Au moins un caractere imprevu : {ssrep} # {unechaine}\n"
 		assert chaineretour == unechaine.strip()
 	except AssertionError as msg1:
 		assert False , f"\n\t>>>>ERREUR test_filtreligne :\n{msg1}"

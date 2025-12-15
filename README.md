@@ -1,4 +1,4 @@
-# listem3u [2025-12-13] 👉 BN V1.9.5
+# listem3u [2025-12-15] 👉 BN V1.9.6
 
 [![GITHUB Actions status](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml/badge.svg?branch=releases))](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml)
 [![SonarQube Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bruschin_listem3u&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
@@ -6,9 +6,9 @@
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
 <!-- [![Quality Gate Status](https://sonar.cloudmf.dev/api/project_badges/measure?project=listem3u&metric=alert_status)](https://sonar.cloudmf.dev/dashboard?id=listem3u)-->
 
-## Action V1.9.5
+## Action V1.9.6
 
-+ Gestion pyenv et venv pour tests tox pytest pytest-cov en python 3.10, 3.11, 3.12
++ Gestion pyenv et venv pour tests tox pytest pytest-cov python 3.10, 3.11, 3.12
 + curl -fsSL https://pyenv.run | bash
 + gestion .bashrc et .profile
 + pyenv install -l
@@ -25,6 +25,7 @@
   + 3.10: OK (2.52=setup[2.21]+cmd[0.30] seconds)
   + 3.11: OK (2.69=setup[2.36]+cmd[0.33] seconds)
   + 3.12: OK (2.42=setup[2.10]+cmd[0.32] seconds)
++ Test caractères accentués dans nom de fichier (Pb pour liste de lecture)
 
 
 ## Action V1.9.4

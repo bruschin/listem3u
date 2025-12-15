@@ -55,6 +55,7 @@ r"""
 import sys
 import getopt
 import os
+import re
 import fnmatch
 import hashlib
 from datetime import datetime
@@ -304,7 +305,7 @@ def _estexploitable(unechaine=None):
 def _filtreligne(unechaine=None, ssrep=None):
 	r"""
 		Filtre une ligne de fichier m3u, alerte si contient un espace, ou plus
-		d'un tiret et renvoie nom du fichier mp3
+		d'un tiret ou caractère imprévu et renvoie nom du fichier mp3
 
 	[ EN ENTREE ]
 		unechaine (chaine) une ligne du fichier m3u
@@ -315,15 +316,19 @@ def _filtreligne(unechaine=None, ssrep=None):
 												suppression trailing-space.
 												alerte si contient un espace.
 	"""
+	pattern = r'[a-zA-Z0-9&\\-_.]+'
+	tamp = unechaine.split('-')
 	### parametre local
+	
 	if ' ' in unechaine:
 		print(f"\n\t>>>> au moins un espace : {ssrep} # {unechaine}")
 	elif unechaine.count('-') > 1:
 		print(f"\n\t>>>> plus d'1 tiret : {ssrep} # {unechaine}")
-	else:
-		tamp = unechaine.split('-')
-		if tamp[0].capitalize() != tamp[0]:
+	elif tamp[0].capitalize() != tamp[0]:
 			print(f"\n\t>>>> majuscules : {ssrep} # {unechaine}")
+	elif re.fullmatch(pattern,unechaine) is None:
+		print(f"\n\t>>>> Au moins un caractère imprévu : {ssrep} # {unechaine}")
+  
 	return unechaine.strip()
 
 ### Principal ####

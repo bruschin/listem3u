@@ -76,6 +76,21 @@ def test_filtreligne_tiret(capsys):
 	except AssertionError as msg1:
 		assert False , f"\n\t>>>>ERREUR test_filtreligne :\n{msg1}"
 
+def test_filtreligne_accent(capsys):
+	r"""
+	test les alertes sur les noms de fichiers mp3 lus dans fic m3u
+	"""
+	ssrep = "004"
+	unechaine = "Paînt_œit_black-The_Rolling_Stonés.mp3"
+	try:
+		chaineretour = _filtreligne( unechaine , ssrep )
+		captured = capsys.readouterr()
+		assert captured.out == \
+				f"\n\t>>>> Au moins un caractère imprévu : {ssrep} # {unechaine}\n"
+		assert chaineretour == unechaine.strip()
+	except AssertionError as msg1:
+		assert False , f"\n\t>>>>ERREUR test_filtreligne :\n{msg1}"
+
 def test_filtreligne_blanc(capsys):
 	r"""
 	test les alertes sur les noms de fichiers mp3 lus dans fic m3u
@@ -371,12 +386,12 @@ def test_action():
 	"""
 	iresul = 0
 	scom = ""
-	fic_ctrl = f"{REPERTOIRE}/000-liste-07-12-2025_ctrl.m3u"
+	fic_ctrl = f"{REPERTOIRE}/000-liste-15-12-2025_ctrl.m3u"
 	try:
 		(iresul, scom) = \
 			action(REPERTOIRE, FICS_LISTE_TAMPON, FICS_LISTE, DEFAUT_FICMP3)
 		assert iresul == 0
-		assert scom == f"\n\t>>>> 1121 fichiers dans {FICS_LISTE}\n"
+		assert scom == f"\n\t>>>> 1135 fichiers dans {FICS_LISTE}\n"
 		fic_produit = f"{REPERTOIRE}/{FICS_LISTE}"
 		assert os.path.exists(fic_produit)
 		assert os.path.exists(fic_ctrl)

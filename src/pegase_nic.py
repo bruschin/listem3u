@@ -7,22 +7,22 @@
 	@author: Nicolas Bruschi
 
 	Calcule l'heure de départ minimale theorique pour effectuer obligation de
-	7h24 de travail effectif d'apres renseignement de 1 à 4 badgeages de type
+	7h24 de travail effectif d'apres renseignement de 1 ou 3 badgeages de type
 	xxhmm exemple 9:24 ou 09h24 ou 13H56 (le h ou : central accepte la casse
 	min/maj). Pour renseigner une séquence de 3 badgeage copie/colle sur
 	pegaseweb:  09:33 - 12:09 - 12:35
 
-	Nota bene : le systeme pivot par défaut pris en compte est celui de 37h/5j.
-	Pour adapter ce systeme pivot à son cas , il convient de modifier en dur
+	Nota bene : le systeme pivot par défaut pris en compte est celui de 37h/5j
+	pour adapter ce systeme pivot à son cas , il convient de modifier en dur
 	dans ce script la valeur de la variable globale DUREE_JOUR. Exemple:
 	38h30 / 5j : (38*60 +30)/5 = 462 = 7*60 + 42 = Obligation quotidienne 7h42.
 
 	[ EN ENTREE ]
-		1 ou 4 arguments de type chaine = xxhmm ou xHmm
+		1 ou 3 arguments de type chaine = xxhmm ou xHmm
 		exemple 9h24 ou 09:24 ou 13H56 (:,h central accepte la casse min/maj)
 		Si un seul arg on appliquera automatiquement une pause midi obligatoire
 		de 45 minutes
-		Si 3 ou 4 arg, séparés par (-, ou /) la durée entre arg 2 et arg 3 est la
+		Si 3 arg, séparé par (-, ou /) la duree entre arg 2 et arg 3 est la
 		duree de la pause meridienne ne pouvant etre inf a 45 minutes.
 	[ EN SORTIE ]
 		0   OK => Affichage de l'heure du depart calcule ex: DEPART : 17H19
@@ -35,31 +35,28 @@
 		[2023-04-13] BN V1.2 : Test unitaires + corretion bug _conversion_heures 
 													 %02d prise en compte 1 ou 3 badgeages => 1 ou 2 ou 3.
 		[2024-09-11] BN V1.3 : Ajout calcul systeme pivot autre que 37h5j
-		[2025-12-16] CA V1.4.0 : Ajout calcul gain bilan
 """
 
 ## Bibliotheques ##
 
 import sys
 import getopt
-from datetime import datetime
 
 # VARIABLES GLOBALES :
 
-FILENAME = "pegase.py"
-VERSION = f"  {FILENAME}: [2025-12-16] CA V1.4.0\n"
+FILENAME = "pegase_nic.py"
+VERSION = f"  {FILENAME}: [2024-09-11] BN V1.3\n"
 USAGE = (f"  usage: {FILENAME} [OPTIONS]\n" +\
 "  OPTIONS:\n"
-"  [09:31 - 12h00 - 12H38] 1 à 4 badgeage(s) OBLIGATOIRE(S)\n" +\
+"  [09:31 - 12h00 - 12H38] 1 ou 3 badgeage(s) OBLIGATOIRE(S)\n" +\
 "  [-h |--help : Demande usage] Optionnel\n" +\
 "  [-v |--version : Demande version] Optionnel\n"
 "  Tous les parametres acceptent casse minuscules/majuscules.\n")
-DUREE_JOUR = 7 * 60 + 24  # 7h24 convertis en minutes (37h sur 5 j = 7h24 par jour)
-#DUREE_JOUR = 7 * 60 + 42 # Pivot 38h30 5j => 462 minutes = 7h42 par jour
+DUREE_JOUR = 444  # 7h24 convertis en minutes (37h sur 5 j = 7h24 par jour)
+#DUREE_JOUR = 462 # Pivot 38h30 5j => 462 minutes = 7h42 par jour
 DUREE_PAUSE_DEFAUT = 45
 SEPARHM = ["H",":"]
 SEPARBADGE = ["-","/"]
-HMIN = 16 * 60 # fin plage fixe après-midi
 
 ## Fonctions :
 ##############
@@ -194,9 +191,6 @@ def traitement(tabminutes):
 		case 3:
 			pause = max((tabminutes[2] - tabminutes[1]), DUREE_PAUSE_DEFAUT)
 			scom = _extracted_from_traitement(tabminutes, pause)
-		case 4:
-			pause = max((tabminutes[2] - tabminutes[1]), DUREE_PAUSE_DEFAUT)
-			scom = _compute_gain(tabminutes[0], pause, tabminutes[3])
 		case 1|2:
 			scom = _extracted_from_traitement(tabminutes, DUREE_PAUSE_DEFAUT)
 		case _:
@@ -287,50 +281,10 @@ def _extracted_from_traitement(tabminutes, pause):
 	[ EN SORTIE ]
 		ch_conv_retour (chaine) formatee
 	"""
-	arrivee = tabminutes[0]
-	soir = max(arrivee + pause + DUREE_JOUR, HMIN)
+	soir = tabminutes[0] + pause + DUREE_JOUR
+	depart = _conversion_heures(soir)
 
-	if soir == HMIN:
-		depart = _conversion_heures(soir) + \
-						" (" + _compute_gain(arrivee, pause, soir) + ")"
-	else:
-		depart = _conversion_heures(soir)
-
-	now_h = datetime.now().time().hour
-	now_m = datetime.now().time().minute
-
-	if len(tabminutes) > 1:
-		soir = _conversion_minutes(now_h, now_m)
-		print("En partant maintenant ->", _compute_gain(arrivee, pause, soir))
-
-	return f"depart min : {depart}"
-
-def _compute_gain(arrivee: int, pause: int, depart: int) -> str:
-	"""
-	calcul du gain (ou perte) total sur la journée
-	inclus le non dépassement de 10h max sur une journée
-
-	[ EN ENTREE ]
-		heure d'arrivee (entier, minutes)
-		durée pause (entier, minutes)
-		heure départ (entier, minutes)
-
-	[ EN SORTIE ]
-		chaine décrivant le gain/perte de la journée (str)
-	"""
-	jmax = 10 * 60
-	duree = depart - (arrivee + pause)
-	gain = min((DUREE_JOUR - duree), (DUREE_JOUR - jmax))
-
-	if gain < 0:
-		result = "gain" if duree < jmax else "gain (max)"
-		gain *= -1
-	else:
-		result = "perte"
-
-	gain_conv = _conversion_heures(gain)
-
-	return f"{result} : {gain_conv}"
+	return f"depart : {depart}"
 
 ### Principal ###
 #################

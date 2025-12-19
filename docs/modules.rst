@@ -5,4 +5,3 @@ src
     :maxdepth: 4
 
     listem3u
-    pegase

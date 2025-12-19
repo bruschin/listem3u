@@ -32,8 +32,6 @@ pylint \
     "${FICCONF}" \
     src/listem3u.py \
     tests/test_listem3u.py \
-    src/pegase.py \
-    tests/test_pegase.py \
     src/test.py \
     -r \
     n \

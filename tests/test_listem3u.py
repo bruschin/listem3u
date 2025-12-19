@@ -386,12 +386,13 @@ def test_action():
 	"""
 	iresul = 0
 	scom = ""
-	fic_ctrl = f"{REPERTOIRE}/000-liste-15-12-2025_ctrl.m3u"
+	fic_ctrl = f"{REPERTOIRE}/000-liste-18-12-2025_ctrl.m3u"
+	nbr_ficmp3 = 1137
 	try:
 		(iresul, scom) = \
 			action(REPERTOIRE, FICS_LISTE_TAMPON, FICS_LISTE, DEFAUT_FICMP3)
 		assert iresul == 0
-		assert scom == f"\n\t>>>> 1135 fichiers dans {FICS_LISTE}\n"
+		assert scom == f"\n\t>>>> {nbr_ficmp3} fichiers dans {FICS_LISTE}\n"
 		fic_produit = f"{REPERTOIRE}/{FICS_LISTE}"
 		assert os.path.exists(fic_produit)
 		assert os.path.exists(fic_ctrl)

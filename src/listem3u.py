@@ -37,6 +37,7 @@ r"""
 		[2025-12-09] BN V1.9.3 : revision format fichier m3u + sha512
                              # https://fr.wikipedia.org/wiki/M3U
     [2025-12-12] BN V1.9.4 : mise au point
+		[2025-12-21] BN V1.9.6 : mise au point pipeline ci/cd
 
 	[REFERENCES]
 		https://www.githubstatus.com/
@@ -64,7 +65,7 @@ from os.path import exists as file_exists
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
-VERSION = f"\n {FILENAME} version : [2025-12-12 BN V1.9.4]"
+VERSION = f"\n {FILENAME} version : [2025-12-21 BN V1.9.6]"
 SEPARATEUR_REP = "\\"
 REP_TRAV = f"P:{SEPARATEUR_REP}Morceaux_choisis"
 USAGE = (f"\n  usage: {FILENAME} [OPTIONS]\n"

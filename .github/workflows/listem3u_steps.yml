@@ -83,7 +83,7 @@ jobs:
             ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
-          sudo agt-get update -y --fix-missing || true
+          sudo apt-get update -y --fix-missing || true
           sudo apt-get upgrade -y || true
           sudo apt-get install -y graphviz rhino lcov dia doxygen shellcheck
           sudo apt-get install -y build-essential zlib1g-dev libffi-dev 

@@ -115,6 +115,9 @@ jobs:
           echo "######## tox installé = $(which tox)"
           # export TZ="Europe/Paris"
           bash ./devtools/lanceur_mefversions.bash $GITHUB_SHA $GITHUB_RUN_ID || true
+
+          echo "######## pwd ####"
+          pwd
           bash ./devtools/lanceur_pytest.bash || true
           bash ./devtools/lanceur_pylint.bash || true
           bash ./devtools/lanceur_ruff.bash || true

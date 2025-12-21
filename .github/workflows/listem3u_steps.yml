@@ -17,7 +17,7 @@ run-name: GA DQGS ${{ github.event.head_commit.message }} ${{ github.sha }}
 on:
   issues:
     types:
-      - created
+      - labeled
       - opened
   label:
     types:
@@ -83,8 +83,8 @@ jobs:
             ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
-          sudo agt-get update -y || true
-          sudo apt-get apgrade -y || true
+          sudo agt-get update -y --fix-missing || true
+          sudo apt-get upgrade -y || true
           sudo apt-get install -y graphviz rhino lcov dia doxygen shellcheck
           sudo apt-get install -y build-essential zlib1g-dev libffi-dev 
           sudo apt-get install -y libbz2-dev libreadline-dev libsqlite3-dev  

@@ -1,4 +1,4 @@
-# listem3u [2025-12-15] 👉 BN V1.9.6
+# listem3u [2025-12-21] 👉 BN V1.9.6
 
 [![GITHUB Actions status](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml/badge.svg?branch=releases))](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml)
 [![SonarQube Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bruschin_listem3u&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
@@ -26,6 +26,7 @@
   + 3.11: OK (2.69=setup[2.36]+cmd[0.33] seconds)
   + 3.12: OK (2.42=setup[2.10]+cmd[0.32] seconds)
 + Test caractères accentués dans nom de fichier (Pb pour liste de lecture)
++ remise à jour du pipeline ci/cd + github pages.
 
 
 ## Action V1.9.4

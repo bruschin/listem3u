@@ -8,19 +8,23 @@ Created on 26 mars 2023
 Tests unitaires de listemp3u.py
 
 [VERSIONS]
-    [2023-03-26] BN V1.0 :  Initialisation
-    [2023-03-29] BN V1.1 :  issue 1-listemp3upy-sans-fichier-mp3
-    [2023-04-05] BN V1.2 :  3-sonarqube
-    [2025-04-06] BN V1.3 :  Filtre lignes vides ou commentées fichiers m3u
-    [2025-11-23] BN V1.3.1 : Test Action
+	[2023-03-26] BN V1.0 :  Initialisation
+	[2023-03-29] BN V1.1 :  issue 1-listemp3upy-sans-fichier-mp3
+	[2023-04-05] BN V1.2 :  3-sonarqube
+	[2025-04-06] BN V1.3 :  Filtre lignes vides ou commentées fichiers m3u
+	[2025-11-23] BN V1.3.1 : Test Action
 	[2025-12-09] BN V1.3.2 : Test Action + production
-	[2025-12-11] BN V1.3.3 : modification structure repertoires
+	[2025-12-11] BN V1.3.3 : modification structure repertoires	
+	[2025-12-29] BN V1.3.4 : test actionfinale
 """
 import os
+import shutil
 import pytest
-from src.listem3u import  FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV,\
-											DEFAUT_FICMP3, FICS_LISTE_TAMPON, parametres, action, \
-											_filtreligne, _estexploitable, hashlib_sha512
+from src.listem3u import \
+	FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV, FICS_LISTE_PROD, \
+	DEFAUT_MENAGE, DEFAUT_FICMP3, FICS_LISTE_TAMPON, \
+	parametres, action, actionfinale, _filtreligne, _estexploitable, \
+	hashlib_sha512
 
 ## GLOBAL
 # initial directory
@@ -128,7 +132,7 @@ def test_version_vmaj():
 
 def test_version_version():
 	r"""
-			Verifie demande version selon parametre --VERSION
+	Verifie demande version selon parametre --VERSION
 	"""
 	try:
 		assert parametres([f"{FILENAME}","--version"]) == \
@@ -138,7 +142,7 @@ def test_version_version():
 
 def test_version_versionmaj():
 	r"""
-			Verifie demande version selon parametre --VERSION
+	Verifie demande version selon parametre --VERSION
 	"""
 	try:
 		assert parametres([f"{FILENAME}","--VERSION"]) == \
@@ -148,7 +152,7 @@ def test_version_versionmaj():
 
 def test_version_version_m():
 	r"""
-			Verifie demande version selon parametres --version,-m
+	Verifie demande version selon parametres --version,-m
 	"""
 	try:
 		assert parametres([f"{FILENAME}","--version","-m"]) == \
@@ -159,7 +163,7 @@ def test_version_version_m():
 
 def test_obligatoire_manquant():
 	r"""
-			Verifie demande sans argument 
+	Verifie demande sans argument 
 	"""
 	try:
 		assert parametres([f"{FILENAME}"]) == \
@@ -170,7 +174,7 @@ def test_obligatoire_manquant():
 
 def test_obligatoire_vide():
 	r"""
-			Verifie demande avec argument -r mais rien d'autre 
+	Verifie demande avec argument -r mais rien d'autre 
 	"""
 	try:
 		assert parametres([f"{FILENAME}","-r"]) == \
@@ -181,7 +185,7 @@ def test_obligatoire_vide():
 
 def test_imprevu_t():
 	r"""
-			Verifie demande imprevue -t
+	Verifie demande imprevue -t
 	"""
 	try:
 		assert parametres([f"{FILENAME}","-t"]) == \
@@ -192,7 +196,7 @@ def test_imprevu_t():
 
 def test_imprevu_tmaj():
 	r"""
-			Verifie demande imprevue -T
+	Verifie demande imprevue -T
 	"""
 	try:
 		assert parametres([f"{FILENAME}","-T"]) == \
@@ -203,7 +207,7 @@ def test_imprevu_tmaj():
 
 def test_imprevu_test():
 	r"""
-			Verifie demande imprevue --test
+	Verifie demande imprevue --test
 	"""
 	try:
 		assert parametres([f"{FILENAME}","--test"]) == \
@@ -214,7 +218,7 @@ def test_imprevu_test():
 
 def test_imprevu_testmaj():
 	r"""
-			Verifie demande imprevue --TEST
+	Verifie demande imprevue --TEST
 	"""
 	try:
 		assert parametres([f"{FILENAME}","--TEST"]) == \
@@ -225,7 +229,7 @@ def test_imprevu_testmaj():
 
 def test_imprevu_testmaj_mmaj():
 	r"""
-			Verifie demande imprevue --TEST, -M
+	Verifie demande imprevue --TEST, -M
 	"""
 	try:
 		# avec verif fic mp3
@@ -238,7 +242,7 @@ def test_imprevu_testmaj_mmaj():
 
 def test_aide_h():
 	r"""
-			Verifie demande aide selon parametre -h
+	Verifie demande aide selon parametre -h
 	"""
 	try:
 		assert parametres([f"{FILENAME}","-h"]) == \
@@ -248,7 +252,7 @@ def test_aide_h():
 
 def test_aide_hmaj():
 	r"""
-			Verifie demande aide selon parametre -H
+	Verifie demande aide selon parametre -H
 	"""
 	try:
 		assert parametres([f"{FILENAME}","-H"]) == \
@@ -258,7 +262,7 @@ def test_aide_hmaj():
 
 def test_aide_help():
 	r"""
-			Verifie demande aide selon parametre --help
+	Verifie demande aide selon parametre --help
 	"""
 	try:
 		assert parametres([f"{FILENAME}","--help"]) == \
@@ -268,7 +272,7 @@ def test_aide_help():
 
 def test_aide_helpmaj():
 	r"""
-			Verifie demande aide selon parametre --HELP
+	Verifie demande aide selon parametre --HELP
 	"""
 	try:
 		assert parametres([f"{FILENAME}","--HELP"]) == \
@@ -278,7 +282,7 @@ def test_aide_helpmaj():
 
 def test_aide_helpmaj_mmaj():
 	r"""
-			Verifie demande aide selon parametres --HELP, -M
+	Verifie demande aide selon parametres --HELP, -M
 	"""
 	try:
 		# avec verif fic mp3
@@ -289,7 +293,7 @@ def test_aide_helpmaj_mmaj():
 
 def test_aideversion():
 	r"""
-			Verifie demande aide + version selon parametres -h + -v
+	Verifie demande aide + version selon parametres -h + -v
 	"""
 	try:
 		assert parametres([f"{FILENAME}","-h","-v"]) == \
@@ -300,7 +304,7 @@ def test_aideversion():
 
 def test_aideversion_mp3():
 	r"""
-			Verifie demande aide + version selon parametres -h + -v + --mp3
+	Verifie demande aide + version selon parametres -h + -v + --mp3
 	"""
 	try:
 		# avec verif fic mp3
@@ -313,7 +317,7 @@ def test_aideversion_mp3():
 
 def test_repertoire_r():
 	r"""
-			Verifie parametre -r
+	Verifie parametre -r
 	"""
 	for rep in [REPERTOIRE, "nimportequoi"]:
 		try:
@@ -330,7 +334,7 @@ def test_repertoire_r():
 
 def test_repertoire_rmaj():
 	r"""
-			Verifie parametre -R
+	Verifie parametre -R
 	"""
 	for rep in [REPERTOIRE, "nimportequoi"]:
 		try:
@@ -347,7 +351,7 @@ def test_repertoire_rmaj():
 
 def test_repertoire_repertoire():
 	r"""
-			Verifie parametre --repertoire
+	Verifie parametre --repertoire
 	"""
 	for rep in [REPERTOIRE, "nimportequoi"]:
 		try:
@@ -364,7 +368,7 @@ def test_repertoire_repertoire():
 
 def test_repertoire_repertoiremaj():
 	r"""
-			Verifie parametre --REPERTOIRE
+	Verifie parametre --REPERTOIRE
 	"""
 	for rep in [REPERTOIRE, "nimportequoi"]:
 		try:
@@ -381,21 +385,44 @@ def test_repertoire_repertoiremaj():
 
 def test_action():
 	r"""
-			Verifie fichier existence du fic resultat selon existence du repertoire
-			d'appel
+	Verifie fichier existence du fic resultat selon existence du repertoire
+	d'appel
 	"""
 	iresul = 0
 	scom = ""
-	fic_ctrl = f"{REPERTOIRE}/000-liste-18-12-2025_ctrl.m3u"
-	nbr_ficmp3 = 1137
+	fic_ctrl = f"{REPERTOIRE}/000-liste-22-12-2025_ctrl.m3u"
+	nbr_ficmp3 = 1141
 	try:
 		(iresul, scom) = \
-			action(REPERTOIRE, FICS_LISTE_TAMPON, FICS_LISTE, DEFAUT_FICMP3)
+			action(REPERTOIRE, FICS_LISTE_TAMPON, FICS_LISTE_PROD, DEFAUT_FICMP3)
 		assert iresul == 0
-		assert scom == f"\n\t>>>> {nbr_ficmp3} fichiers dans {FICS_LISTE}\n"
-		fic_produit = f"{REPERTOIRE}/{FICS_LISTE}"
+		assert scom == f"\n\t>>>> {nbr_ficmp3} fichiers dans {FICS_LISTE_PROD}\n"
+		fic_produit = f"{REPERTOIRE}/{FICS_LISTE_PROD}"
 		assert os.path.exists(fic_produit)
 		assert os.path.exists(fic_ctrl)
 		assert hashlib_sha512(fic_ctrl) == hashlib_sha512(fic_produit)
 	except AssertionError as msg5:
 		assert False , f"\n\t>>>>ERREUR test_action :\n{msg5}"
+
+def test_actionfinale():
+	r"""
+	Verifie comparaison de la production au fichier de controle
+	"""
+	iresul = 0
+	scom = ""
+	fic_ctrl = f"{REPERTOIRE}/000-liste-22-12-2025_ctrl.m3u"
+	fic_prod = f"{REPERTOIRE}/{FICS_LISTE_PROD}"
+	nbr_ficmp3 = 1141
+	try:
+		shutil.copy(f"{fic_ctrl}",f"{fic_prod}")
+		(iresul, scom) = \
+			actionfinale( REPERTOIRE, FICS_LISTE_PROD, FICS_LISTE, \
+								   										iresul, scom, True)
+		assert iresul == 0
+		assert scom == "\n\t>>>> Aucune difference de production.\n"
+		fic_produit = f"{REPERTOIRE}/{FICS_LISTE_PROD}"
+		assert not os.path.exists(fic_produit)
+		assert os.path.exists(fic_ctrl)
+	except AssertionError as msg5:
+		assert False , f"\n\t>>>>ERREUR test_action :\n{msg5}"
+

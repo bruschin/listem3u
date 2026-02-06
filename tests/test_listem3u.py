@@ -29,7 +29,9 @@ from src.listem3u import \
 ## GLOBAL
 # initial directory
 CWD = os.getcwd()
-REPERTOIRE = f"{CWD}/automation"
+REPERTOIRE = os.path.join(CWD, "automation")
+FICCTRL = os.path.join(REPERTOIRE,"000-liste-06-02-2026_ctrl.m3u")
+NBRFICMP3 = 1171
 
 
 # turns all warnings into errors for this module
@@ -390,17 +392,15 @@ def test_action():
 	"""
 	iresul = 0
 	scom = ""
-	fic_ctrl = f"{REPERTOIRE}/000-liste-22-12-2025_ctrl.m3u"
-	nbr_ficmp3 = 1141
 	try:
 		(iresul, scom) = \
 			action(REPERTOIRE, FICS_LISTE_TAMPON, FICS_LISTE_PROD, DEFAUT_FICMP3)
 		assert iresul == 0
-		assert scom == f"\n\t>>>> {nbr_ficmp3} fichiers dans {FICS_LISTE_PROD}\n"
+		assert scom == f"\n\t>>>> {NBRFICMP3} fichiers dans {FICS_LISTE_PROD}\n"
 		fic_produit = f"{REPERTOIRE}/{FICS_LISTE_PROD}"
 		assert os.path.exists(fic_produit)
-		assert os.path.exists(fic_ctrl)
-		assert hashlib_sha512(fic_ctrl) == hashlib_sha512(fic_produit)
+		assert os.path.exists(FICCTRL)
+		assert hashlib_sha512(FICCTRL) == hashlib_sha512(fic_produit)
 	except AssertionError as msg5:
 		assert False , f"\n\t>>>>ERREUR test_action :\n{msg5}"
 
@@ -410,11 +410,9 @@ def test_actionfinale():
 	"""
 	iresul = 0
 	scom = ""
-	fic_ctrl = f"{REPERTOIRE}/000-liste-22-12-2025_ctrl.m3u"
 	fic_prod = f"{REPERTOIRE}/{FICS_LISTE_PROD}"
-	nbr_ficmp3 = 1141
 	try:
-		shutil.copy(f"{fic_ctrl}",f"{fic_prod}")
+		shutil.copy(f"{FICCTRL}",f"{fic_prod}")
 		(iresul, scom) = \
 			actionfinale( REPERTOIRE, FICS_LISTE_PROD, FICS_LISTE, \
 								   										iresul, scom, True)
@@ -422,7 +420,7 @@ def test_actionfinale():
 		assert scom == "\n\t>>>> Aucune difference de production.\n"
 		fic_produit = f"{REPERTOIRE}/{FICS_LISTE_PROD}"
 		assert not os.path.exists(fic_produit)
-		assert os.path.exists(fic_ctrl)
+		assert os.path.exists(FICCTRL)
 	except AssertionError as msg5:
 		assert False , f"\n\t>>>>ERREUR test_action :\n{msg5}"
 

@@ -315,8 +315,12 @@ def _preprod(repert=None, fic_tampon=None, fic=None):
 			os.unlink(fic)
 	except (FileNotFoundError, NotADirectoryError, PermissionError):
 		resultat = 1
-		scom = f"Something wrong with specified" + \
-				   f" directory {repert}. Exception- " + sys.exc_info()
+		## Cette commentée ligne provoque un Quality Gate Failed sur sonarqube
+		## Operators should be used on compatible types python:S5607
+		## scom = f"Something wrong with specified" + \
+		##		   f" directory {repert}. Exception." + sys.exc_info()
+		scom = "Something wrong with specified" + \
+			   	   f" directory {repert}. Exception."
 		return (resultat, fichiersmp3, scom)
 
 	# trouve tous les fichiers de nom contenant -Playlist.m3u sous ./

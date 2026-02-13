@@ -22,7 +22,7 @@ exec >"${FICSORTIE}" 2>&1
 
 echo "$0 : shellchek divers scripts bash"
 
-shellcheck -f json src/listem3u.bash
+shellcheck -f json src/listem3u.bash src/prepare_tests.bash
 
 exec 1>&6 6>&-
 

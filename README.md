@@ -1,10 +1,19 @@
-# listem3u [2025-12-21] 👉 BN V1.9.6
+# listem3u [2026-02-13] 👉 BN V2.0.0
 
 [![GITHUB Actions status](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml/badge.svg?branch=releases))](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml)
 [![SonarQube Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bruschin_listem3u&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
 <!--[![Codacy Badge](https://app.codacy.com/project/badge/Grade/0b206f1af71d47dcb8092d1d9069aebb)](https://app.codacy.com/gh/bruschin/listem3u/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)-->
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
 <!-- [![Quality Gate Status](https://sonar.cloudmf.dev/api/project_badges/measure?project=listem3u&metric=alert_status)](https://sonar.cloudmf.dev/dashboard?id=listem3u)-->
+
+## Action V2.0.0
+
++ Création d'une nouvelle issue et d'une nouvelle branche = 23-préparation-v200
++ Revue des réglages des Merge requests sur branche releases et main
++ Revue du code pour développer la V2.0.0 et la merger dans releases et main
++ Gestion du wiki et de la configuration de VSC.
++ Todo. Régler le pipeline pour tests unitaires avec +eurs versions de python
+
 
 ## Action V1.9.6
 

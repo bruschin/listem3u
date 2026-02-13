@@ -13,6 +13,9 @@
 + Revue du code pour développer la V2.0.0 et la merger dans releases et main
 + Gestion du wiki et de la configuration de VSC.
 + Todo. Régler le pipeline pour tests unitaires avec +eurs versions de python
++ Prise en compte remarques SonarQube sur code if test => if [[]]
++ réglage Settings → Environments → github-pages → 
+  Selected branches and tags → Add deployment branch or tag rule
 
 
 ## Action V1.9.6

@@ -20,14 +20,14 @@ Ancien_nbrficmp3="1175"
 testmachine="$(hostname)"
 
 # Prévu pour fonctionner uniquement sur MiniGeekom13
-if test "${testmachine}" != "${Hostref}"; then
+if [[ "${testmachine}" != "${Hostref}" ]]; then
   echo "Prevu pour tourner uniquement sur ${Hostref}."
   exit 1
 fi
 
 # Le répertoire de travail est-il accessible ? on s'y rend, sinon on sort
 cd "${Repertoire_travail}" 1>/dev/null 2>/dev/null
-if test "$?" -ne 0; then 
+if [[ "$?" -ne 0 ]]; then 
   echo "${Repertoire_travail} inexistant"
   exit 1
 fi
@@ -36,7 +36,11 @@ Ancien_Fichier_liste_MP3=$(find . -mindepth 0 -maxdepth 1 -type f \
   -name "000-liste*.m3u")
 #printf "Debug : Ancien_Fichier_liste_MP3 = %s" "${Ancien_Fichier_liste_MP3}"
 
-if test -z "${Ancien_Fichier_liste_MP3}"; then
+# SonarQube : Use '[[' instead of 'test' command for conditional tests. 
+# The '[[' construct is safer and more feature-rich.
+# if test  -z "${Ancien_Fichier_liste_MP3}"; then  => 
+# if [[ -z "${Ancien_Fichier_liste_MP3}" ]]
+if [[ -z "${Ancien_Fichier_liste_MP3}" ]]; then
   echo "Ancien fichier de production mp3, non trouvé"
   exit 1
 fi
@@ -47,14 +51,14 @@ Ancien_Fichier_liste_CTRL=$(find -L "${Repertoire_automation}" \
   -mindepth 0 -maxdepth 1 -type f -name "000-liste*ctrl.m3u")
 #printf "Debug : Ancien_Fichier_liste_CTRL = %s" "${Ancien_Fichier_liste_CTRL}"
 
-if test -z "${Ancien_Fichier_liste_CTRL}"; then
+if [[ -z "${Ancien_Fichier_liste_CTRL}" ]]; then
   echo "Ancien fichier de contrôle, non trouvé"
   exit 1
 fi
 Ancien_nbrficmp3_ctrl=$(wc -l < "${Ancien_Fichier_liste_CTRL}")
 #printf "Debug : Ancien_nbrficmp3_ctrl = %s" "${Ancien_nbrficmp3_prod}"
 
-if test "${Ancien_nbrficmp3_prod}" = "${Ancien_nbrficmp3_ctrl}"; then
+if [[ "${Ancien_nbrficmp3_prod}" = "${Ancien_nbrficmp3_ctrl}" ]]; then
   echo "Pas de changment on ne fait rien"
   exit 0
 fi

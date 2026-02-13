@@ -2,8 +2,6 @@ __pycache__/
 *report*
 .pytest_cache/
 .ruff_cache/
-automation/*m3u
-!automation/000-liste-15-12-2025_ctrl.m3u
 docs/conf.rst
 docs/modules.rst
 docs/tox.ini.ORI

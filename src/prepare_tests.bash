@@ -5,15 +5,14 @@
 # https://github.com/koalaman/shellcheck
 #################
 # shellcheck disable=SC2034  # Unused variables left for readability
-Version="[BN 13-02-2026 V1.0.1]"
+Version="[BN 14-02-2026 V1.0.2]"
 Hostref="MiniGeekom13"
-Repertoire_travail="/d/Morceaux_choisis"
+Repertoire_travail="/d/Morceaux_choisis1"
 Repertoire_automation="/c/Users/matel/Documents/GitHub/listem3u/automation"
 Fichier_liste_tampon="liste.m3u"
-Ancien_Fichier_liste_CTRL="000-liste-12-02-2026_ctrl.m3u"
-Ancien_Fichier_liste_MP3="000-liste-12-02-2026.m3u"
+Ancien_Fichier_liste_CTRL=""
+Ancien_Fichier_liste_MP3=""
 Fichier_liste="000-liste-$(date "+%d-%m-%Y")_ctrl.m3u"
-Ancien_nbrficmp3="1175" 
 #FICCTRL = os.path.join(REPERTOIRE,"000-liste-12-02-2026_ctrl.m3u")
 #NBRFICMP3 = 1175
 
@@ -26,11 +25,12 @@ if [[ "${testmachine}" != "${Hostref}" ]]; then
 fi
 
 # Le répertoire de travail est-il accessible ? on s'y rend, sinon on sort
-cd "${Repertoire_travail}" 1>/dev/null 2>/dev/null
-if [[ "$?" -ne 0 ]]; then 
-  echo "${Repertoire_travail} inexistant"
-  exit 1
-fi
+cd "${Repertoire_travail}" 1>/dev/null 2>/dev/null || \
+  { echo "${Repertoire_travail} inexistant";  exit 1; }
+#if [[ "$?" -ne 0 ]]; then 
+#  echo "${Repertoire_travail} inexistant"
+#  exit 1
+#fi
 
 Ancien_Fichier_liste_MP3=$(find . -mindepth 0 -maxdepth 1 -type f \
   -name "000-liste*.m3u")

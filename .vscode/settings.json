@@ -8,7 +8,7 @@
   "pythonIndent.trimLinesWithOnlyWhitespace": true,
   "editor.tabSize": 2,
 "pylint.importStrategy": "useBundled",
-"editor.detectIndentation": false,
+"editor.detectIndentation": true,
 "terminal.integrated.tabStopWidth": 2,
 "editor.stickyTabStops": true
 }

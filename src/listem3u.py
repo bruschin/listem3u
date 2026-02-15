@@ -5,8 +5,8 @@ r"""
 
 	@author: Nicolas Bruschi
 
-	Exploite fichiers extension m3u dans les sous-répertoires du repertoire de
-	travail, pour constituer la liste des fichiers mp3 classés.
+	Exploite fichiers d'extension m3u dans les sous-répertoires du repertoire de
+	travail, pour constituer la playlist intégrale des fichiers mp3 classés.
 
 	[EN ENTREE]
 		[-h |--help : Demande usage] Optionnel
@@ -35,10 +35,11 @@ r"""
 		[2025-11-23] BN V1.9.1 : suppression saut ligne après écriture + nb fic
 		[2025-12-07] BN V1.9.2 : ajout fct md5
 		[2025-12-09] BN V1.9.3 : revision format fichier m3u + sha512
-                             # https://fr.wikipedia.org/wiki/M3U
-    [2025-12-12] BN V1.9.4 : mise au point
+														 # https://fr.wikipedia.org/wiki/M3U
+		[2025-12-12] BN V1.9.4 : mise au point
 		[2025-12-21] BN V1.9.6 : mise au point pipeline ci/cd
 		[2025-12-29] BN V1.9.7 : gestion fichier de sortie si identique précédent
+		[2026-02-15] BN V2.0.0 : Revue de code
 
 	[REFERENCES]
 		https://www.githubstatus.com/
@@ -50,6 +51,7 @@ r"""
 		https://github.com/marketplace/actions/sphinx-docs-to-github-pages
 		# pour memo : python3 -m http.server
 		# Le codage des fichiers m3u est en Latin-1
+		# https://docs.fileformat.com/fr/audio/m3u/
 """
 
 ## Bibliotheques ##
@@ -66,7 +68,7 @@ from os.path import exists as file_exists
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
-VERSION = f"\n {FILENAME} version : [2025-12-29 BN V1.9.6]"
+VERSION = f"\n {FILENAME} version : [2026-02-51 BN V2.0.0]"
 SEPARATEUR_REP = "\\"
 REP_TRAV = f"P:{SEPARATEUR_REP}Morceaux_choisis"
 USAGE = (f"\n  usage: {FILENAME} [OPTIONS]\n"
@@ -126,8 +128,8 @@ def parametres(argv):
 
 	try:
 		# pylint: disable=unused-variable
-		options, remainder = \
-      getopt.getopt(argv[1:], "hHmMvVr:R:",
+		options, _ = \
+			getopt.getopt(argv[1:], "hHmMvVr:R:",
 										["help", "HELP", "mp3", "MP3",
 										"version", "VERSION", "repertoire=",
 										"REPERTOIRE=" ] )
@@ -209,24 +211,28 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
 	#	print(f"DEBUG: {cwd}")
 	(coderetour, fichiersmp3, sunecom) = _preprod(repert, fic_tampon, fic)
 	
-	#ecriture du resultat
-	with open(fic,"a",encoding="utf-8") as resultat:
-		#print("Debug:\n#EXTM3U\n#PLAYLIST:000\n")
-		resultat.write("#EXTM3U\n#PLAYLIST:000")
-		for elmt in fichiersmp3:
-			miseenforme = elmt.split('#')
-			lefich = f"{miseenforme[1].strip()}{SEPARATEUR_REP}"\
-     					 f"{miseenforme[0].strip()}"
-			resultat.write(f"\n{lefich}")
-			nbrfics += 1
-			if testmp3 and not file_exists(lefich):
-				print(f"\n\t>>>> inexistant : {lefich}")
-	
-	resultat.close()
+	if coderetour == 1:
+		print(f"\n\t>>>> Probleme _preprod : {sunecom}")
+	else:
+		#ecriture du resultat
+		#EXTM3U - Il s’agit de l’en-tête de fichier indiquant Extended M3U et doit 
+		# être la première ligne du fichier.
+		#PLAYLIST : - Le titre de la playlist
+		with open(fic,"a",encoding="utf-8") as resultat:
+			#print("Debug:\n#EXTM3U\n#PLAYLIST:000\n")
+			resultat.write("#EXTM3U\n#PLAYLIST:000")
+			for elmt in fichiersmp3:
+				miseenforme = elmt.split('#')
+				lefich = f"{miseenforme[1].strip()}{SEPARATEUR_REP}"\
+								f"{miseenforme[0].strip()}"
+				resultat.write(f"\n{lefich}")
+				nbrfics += 1
+				if testmp3 and not file_exists(lefich):
+					print(f"\n\t>>>> inexistant : {lefich}")
 
-	sunecom = f"\n\t>>>> {nbrfics} fichiers dans {fic}\n"
+		resultat.close()
+		sunecom = f"\n\t>>>> {nbrfics} fichiers dans {fic}\n"
 	return (coderetour, sunecom)
-
 
 def actionfinale(	repert=None, ficprod=None, ficfin=None, coderetour=None,
 				 					sunecom=None, supprfic=DEFAUT_MENAGE):
@@ -255,31 +261,30 @@ def actionfinale(	repert=None, ficprod=None, ficfin=None, coderetour=None,
 		ancienfic000m3u = _find("000-liste-*.m3u", repert)
 		for fichier in ancienfic000m3u:
 			fictampon = os.path.join(repert,fichier)
-			# print(f"debug actionfinale {fictampon} : {hashlib_sha512(os.path.join(repert,ficprod))} " \
+			# print(f"debug actionfinale {fictampon} : 
+			# {hashlib_sha512(os.path.join(repert,ficprod))} " \
 			# 			+ f"+ {hashlib_sha512(fictampon)}")
 			if hashlib_sha512(os.path.join(repert,ficprod)) != \
 				 hashlib_sha512(fictampon):
 				# on supprime si volonté
-				if DEFAUT_MENAGE:
+				if supprfic:
 					os.unlink(fictampon)
 				
 				# on renomme le fichier produit en nom final
 				try:
 					os.rename(os.path.join(repert,ficprod), \
-			   						os.path.join(repert, FICS_LISTE))
-				except:
+				 						os.path.join(repert, FICS_LISTE))
+				except OSError as err:
 					resultat = 1
 					scom += f"\n\t>>>> Probleme renommage {repert}/{ficprod} en " + \
-									f"{repert}/{FICS_LISTE}\n"
+									f"{repert}/{FICS_LISTE}\n. {err}\n"
 			else:
 				memesignature += 1
-				if memesignature > 1:
-					if DEFAUT_MENAGE:
+				if memesignature > 1 and supprfic:
 						os.unlink(fictampon)
 		if memesignature >= 1:
 			os.unlink(os.path.join(repert,ficprod))
-			scom += f"\n\t>>>> Aucune difference de production.\n"
-
+			scom += "\n\t>>>> Aucune difference de production.\n"
 
 	return (resultat, scom)
 
@@ -297,15 +302,16 @@ def _preprod(repert=None, fic_tampon=None, fic=None):
 		fic (chaine) fichier resultat
 
 	[ EN SORTIE ]
-		resultat (entier) 0 ou 1
+		n_resultat (entier) 0 ou 1
 		fichiersmp3 (liste) classee
 		scom (chaine) communication
 	"""
-	resultat = 0
+	n_resultat = 0
 	scom = ""
 	ficfiltre = ""
 	ssrep = ""
 	fichiersmp3 = []
+
 	try:
 		os.chdir(repert)
 		# menage fichiers si existants
@@ -314,36 +320,36 @@ def _preprod(repert=None, fic_tampon=None, fic=None):
 		if file_exists(fic):
 			os.unlink(fic)
 	except (FileNotFoundError, NotADirectoryError, PermissionError):
-		resultat = 1
+		n_resultat = 1
 		## Cette commentée ligne provoque un Quality Gate Failed sur sonarqube
 		## Operators should be used on compatible types python:S5607
 		## scom = f"Something wrong with specified" + \
 		##		   f" directory {repert}. Exception." + sys.exc_info()
 		scom = "Something wrong with specified" + \
-			   	   f" directory {repert}. Exception."
-		return (resultat, fichiersmp3, scom)
+					 f" directory {repert}. Exception."
 
-	# trouve tous les fichiers de nom contenant -Playlist.m3u sous ./
-	ficm3u = _find("*-Playlist.m3u", './')
+	if n_resultat == 0:
+		# trouve tous les fichiers de nom contenant -Playlist.m3u sous ./
+		ficm3u = _find("*-Playlist.m3u", './')
 
-	# traite chaque fichier de nom contenant -Playlist.m3u sous repert
-	for fichier in ficm3u:
-		ssrep = os.path.dirname(fichier).split('/')[-1]
-		#print(f"debug action : {ssrep}")
-		with open(fichier,"r", encoding="utf-8") as lefic:
-			for ligne in lefic:
-				if _estexploitable(ligne):
-					# filtre sur ligne contenant des blancs...
-					ficfiltre = _filtreligne(ligne, ssrep)
-					# mention du ssrep...
-					miseenforme = f"{ficfiltre} # {ssrep}"
-					fichiersmp3.append(miseenforme)
-		lefic.close()
-	# on classe selon ordre alphabetic des chaines considérées en minuscules
-	fichiersmp3.sort(key=str.lower)
-	#print(f"debug {fichiersmp3}")
+		# traite chaque fichier de nom contenant -Playlist.m3u sous repert
+		for fichier in ficm3u:
+			ssrep = os.path.dirname(fichier).split('/')[-1]
+			#print(f"debug action : {ssrep}")
+			with open(fichier,"r", encoding="utf-8") as lefic:
+				for ligne in lefic:
+					if _estexploitable(ligne):
+						# filtre sur ligne contenant des blancs...
+						ficfiltre = _filtreligne(ligne, ssrep)
+						# mention du ssrep...
+						miseenforme = f"{ficfiltre} # {ssrep}"
+						fichiersmp3.append(miseenforme)
+			lefic.close()
+		# on classe selon ordre alphabetic des chaines considérées en minuscules
+		fichiersmp3.sort(key=str.lower)
+		#print(f"debug {fichiersmp3}")
 
-	return (resultat, fichiersmp3, scom)	
+	return (n_resultat, fichiersmp3, scom)	
 
 def _find(pattern, path):
 	r"""
@@ -416,7 +422,7 @@ def _filtreligne(unechaine=None, ssrep=None):
 		tamp = unechaine.split('-')
 		if tamp[0].capitalize() != tamp[0]:
 			print(f"\n\t>>>> majuscules : {ssrep} # {unechaine}")
-  
+
 	return unechaine.strip()
 
 ### Principal ####
@@ -430,6 +436,6 @@ if __name__ == "__main__":
 		(coderetour,SCOM) = action( REP, FICS_LISTE_TAMPON, FICS_LISTE_PROD, \
 																TEST_PRESENCEFICMP3)
 		(coderetour,SCOM) = actionfinale(	REP, FICS_LISTE_PROD, FICS_LISTE, \
-								   										coderetour, SCOM)
+									 										coderetour, SCOM)
 	print(SCOM)
 	sys.exit(coderetour)

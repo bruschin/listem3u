@@ -7,7 +7,7 @@
 # shellcheck disable=SC2034  # Unused variables left for readability
 Version="[BN 14-02-2026 V1.0.2]"
 Hostref="MiniGeekom13"
-Repertoire_travail="/d/Morceaux_choisis1"
+Repertoire_travail="/d/Morceaux_choisis"
 Repertoire_automation="/c/Users/matel/Documents/GitHub/listem3u/automation"
 Fichier_liste_tampon="liste.m3u"
 Ancien_Fichier_liste_CTRL=""

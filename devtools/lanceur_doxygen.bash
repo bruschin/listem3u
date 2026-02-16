@@ -1,26 +1,38 @@
 #!/bin/bash
 ###########
 ## genere rapport doxygen
-## nécessite d'avoir installé doxygen dia et généré le fichier Doxyfile
+## nécessite d'avoir installé doxygen dia graphviz et généré le fichier Doxyfile
+## gestion version dans Doxyfile gérée par mef_versions.bash
 ###########
 REPTRAV="$(dirname "$0")"
-FICSORTIE="rapports/doxygen-rapport.txt"
-
+REPLOG="rapports"
+REPCONF="docs"
+REPDOXYGEN="${REPLOG}/doxygen"
+FICSORTIE="${REPLOG}/doxygen-rapport.txt"
+FICCONF="${REPCONF}/Doxyfile"
 export TZ="Europe/Paris"
 
 cd "${REPTRAV}/.." || exit 1
 
 echo "### $0 DEBUT ###"
 
-exec 6>&1
-exec >"${FICSORTIE}"
+if ! test -d "${REPDOXYGEN}"; then
+  mkdir -p "${REPDOXYGEN}" 2>/dev/null
+fi
 
-doxygen docs/Doxyfile > "${FICSORTIE}"
+if ! test -d "${REPLOG}"; then
+  mkdir -p "${REPLOG}" 2>/dev/null
+fi
+
+exec 6>&1
+exec >"${FICSORTIE}" 2>&1
+
+echo "$0 : Génération documentation par Doxygen"
+doxygen "${FICCONF}"
 
 exec 1>&6 6>&-
 
 cat "${FICSORTIE}"
-rm -f "${FICSORTIE}" 1>/dev/null 2>/dev/null
 echo "### $0 FIN ###"
 exit 0
 

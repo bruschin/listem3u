@@ -2,10 +2,11 @@ __pycache__/
 *report*
 .pytest_cache/
 .ruff_cache/
-automation/*m3u
 docs/conf.rst
 docs/modules.rst
+docs/tox.ini.ORI
 docs/*bak
+docs/.tox/*
 .coverage
 coverage.xml
 htmlcov/*
@@ -21,3 +22,4 @@ docs/_build/
 # But not these files...
 !docs/_build/html/*
 rapports/
+envdev/*

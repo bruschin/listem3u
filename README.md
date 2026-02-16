@@ -1,4 +1,4 @@
-# listem3u [2026-02-13] 👉 BN V2.0.0
+# listem3u [2026-02-16] 👉 BN V2.0.0
 
 [![GITHUB Actions status](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml/badge.svg?branch=releases))](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml)
 [![SonarQube Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bruschin_listem3u&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
@@ -14,11 +14,8 @@
 + Gestion du wiki et de la configuration de VSC.
 + Todo. Régler le pipeline pour tests unitaires avec +eurs versions de python
 + Prise en compte remarques SonarQube sur code if test => if [[]]
-+ Réglage Settings → Environments → github-pages → 
-  Selected branches and tags → Add deployment branch or tag rule
-+ Réglage pipeline github pour accepter push branche 23-préparation-v200 et 
-  merge-request 
-
++ Réglage Settings → Environments → github-pages → Selected branches and tags → Add deployment branch or tag rule
++ Réglage pipeline github pour accepter push branche 23-préparation-v200 et merge-request
 
 ## Action V1.9.6
 

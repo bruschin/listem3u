@@ -24,14 +24,14 @@ from src.listem3u import \
 	FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV, FICS_LISTE_PROD, \
 	DEFAUT_MENAGE, DEFAUT_FICMP3, FICS_LISTE_TAMPON, \
 	parametres, action, actionfinale, _filtreligne, _estexploitable, \
-	hashlib_sha512
+	hashlib_sha512, _find
 
 ## GLOBAL
 # initial directory
 CWD = os.getcwd()
 REPERTOIRE = os.path.join(CWD, "automation")
-FICCTRL = os.path.join(REPERTOIRE,"000-liste-15-02-2026_ctrl.m3u")
-NBRFICMP3 = 1180
+FICCTRL = os.path.join(REPERTOIRE,"000-liste-23-02-2026_ctrl.m3u")
+NBRFICMP3 = 1206
 
 
 # turns all warnings into errors for this module
@@ -39,6 +39,20 @@ pytestmark = pytest.mark.filterwarnings("error")
 
 ## Fonctions :
 ##############
+
+
+def test_find():
+	r"""
+	test la fonction _find
+	"""
+	try:
+		fic_ctrl = _find("000-liste-*ctrl.m3u", REPERTOIRE)
+		assert len(fic_ctrl) == 1
+		fictampon = os.path.join(REPERTOIRE,fic_ctrl[0])
+		assert fictampon == FICCTRL
+	
+	except AssertionError as msg1:
+		assert False , f"\n\t>>>>ERREUR test_find :\n{msg1}"
 
 def test_filtreligne_maj(capsys):
 	r"""
@@ -410,16 +424,15 @@ def test_actionfinale():
 	"""
 	iresul = 0
 	scom = ""
-	fic_prod = f"{REPERTOIRE}/{FICS_LISTE_PROD}"
-	try:
+	try:		
+		fic_prod = os.path.join(REPERTOIRE,FICS_LISTE_PROD)
 		shutil.copy(f"{FICCTRL}",f"{fic_prod}")
 		(iresul, scom) = \
 			actionfinale( REPERTOIRE, FICS_LISTE_PROD, FICS_LISTE, \
 								   										iresul, scom, True)
 		assert iresul == 0
 		assert scom == "\n\t>>>> Aucune difference de production.\n"
-		fic_produit = f"{REPERTOIRE}/{FICS_LISTE_PROD}"
-		assert not os.path.exists(fic_produit)
+		assert not os.path.exists(fic_prod)
 		assert os.path.exists(FICCTRL)
 	except AssertionError as msg5:
 		assert False , f"\n\t>>>>ERREUR test_action :\n{msg5}"

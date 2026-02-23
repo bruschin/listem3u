@@ -366,7 +366,7 @@ def _find(pattern, path):
 	result = []
 
 	# pylint: disable=unused-variable
-	for root, dirs, files in os.walk(path):
+	for root, _ , files in os.walk(path):
 		result.extend( os.path.join(root, basename) for \
 			basename in files \
 				if fnmatch.fnmatch(basename, pattern))

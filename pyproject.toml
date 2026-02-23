@@ -117,11 +117,7 @@ projectBaseDir = "src"
 sourceEncoding = "UTF-8"
 
 [tool.poetry]
-<<<<<<< HEAD
 version = "@RELEASE_VERSION@"
-=======
-version = "2.0.0"
->>>>>>> d116b55 (V2.0.0 (#24))
 description = """
 Exploite fichiers extension m3u dans les sous-répertoires du repertoire de
 travail, pour constituer la liste des fichiers mp3 classés.

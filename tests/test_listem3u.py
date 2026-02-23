@@ -30,7 +30,7 @@ from src.listem3u import \
 # initial directory
 CWD = os.getcwd()
 REPERTOIRE = os.path.join(CWD, "automation")
-FICCTRL = os.path.join(REPERTOIRE,"000-liste-21-02-2026_ctrl.m3u")
+FICCTRL = os.path.join(REPERTOIRE,"000-liste-23-02-2026_ctrl.m3u")
 NBRFICMP3 = 1206
 
 

@@ -1,4 +1,4 @@
-# listem3u [2026-02-16] 👉 BN V2.0.0
+# listem3u [2026-02-23] 👉 BN V2.0.1
 
 [![GITHUB Actions status](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml/badge.svg?branch=releases))](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml)
 [![SonarQube Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bruschin_listem3u&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
@@ -6,7 +6,14 @@
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
 <!-- [![Quality Gate Status](https://sonar.cloudmf.dev/api/project_badges/measure?project=listem3u&metric=alert_status)](https://sonar.cloudmf.dev/dashboard?id=listem3u)-->
 
-## Action V2.0.0
+## Actions V2.0.1
+
++ Merge de la branche 23-préparation-v200 dans releases et de releases dans main
++ création d'un Tag V2.0.1 et d'une release.
++ Continuité développement sur la branche releases pour la version V2.0.2
++ Todo intéger en interne pour produire whl et livrer sur nexus et sonarqube.
+
+## Actions V2.0.0
 
 + Création d'une nouvelle issue et d'une nouvelle branche = 23-préparation-v200
 + Revue des réglages des Merge requests sur branche releases et main
@@ -17,7 +24,7 @@
 + Réglage Settings → Environments → github-pages → Selected branches and tags → Add deployment branch or tag rule
 + Réglage pipeline github pour accepter push branche 23-préparation-v200 et merge-request
 
-## Action V1.9.6
+## Actions V1.9.6
 
 + Gestion pyenv et venv pour tests tox pytest pytest-cov python 3.10, 3.11, 3.12
 + curl -fsSL https://pyenv.run | bash
@@ -40,13 +47,13 @@
 + remise à jour du pipeline ci/cd + github pages.
 
 
-## Action V1.9.4
+## Actions V1.9.4
 
 + Séparateur répertoire | fichier = \ et non plus /
 + Generation possible d'une signature sha512 pour comparaison fichiers m3u
 + Révision du pipeline github, des tests unitaires + couverture (pytest/tox)
 
-## Action V1.9
+## Actions V1.9
 
 + Reprise du projet en novembre 2025 après 2 ans sans changement.
 + Réactivation sonarcloud.io (le projet est en mode auto scan sonarqube)
@@ -54,20 +61,20 @@
 + Gestion version multiples
 + Branche releases à merger dans main et création V1.9 à publier
 
-## Action V1.8
+## Actions V1.8
 
 + Mise au point et tests du workflow en 5 fichiers yaml.
 + Création d'une issue = plusieurs_yaml et d'une branche 19-plusieurs_yaml.
 + Merge de la branche de développement dans releases avec suppression auto de
   la branche 19. Merge à suivre dans Main selon règles.
 
-## Action V1.7
+## Actions V1.7
 
 + Création branche releases + réglages configuration
 + Création 3 issues mergées dans releases
 + Activation workflow en 3 jobs avec un cache.
 
-## Action V1.6
+## Actions V1.6
 
 + Demo Sires
 + Tester executeur local pour github action

@@ -17,7 +17,7 @@ run-name: GA DQGS ${{ github.event.head_commit.message }} ${{ github.sha }}
 on:
   issues:
     types:
-      - created
+      - labeled
       - opened
   label:
     types:
@@ -57,8 +57,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
-        python-version: ["3.10"]
+        # python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.12"]
         node-version: ["16"]
     steps:
       - uses: actions/checkout@v3
@@ -74,37 +74,83 @@ jobs:
       - uses: actions/cache@v3
         id: cache
         with:
-          path: ~/.cache/pip
+          path: |
+             ~/.cache/pip
           key: |
-            ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
+            ${{ runner.os }}-pip-${{ hashFiles('**/docs/requirements.*') }}
           restore-keys: |
-            ${{ runner.os }}-pip-${{ hashFiles('**/devtools/requirements.*') }}
+            ${{ runner.os }}-pip-${{ hashFiles('**/docs/requirements.*') }}
             ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
+          sudo apt-get update -y --fix-missing || true
+          sudo apt-get upgrade -y || true
           sudo apt-get install -y graphviz rhino lcov dia doxygen shellcheck
-          echo "######## dia installé = $(which dia)"
+          sudo apt-get install -y build-essential zlib1g-dev libffi-dev 
+          sudo apt-get install -y libbz2-dev libreadline-dev libsqlite3-dev  
+          sudo apt install -y python3.12 python3.12-venv liblzma-dev
+          sudo apt install -y libncurses-dev tk-dev libssl-dev
+
+          echo "##### Gestion environnements virtuels #######"
+          python3 -m venv envdev
+          source envdev/bin/activate
+          curl -fsSL https://pyenv.run | bash || true
+          export PYENV_ROOT="$HOME/.pyenv"
+          [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+          eval "$(pyenv init - bash)"
+
+          pyenv install 3.10.19 || true
+          pyenv install 3.11.14 || true
+          pyenv install 3.12.12 || true
+          
+          pyenv global 3.10 3.11 3.12
+
+          echo "######## dia installé = $(which dia) ########"
           python -m pip install --upgrade pip
           python -m pip install pylint-common --use-pep517
-          if [ -f ./devtools/requirements.txt ]; then
-            pip install -r ./devtools/requirements.txt;
+          if [ -f "./docs/requirements.txt" ]; then
+            pip install -r "./docs/requirements.txt";
           fi
-          export TZ="Europe/Paris"
-          bash ./devtools/lanceur_pytest.bash
-          bash ./devtools/lanceur_pylint.bash
-          bash ./devtools/lanceur_ruff.bash
-          bash ./devtools/lanceur_sphinx.bash
-          bash ./devtools/lanceur_doxygen.bash
-          bash ./devtools/lanceur_shellcheck.bash
-          bash ./devtools/lanceur_tox.bash
-          mv rapports/htmlcov1 docs/_build/html/
-          mv rapports/htmlcov2 docs/_build/html/
-          mv rapports/doxygen docs/_build/html/
-          cp rapports/coverage*.xml docs/_build/html/
-          sed -i -e "s/@SONAR_VERSION@/1.8/g" src/sonar-project.properties
-          cp rapports/coverage*.xml src/
-          cp rapports/shellcheck-rapport.json src/
-          cat src/sonar-project.properties
+          # export PATH="$HOME/.local/bin":"${PATH}"
+          echo "######## tox installé = $(which tox)"
+          # export TZ="Europe/Paris"
+          bash ./devtools/lanceur_mefversions.bash $GITHUB_SHA $GITHUB_RUN_ID || true
+
+          echo "######## pwd ####"
+          pwd
+          bash ./devtools/lanceur_pytest.bash || true
+          bash ./devtools/lanceur_pylint.bash || true
+          bash ./devtools/lanceur_ruff.bash || true
+          bash ./devtools/lanceur_sphinx.bash || true
+          bash ./devtools/lanceur_doxygen.bash || true
+          bash ./devtools/lanceur_shellcheck.bash || true
+          bash ./devtools/lanceur_tox.bash || true
+          bash ./devtools/lanceur_build.bash || true
+          echo "###### recherche dia"
+          which dia
+
+          echo "######### ls divers"
+          
+          ls -ail */*
+
+          echo "####### mise en place des fichiers pour github-pages"
+
+          mkdir -p docs/_build/html/doxygen || true
+          mkdir -p docs/_build/html/htmlcov || true
+          mkdir -p docs/_build/html/tox_cov_html || true
+          
+          mv rapports/doxygen docs/_build/html/ || true
+          mv rapports/htmlcov docs/_build/html/ || true          
+          mv rapports/tox_cov_html docs/_build/html/ || true
+          mv build/sphinx-html docs/_build/html/ || true
+          cp -fv docs/listem3u.png docs/_build/html/ || true
+          cp -fv docs/index.html docs/_build/html/ || true
+          cp -fv rapports/coverage*.xml docs/_build/html/ || true
+          cp -fv rapports/tox_cov.xml docs/_build/html/ || true
+          cp -fv rapports/*.txt docs/_build/html/ || true
+          echo "######### ls docs/_build/html/"
+          ls -ail docs/_build/html/*
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:

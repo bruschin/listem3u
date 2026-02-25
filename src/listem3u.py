@@ -40,6 +40,7 @@ r"""
 		[2025-12-21] BN V1.9.6 : mise au point pipeline ci/cd
 		[2025-12-29] BN V1.9.7 : gestion fichier de sortie si identique précédent
 		[2026-02-15] BN V2.0.0 : Revue de code
+		[2026-02-23] BN V2.0.1 : Revue de code
 
 	[REFERENCES]
 		https://www.githubstatus.com/
@@ -68,7 +69,7 @@ from os.path import exists as file_exists
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
-VERSION = f"\n {FILENAME} version : [2026-02-51 BN V2.0.0]"
+VERSION = f"\n {FILENAME} version : [2026-02-23 BN V2.0.1]"
 SEPARATEUR_REP = "\\"
 REP_TRAV = f"P:{SEPARATEUR_REP}Morceaux_choisis"
 USAGE = (f"\n  usage: {FILENAME} [OPTIONS]\n"
@@ -223,12 +224,15 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
 			resultat.write("#EXTM3U\n#PLAYLIST:000")
 			for elmt in fichiersmp3:
 				miseenforme = elmt.split('#')
+				### DO : revoir ce code avec 
+				# os.path.join(REPERTOIRE,"000-liste-23-02-2026_ctrl.m3u")
 				lefich = f"{miseenforme[1].strip()}{SEPARATEUR_REP}"\
 								f"{miseenforme[0].strip()}"
+				refhddfic = os.path.join(miseenforme[1].strip(),miseenforme[0].strip())
 				resultat.write(f"\n{lefich}")
 				nbrfics += 1
-				if testmp3 and not file_exists(lefich):
-					print(f"\n\t>>>> inexistant : {lefich}")
+				if testmp3 and not file_exists(refhddfic):
+					print(f"\n\t>>>> inexistant : {refhddfic}")
 
 		resultat.close()
 		sunecom = f"\n\t>>>> {nbrfics} fichiers dans {fic}\n"

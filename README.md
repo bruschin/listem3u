@@ -5,39 +5,72 @@
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
 <!-- [![Quality Gate Status](https://sonar.cloudmf.dev/api/project_badges/measure?project=listem3u&metric=alert_status)](https://sonar.cloudmf.dev/dashboard?id=listem3u)-->
 
-## Projet listem3u
+## ![Projet listem3u.png](docs/listem3u.png "Projet listem3u"){ width="64" height="64" style="display: inline; margin: 0 auto; vertical-align: middle;" } Projet listem3u
 
-> Ce programme python d'exercice, ludique et pratique, fait partie d'un projet d'étude plus vaste nommé = **Hareng Rouge**. Il exploite des fichiers de type Playlist audio, d'extension .m3u, contenus dans les sous-répertoires, d'un repertoire de travail, passé en paramètre d'appel. Au final, il est censé produire un fichier de playlist intégrale de fichiers audio mp3, classés par sous-dossier et ordre alphabétique, permettant de les lire de façon continue ou aléatoire, une fois raccordé, par exemple, à l'autoradio d'une voiture, via une clé USB.
-Testé OK sur Fiat 500 et Peugeot 3008.
+> Ce programme python d'auto-apprentissage pratique, pédagogique et ludique, fait partie d'une ambition d'étude plus vaste, baptisée = **Hareng Rouge**. Il exploite des fichiers de type Playliste audio, d'extension ".m3u", contenus dans les sous-répertoires, d'un repertoire de travail renseigné en paramètre d'appel. Au final, il est censé produire un fichier daté, de Playliste intégrale de références à des fichiers audio mp3, classées par sous-dossier et ordre alphabétique, permettant de les lire de façon continue ou aléatoire, une fois raccordé, par exemple, à l'autoradio d'une voiture, via une clé USB.
+Testé compatible avec Fiat 500 et Peugeot 3008.
 
-## Spécifications évolutives au fil du temps
+## Spécifications règles et convenances
 
-### Règles de nommage
+Evolutives depuis les débuts du développement.
 
-- L'arborescence des sous-répertoires du répertoire de travail
+Le répertoire **automation**, prévu pour faire reposer les test unitaires sur des exemples concrets, expose de façon plus explicite, ce qui suit.
 
-> Elle doit respecter un nommage numérique formatté du type %03d et incrémental : **001,002,...,013,...,0XY,etc.**
-Aucun contrôle n'est implémenté pour s'assurer du respect de cette règle !
-Chaque sous-répertoire de nom = 0XY, contient **au plus 100** fichiers audio mp3, de nom = (sans espace, ni accent) et un fichier 0XY-Playlist.m3u unique, chargé de les référencer tous.
-Le répertoire **automation**, prévu pour faire reposer les test unitaires sur des exemples concrêts, expose de façon plus explicite, ces règles.
-Lors du traitement, des alertes sur le nommage des fichiers peuvent remonter. Ajoutés, pour signaler la présence d'espaces oubliés, de majuscules trop nombreuses, etc.
+- ### Sous-répertoires, du répertoire de travail
 
-- Un fichier audio est généralement nommé :
+  #### Nommage numérique formatté de type %03d et incrémental : 001,002,...,013,...,0XY
 
-> Exemple : Ca_va_peter-Chouf.mp3
-Première lettre du titre du morceau en majuscule
-Les espaces sont remplacés par un "_"
-Un tiret "-" sert à séparer titre et nom de l'interprète, groupe, musicien. Parfois un "&" pour séparer plusieurs artistes.
+    > Attention ! Aucun contrôle n'est implémenté pour s'assurer du respect de cette règle ! L'algorithme de traitement en dépend.
+
+  #### Au plus 100 fichiers audio par sous-répertoire 0XY
+  
+    > Moyen mnémotechnique pratique pour situer un morceau en cours d'écoute.
+    Si affiché sur l'autoradio : 256eme fichiers sur 1206 => Le répertoire de stockage du morceau est le 003. **Du 1er au 100e => 001. Du 1101e au 1200e => 012**
+    Permet également de comparer facilement le nombre de fichiers audio stockés au nombre de ceux référencés dans la Playliste totale produite.
+
+  #### Un fichier Playliste unique par sous-répertoire 0XY
+
+    > Nommé 0XY-Playlist.m3u.
+    Il référencie les fichiers audio du répertoire 0XY, classés par ordre alphabétique de nom.
+    Premiere ligne : #EXTM3U
+    Deuxième ligne : #PLAYLIST:0XY
+    Pas de dernière ligne vide
+    Au max 102 lignes par Playliste de sous-répertoire.
+
+- ### Fichiers audio
+
+  #### Nommés sans accent, ni espace
+  
+  > **Espaces** remplacés par **"_"**
+
+  #### Première lettre du titre du morceau en Majuscule
+
+  #### Un tiret "-" sépare le titre du nom de l'interprète, groupe ou musicien
+
+  #### Une esperluette "&" sépare plusieurs artistes
+  
+  > Exemples :
+  Ca_va_peter-Chouf.mp3
+  I_want_a_new_drug-Huey_Lewis_&_The_News.mp3
+
+## Traitement
+
+Des **alertes** sur les règles de nommage des fichiers peuvent remonter.
+Elles furent ajoutées, pour signaler la présence d'espaces oubliés, de majuscules trop nombreuses, etc. mais ne sont pas bloquantes.
 
 ### Exemples d'alertes
 
-- listem3u.py -m -r /d/Morceaux_choisis
-- plus d'1 tiret : 009 # La_wally_ebben_ne_andro_lontana-Maria_Callas-Alfredo_Catalani.mp3
-  - Il faudrait utiliser "**&**" : La_wally_ebben_ne_andro_lontana-Maria_Callas&Alfredo_Catalani.mp3
+  ```python
+  listem3u.py -m -r /d/Morceaux_choisis
+  ```
+
+- Plus d'1 tiret : 009 # La_wally_ebben_ne_andro_lontana-Maria_Callas-Alfredo_Catalani.mp3
+  > Il vaudrait mieux utiliser "**&**" : exemple :
+  **La_wally_ebben_ne_andro_lontana-Maria_Callas&Alfredo_Catalani.mp3**
 - majuscules : 008 # Peeping_Tom-Jamie_Berry&Rosie_Harte.mp3
-  - Il faudrait renommer en : Peeping_tom-Jamie_Berry&Rosie_Harte.mp3
-- une alerte signale la présence d'un espace dans une référence de la Playlist
-- avec l'argument -m si le fichier mp3 référencé dans le fichier 0XY-Playlist.m3u n'est pas disponible dans le répertoire 0XY une alerte doit le signaler.
+  > Il vaudrait mieux renommer en : **Peeping_tom-Jamie_Berry&Rosie_Harte.mp3**
+- Une alerte signale la présence d'un espace dans une référence de la Playliste
+- > Avec l'argument d'appel optionnel **-m** si le fichier mp3 référencé dans le fichier 0XY-Playlist.m3u n'est pas disponible dans le répertoire 0XY une alerte le signale.
 
 ## Paramètres
 

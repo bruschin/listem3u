@@ -7,8 +7,8 @@
 
 ## ![Projet listem3u.png](docs/listem3u.png "Projet listem3u"){ width="64" height="64" style="display: inline; margin: 0 auto; vertical-align: middle;" } Projet listem3u
 
-> Ce programme python d'auto-apprentissage pratique, pédagogique et ludique, fait partie d'une ambition d'étude plus vaste, baptisée = **Hareng Rouge**. Il exploite des fichiers de type Playliste audio, d'extension ".m3u", contenus dans les sous-répertoires, d'un repertoire de travail renseigné en paramètre d'appel. Au final, il est censé produire un fichier daté, de Playliste intégrale de références à des fichiers audio mp3, classées par sous-dossier et ordre alphabétique, permettant de les lire de façon continue ou aléatoire, une fois raccordé, par exemple, à l'autoradio d'une voiture, via une clé USB.
-Testé compatible avec Fiat 500 et Peugeot 3008.
+> Ce programme python d'auto-apprentissage pratique, pédagogique et ludique, fait partie d'une ambition d'étude plus vaste, baptisée = **Hareng Rouge**. Il exploite des fichiers de type Playliste audio, d'extension ".m3u", contenus dans les sous-répertoires, d'un repertoire de travail, lui même, renseigné en paramètre d'appel. Au final, il est censé produire un fichier daté, **"000-liste-AA-MM-YYYY.m3u"**, Playliste intégrale de fichiers audio mp3, référencés par sous-dossier et ordre alphabétique. Cette playliste permet de les lire, de façon continue ou aléatoire, une fois raccordé, par exemple, à l'autoradio d'une voiture, via une clé USB.
+Testé compatible Fiat 500 et Peugeot 3008.
 
 ## Spécifications règles et convenances
 

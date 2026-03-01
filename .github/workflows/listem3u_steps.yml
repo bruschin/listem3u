@@ -142,16 +142,19 @@ jobs:
 
           mkdir -p docs/_build/html/doxygen || true
           mkdir -p docs/_build/html/htmlcov || true
-          mkdir -p docs/_build/html/tox_cov_html || true
+          for version in 311 312 313
+          do
+            mkdir -p docs/_build/html/tox_cov_html_py${version} || true
+          done
           
           mv rapports/doxygen docs/_build/html/ || true
           mv rapports/htmlcov docs/_build/html/ || true          
-          mv rapports/tox_cov_html docs/_build/html/ || true
+          mv rapports/tox_cov_html* docs/_build/html/ || true
           mv build/sphinx-html docs/_build/html/ || true
           cp -fv docs/listem3u.png docs/_build/html/ || true
           cp -fv docs/index.html docs/_build/html/ || true
           cp -fv rapports/coverage*.xml docs/_build/html/ || true
-          cp -fv rapports/tox_cov.xml docs/_build/html/ || true
+          cp -fv rapports/tox_cov*.xml docs/_build/html/ || true
           cp -fv rapports/*.txt docs/_build/html/ || true
           echo "######### ls docs/_build/html/"
           ls -ail docs/_build/html/*

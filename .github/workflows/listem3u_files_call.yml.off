@@ -17,12 +17,12 @@ on:
       - created
   push:
     branches:
-      - 19-plusieurs_yaml
+      - main
+      - releases
   pull_request:
     # Sequence of patterns matched against refs/heads
     branches:
       - main
-      - releases
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

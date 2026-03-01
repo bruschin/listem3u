@@ -10,6 +10,11 @@ REPLOG="rapports"
 REPCONF="docs"
 FICSORTIE="${REPLOG}/tox-rapport.txt"
 FICCONF="${REPCONF}/tox.ini"
+VERSION_PYTHON="$1"
+if test -z "${VERSION_PYTHON}"; then
+  # gestion valeur defaut
+  VERSION_PYTHON="3.12"
+fi
 
 export TZ="Europe/Paris"
 

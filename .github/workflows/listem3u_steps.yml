@@ -90,8 +90,8 @@ jobs:
           sudo apt-get install -y libbz2-dev libreadline-dev libsqlite3-dev  
           echo "##### pythonversion  et pythonversion-env"
           # sudo apt install -y python3.12 python3.12-venv
-          sudo apt install -y ${{ matrix.python-version }}  || true
-          sudo apt install -y ${{ matrix.python-version }}-venv || true
+          sudo apt install -y python${{ matrix.python-version }}  || true
+          sudo apt install -y python${{ matrix.python-version }}-venv || true
           sudo apt install -y libncurses-dev tk-dev libssl-dev liblzma-dev
 
           # echo "##### 🎉 Gestion environnements virtuels #######"

@@ -53,6 +53,17 @@ Le répertoire **automation**, prévu pour faire reposer les test unitaires sur 
   Ca_va_peter-Chouf.mp3
   I_want_a_new_drug-Huey_Lewis_&_The_News.mp3
 
+- ### Répertoire de travail
+
+  > L'étude des fichiers 00n-Playlist.m3u contenus dans les sous-répertoires 00n
+  du répertoire de travail passé en argument d'appel ou par omission fixé en dur
+  dans le code, permet d'y produire un fichier temporaire de nom
+  000-liste-JJ-MM-AAAA.prod qui sera comparé sha256sum au précédent fichier
+  000-liste-JJ-MM-AAAA.m3u si existant. En cas d'égalité de signature le fichier
+  m3u existant est laissé en l'état, pas de différence de production. En cas
+  d'inégalité le fichier 000-liste-JJ-MM-AAAA.prod est renommé
+  000-liste-JJ-MM-AAAA.m3u en remplacement écrasement du précédent.
+
 ## Traitement
 
 Des **alertes** sur les règles de nommage des fichiers peuvent remonter.

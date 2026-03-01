@@ -41,6 +41,7 @@ r"""
 		[2025-12-29] BN V1.9.7 : gestion fichier de sortie si identique précédent
 		[2026-02-15] BN V2.0.0 : Revue de code
 		[2026-02-23] BN V2.0.1 : Revue de code
+		[2026-03-01] BN V2.0.2 : Revue de code
 
 	[REFERENCES]
 		https://www.githubstatus.com/
@@ -54,6 +55,14 @@ r"""
 		# Le codage des fichiers m3u est en Latin-1
 		# https://docs.fileformat.com/fr/audio/m3u/
 """
+
+# ./devtools/lanceur_pylint.bash : Linter des fichiers python sous src
+# ************* Module src.listem3u
+# src/listem3u.py:207: [W0621(redefined-outer-name), action] Redefining name 'coderetour' from outer scope (line 437)
+# src/listem3u.py:241: [R0917(too-many-positional-arguments), actionfinale] Too many positional arguments (6/5)
+# src/listem3u.py:241: [W0621(redefined-outer-name), actionfinale] Redefining name 'coderetour' from outer scope (line 437)
+# src/listem3u.py:241: [W0613(unused-argument), actionfinale] Unused argument 'ficfin'
+
 
 ## Bibliotheques ##
 
@@ -69,7 +78,7 @@ from os.path import exists as file_exists
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
-VERSION = f"\n {FILENAME} version : [2026-02-23 BN V2.0.1]"
+VERSION = f"\n {FILENAME} version : [2026-03-01 BN V2.0.2]"
 SEPARATEUR_REP = "\\"
 REP_TRAV = f"P:{SEPARATEUR_REP}Morceaux_choisis"
 USAGE = (f"\n  usage: {FILENAME} [OPTIONS]\n"
@@ -198,21 +207,21 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
 		testmp3 (boolean) DEFAUT_FICMP3
 
 	[ EN SORTIE ]
-		coderetour (entier) 0 OK - 1 KO
+		coderetourici (entier) 0 OK - 1 KO
 		sunecom (chaine) commentaire
 	"""
 	# pylint: disable=too-many-locals
 	### parametre local
 	nbrfics = 0
-	coderetour = 0
+	coderetourici = 0
 	sunecom = ""
 
 	# initial directory
 	#	cwd = os.getcwd()
 	#	print(f"DEBUG: {cwd}")
-	(coderetour, fichiersmp3, sunecom) = _preprod(repert, fic_tampon, fic)
+	(coderetourici, fichiersmp3, sunecom) = _preprod(repert, fic_tampon, fic)
 	
-	if coderetour == 1:
+	if coderetourici == 1:
 		print(f"\n\t>>>> Probleme _preprod : {sunecom}")
 	else:
 		#ecriture du resultat
@@ -236,10 +245,9 @@ def action(repert=None, fic_tampon=None, fic=None, testmp3=DEFAUT_FICMP3):
 
 		resultat.close()
 		sunecom = f"\n\t>>>> {nbrfics} fichiers dans {fic}\n"
-	return (coderetour, sunecom)
+	return (coderetourici, sunecom)
 
-def actionfinale(	repert=None, ficprod=None, ficfin=None, coderetour=None,
-				 					sunecom=None, supprfic=DEFAUT_MENAGE):
+def actionfinale(	repert, ficprod, coderetour, sunecom, supprfic ):
 	r"""
 	Si le fichier produit par action est de meme signature que précédemment on ne
 	fait rien, sinon on produit le nouveau fichier avec son nom finalisé et on 
@@ -439,7 +447,7 @@ if __name__ == "__main__":
 		print(SCOM)
 		(coderetour,SCOM) = action( REP, FICS_LISTE_TAMPON, FICS_LISTE_PROD, \
 																TEST_PRESENCEFICMP3)
-		(coderetour,SCOM) = actionfinale(	REP, FICS_LISTE_PROD, FICS_LISTE, \
-									 										coderetour, SCOM)
+		(coderetour,SCOM) = actionfinale(	REP, FICS_LISTE_PROD, \
+									 										coderetour, SCOM, DEFAUT_MENAGE)
 	print(SCOM)
 	sys.exit(coderetour)

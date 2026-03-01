@@ -11,10 +11,10 @@ en essayant de se conformer à [Semantic Versioning](https://semver.org/spec/v2.
 
 ### Ajouté
 
-- Intéger sur gitlab interne.
+- Intégrer sur gitlab interne.
 - Changelog.md
 - Todo :
-  - Revoirproduction wheel selon exemple Outil
+  - Revoir production wheel selon exemple Outil
   - Livrer fichier wheel sur nexus depuis gitlab
   - Soumettre à sonarqube Interne.
   - Gérer multi version python tests Unitaires avec Tox.

@@ -21,8 +21,8 @@ import os
 import shutil
 import pytest
 from src.listem3u import \
-	FILENAME, VERSION, USAGE, FICS_LISTE, REP_TRAV, FICS_LISTE_PROD, \
-	DEFAUT_MENAGE, DEFAUT_FICMP3, FICS_LISTE_TAMPON, \
+	FILENAME, VERSION, USAGE, REP_TRAV, FICS_LISTE_PROD, \
+	DEFAUT_FICMP3, FICS_LISTE_TAMPON, \
 	parametres, action, actionfinale, _filtreligne, _estexploitable, \
 	hashlib_sha512, _find
 
@@ -428,12 +428,10 @@ def test_actionfinale():
 		fic_prod = os.path.join(REPERTOIRE,FICS_LISTE_PROD)
 		shutil.copy(f"{FICCTRL}",f"{fic_prod}")
 		(iresul, scom) = \
-			actionfinale( REPERTOIRE, FICS_LISTE_PROD, FICS_LISTE, \
-								   										iresul, scom, True)
+			actionfinale( REPERTOIRE, FICS_LISTE_PROD, iresul, scom, True)
 		assert iresul == 0
 		assert scom == "\n\t>>>> Aucune difference de production.\n"
 		assert not os.path.exists(fic_prod)
 		assert os.path.exists(FICCTRL)
 	except AssertionError as msg5:
 		assert False , f"\n\t>>>>ERREUR test_action :\n{msg5}"
-

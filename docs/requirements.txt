@@ -1,6 +1,7 @@
 pip
 ruff
 tox
+tox-gh-actions
 pylint
 pytest
 coverage

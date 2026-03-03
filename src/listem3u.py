@@ -13,7 +13,7 @@ r"""
 		
 		[-m |--mp3 : Verification existence fic mp3] Optionnel. Defaut = False
 		[-r |--repertoire] <repertoire de travail>  Optionnel
-																								defaut = Repertoire_travail
+													defaut = Repertoire_travail
 		[-v |--version : Demande version] Optionnel
 		Tous les parametres acceptent casse minuscules/majuscules
 
@@ -24,7 +24,7 @@ r"""
 	[VERSIONS]
 		[2023-03-25] BN V1.0 :  Initialisation
 		[2023-03-26] BN V1.1 :  Filtre les fichiers mp3 listés. Pylint.
-																										Tests unitaires
+								Tests unitaires
 		[2023-03-28] BN V1.2 :  Debug repertoire travail PureWindowsPath
 		[2023-03-29] BN V1.3 :  issue 1-listemp3upy-sans-fichier-mp3
 		[2023-05-15] BN V1.4 :  introduction 1 parametre OBLIGATOIRE
@@ -35,7 +35,7 @@ r"""
 		[2025-11-23] BN V1.9.1 : suppression saut ligne après écriture + nb fic
 		[2025-12-07] BN V1.9.2 : ajout fct md5
 		[2025-12-09] BN V1.9.3 : revision format fichier m3u + sha512
-														 # https://fr.wikipedia.org/wiki/M3U
+								 # https://fr.wikipedia.org/wiki/M3U
 		[2025-12-12] BN V1.9.4 : mise au point
 		[2025-12-21] BN V1.9.6 : mise au point pipeline ci/cd
 		[2025-12-29] BN V1.9.7 : gestion fichier de sortie si identique précédent
@@ -55,14 +55,9 @@ r"""
 		# Le codage des fichiers m3u est en Latin-1
 		# https://docs.fileformat.com/fr/audio/m3u/
 """
-
-# ./devtools/lanceur_pylint.bash : Linter des fichiers python sous src
 # ************* Module src.listem3u
-# src/listem3u.py:207: [W0621(redefined-outer-name), action] Redefining name 'coderetour' from outer scope (line 437)
-# src/listem3u.py:241: [R0917(too-many-positional-arguments), actionfinale] Too many positional arguments (6/5)
-# src/listem3u.py:241: [W0621(redefined-outer-name), actionfinale] Redefining name 'coderetour' from outer scope (line 437)
-# src/listem3u.py:241: [W0613(unused-argument), actionfinale] Unused argument 'ficfin'
-
+# src/listem3u.py:248: [W0621(redefined-outer-name), actionfinale] 
+# Redefining name 'coderetour' from outer scope (line 445)
 
 ## Bibliotheques ##
 
@@ -95,6 +90,7 @@ FICS_LISTE = f"000-liste-{NOW.strftime('%d-%m-%Y')}.m3u"
 FICS_LISTE_PROD = f"{FICS_LISTE}.prod"
 DEFAUT_FICMP3 = False
 DEFAUT_MENAGE = True
+CODERETOUR = 0
 
 ### Fonctions ###
 #################
@@ -442,12 +438,12 @@ def _filtreligne(unechaine=None, ssrep=None):
 
 # pragma: no cover
 if __name__ == "__main__":
-	(coderetour, SCOM, REP, TEST_PRESENCEFICMP3) = parametres(sys.argv)
-	if coderetour == 2:
+	(CODERETOUR, SCOM, REP, TEST_PRESENCEFICMP3) = parametres(sys.argv)
+	if CODERETOUR == 2:
 		print(SCOM)
-		(coderetour,SCOM) = action( REP, FICS_LISTE_TAMPON, FICS_LISTE_PROD, \
-																TEST_PRESENCEFICMP3)
-		(coderetour,SCOM) = actionfinale(	REP, FICS_LISTE_PROD, \
-									 										coderetour, SCOM, DEFAUT_MENAGE)
+		(CODERETOUR,SCOM) = action( REP, FICS_LISTE_TAMPON, FICS_LISTE_PROD, \
+									TEST_PRESENCEFICMP3)
+		(CODERETOUR,SCOM) = actionfinale( REP, FICS_LISTE_PROD, \
+										  CODERETOUR, SCOM, DEFAUT_MENAGE)
 	print(SCOM)
-	sys.exit(coderetour)
+	sys.exit(CODERETOUR)

@@ -41,7 +41,7 @@ r"""
 		[2025-12-29] BN V1.9.7 : gestion fichier de sortie si identique précédent
 		[2026-02-15] BN V2.0.0 : Revue de code
 		[2026-02-23] BN V2.0.1 : Revue de code
-		[2026-03-01] BN V2.0.2 : Revue de code
+		[2026-03-03] BN V2.0.2 : Revue de code
 
 	[REFERENCES]
 		https://www.githubstatus.com/
@@ -73,7 +73,7 @@ from os.path import exists as file_exists
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
-VERSION = f"\n {FILENAME} version : [2026-03-01 BN V2.0.2]"
+VERSION = f"\n {FILENAME} version : [2026-03-03 BN V2.0.2]"
 SEPARATEUR_REP = "\\"
 REP_TRAV = f"P:{SEPARATEUR_REP}Morceaux_choisis"
 USAGE = (f"\n  usage: {FILENAME} [OPTIONS]\n"
@@ -263,36 +263,31 @@ def actionfinale(	repert, ficprod, coderetour, sunecom, supprfic ):
 	"""
 	resultat = coderetour
 	scom = sunecom
-	memesignature = 0
-	fictampon = ""
+	leficprod = os.path.join(repert,ficprod)
+	leficref = ""
+	ancienfic000m3u = []
 	if resultat == 0:
 		ancienfic000m3u = _find("000-liste-*.m3u", repert)
-		for fichier in ancienfic000m3u:
-			fictampon = os.path.join(repert,fichier)
-			# print(f"debug actionfinale {fictampon} : 
-			# {hashlib_sha512(os.path.join(repert,ficprod))} " \
-			# 			+ f"+ {hashlib_sha512(fictampon)}")
-			if hashlib_sha512(os.path.join(repert,ficprod)) != \
-				 hashlib_sha512(fictampon):
-				# on supprime si volonté
-				if supprfic:
-					os.unlink(fictampon)
-				
-				# on renomme le fichier produit en nom final
-				try:
-					os.rename(os.path.join(repert,ficprod), \
-				 						os.path.join(repert, FICS_LISTE))
-				except OSError as err:
-					resultat = 1
-					scom += f"\n\t>>>> Probleme renommage {repert}/{ficprod} en " + \
-									f"{repert}/{FICS_LISTE}\n. {err}\n"
-			else:
-				memesignature += 1
-				if memesignature > 1 and supprfic:
-						os.unlink(fictampon)
-		if memesignature >= 1:
-			os.unlink(os.path.join(repert,ficprod))
-			scom += "\n\t>>>> Aucune difference de production.\n"
+		if len(ancienfic000m3u) > 0:
+			for fichier in ancienfic000m3u:
+				leficref = os.path.join(repert,fichier)
+				if hashlib_sha512(leficprod) != \
+						hashlib_sha512(leficref):
+					# on supprime si volonté
+					if supprfic:
+						os.unlink(leficref)
+				elif supprfic:
+					os.unlink(leficprod)
+					scom += "\n\t>>>> Aucune difference de production.\n"
+		else:
+			try:
+				os.rename(os.path.join(repert,ficprod), \
+									os.path.join(repert, FICS_LISTE))
+			except OSError as err:
+				resultat = 1
+				scom += f"\n\t>>>> Probleme renommage {repert}/{ficprod} en " + \
+								f"{repert}/{FICS_LISTE}\n. {err}\n"
+   
 
 	return (resultat, scom)
 
@@ -318,7 +313,7 @@ def _preprod(repert=None, fic_tampon=None, fic=None):
 	scom = ""
 	ficfiltre = ""
 	ssrep = ""
-	fichiersmp3 = []
+	fichiersmp3 = []	
 
 	try:
 		os.chdir(repert)
@@ -372,12 +367,13 @@ def _find(pattern, path):
 	"""
 	### parametre local
 	result = []
-
 	# pylint: disable=unused-variable
-	for root, _ , files in os.walk(path):
+	for root, _dirs , files in os.walk(path):
 		result.extend( os.path.join(root, basename) for \
 			basename in files \
 				if fnmatch.fnmatch(basename, pattern))
+  
+		
 	return result
 
 def _estexploitable(unechaine=None):

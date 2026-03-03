@@ -1,4 +1,4 @@
-# Projet listem3u [2026-03-01] 👉 BN V2.0.2
+# Projet listem3u [2026-03-03] 👉 BN V2.0.2
 
 [![GITHUB Actions status](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml/badge.svg?branch=releases))](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml) [![SonarQube Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bruschin_listem3u&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
 <!--[![Codacy Badge](https://app.codacy.com/project/badge/Grade/0b206f1af71d47dcb8092d1d9069aebb)](https://app.codacy.com/gh/bruschin/listem3u/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)-->
@@ -58,11 +58,11 @@ Le répertoire **automation**, prévu pour faire reposer les test unitaires sur 
   > L'étude des fichiers 00n-Playlist.m3u contenus dans les sous-répertoires 00n
   du répertoire de travail passé en argument d'appel ou par omission fixé en dur
   dans le code, permet d'y produire un fichier temporaire de nom
-  000-liste-JJ-MM-AAAA.prod qui sera comparé sha256sum au précédent fichier
+  000-liste-JJ-MM-AAAA.prod qui sera comparé sha512sum au précédent fichier
   000-liste-JJ-MM-AAAA.m3u si existant. En cas d'égalité de signature le fichier
   m3u existant est laissé en l'état, pas de différence de production. En cas
   d'inégalité le fichier 000-liste-JJ-MM-AAAA.prod est renommé
-  000-liste-JJ-MM-AAAA.m3u en remplacement écrasement du précédent.
+  000-liste-JJ-MM-AAAA.m3u en remplacement, écrasement du précédent.
 
 ## Traitement
 

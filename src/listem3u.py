@@ -13,7 +13,7 @@ r"""
 		
 		[-m |--mp3 : Verification existence fic mp3] Optionnel. Defaut = False
 		[-r |--repertoire] <repertoire de travail>  Optionnel
-																								defaut = Repertoire_travail
+													defaut = Repertoire_travail
 		[-v |--version : Demande version] Optionnel
 		Tous les parametres acceptent casse minuscules/majuscules
 
@@ -24,7 +24,7 @@ r"""
 	[VERSIONS]
 		[2023-03-25] BN V1.0 :  Initialisation
 		[2023-03-26] BN V1.1 :  Filtre les fichiers mp3 listés. Pylint.
-																										Tests unitaires
+								Tests unitaires
 		[2023-03-28] BN V1.2 :  Debug repertoire travail PureWindowsPath
 		[2023-03-29] BN V1.3 :  issue 1-listemp3upy-sans-fichier-mp3
 		[2023-05-15] BN V1.4 :  introduction 1 parametre OBLIGATOIRE
@@ -35,13 +35,13 @@ r"""
 		[2025-11-23] BN V1.9.1 : suppression saut ligne après écriture + nb fic
 		[2025-12-07] BN V1.9.2 : ajout fct md5
 		[2025-12-09] BN V1.9.3 : revision format fichier m3u + sha512
-														 # https://fr.wikipedia.org/wiki/M3U
+								 # https://fr.wikipedia.org/wiki/M3U
 		[2025-12-12] BN V1.9.4 : mise au point
 		[2025-12-21] BN V1.9.6 : mise au point pipeline ci/cd
 		[2025-12-29] BN V1.9.7 : gestion fichier de sortie si identique précédent
 		[2026-02-15] BN V2.0.0 : Revue de code
 		[2026-02-23] BN V2.0.1 : Revue de code
-		[2026-03-01] BN V2.0.2 : Revue de code
+		[2026-03-03] BN V2.0.2 : Revue de code
 
 	[REFERENCES]
 		https://www.githubstatus.com/
@@ -55,14 +55,9 @@ r"""
 		# Le codage des fichiers m3u est en Latin-1
 		# https://docs.fileformat.com/fr/audio/m3u/
 """
-
-# ./devtools/lanceur_pylint.bash : Linter des fichiers python sous src
 # ************* Module src.listem3u
-# src/listem3u.py:207: [W0621(redefined-outer-name), action] Redefining name 'coderetour' from outer scope (line 437)
-# src/listem3u.py:241: [R0917(too-many-positional-arguments), actionfinale] Too many positional arguments (6/5)
-# src/listem3u.py:241: [W0621(redefined-outer-name), actionfinale] Redefining name 'coderetour' from outer scope (line 437)
-# src/listem3u.py:241: [W0613(unused-argument), actionfinale] Unused argument 'ficfin'
-
+# src/listem3u.py:248: [W0621(redefined-outer-name), actionfinale] 
+# Redefining name 'coderetour' from outer scope (line 445)
 
 ## Bibliotheques ##
 
@@ -78,7 +73,7 @@ from os.path import exists as file_exists
 ## Variables Globales ##
 
 FILENAME = "listem3u.py"
-VERSION = f"\n {FILENAME} version : [2026-03-01 BN V2.0.2]"
+VERSION = f"\n {FILENAME} version : [2026-03-03 BN V2.0.2]"
 SEPARATEUR_REP = "\\"
 REP_TRAV = f"P:{SEPARATEUR_REP}Morceaux_choisis"
 USAGE = (f"\n  usage: {FILENAME} [OPTIONS]\n"
@@ -95,6 +90,7 @@ FICS_LISTE = f"000-liste-{NOW.strftime('%d-%m-%Y')}.m3u"
 FICS_LISTE_PROD = f"{FICS_LISTE}.prod"
 DEFAUT_FICMP3 = False
 DEFAUT_MENAGE = True
+CODERETOUR = 0
 
 ### Fonctions ###
 #################
@@ -267,36 +263,31 @@ def actionfinale(	repert, ficprod, coderetour, sunecom, supprfic ):
 	"""
 	resultat = coderetour
 	scom = sunecom
-	memesignature = 0
-	fictampon = ""
+	leficprod = os.path.join(repert,ficprod)
+	leficref = ""
+	ancienfic000m3u = []
 	if resultat == 0:
 		ancienfic000m3u = _find("000-liste-*.m3u", repert)
-		for fichier in ancienfic000m3u:
-			fictampon = os.path.join(repert,fichier)
-			# print(f"debug actionfinale {fictampon} : 
-			# {hashlib_sha512(os.path.join(repert,ficprod))} " \
-			# 			+ f"+ {hashlib_sha512(fictampon)}")
-			if hashlib_sha512(os.path.join(repert,ficprod)) != \
-				 hashlib_sha512(fictampon):
-				# on supprime si volonté
-				if supprfic:
-					os.unlink(fictampon)
-				
-				# on renomme le fichier produit en nom final
-				try:
-					os.rename(os.path.join(repert,ficprod), \
-				 						os.path.join(repert, FICS_LISTE))
-				except OSError as err:
-					resultat = 1
-					scom += f"\n\t>>>> Probleme renommage {repert}/{ficprod} en " + \
-									f"{repert}/{FICS_LISTE}\n. {err}\n"
-			else:
-				memesignature += 1
-				if memesignature > 1 and supprfic:
-						os.unlink(fictampon)
-		if memesignature >= 1:
-			os.unlink(os.path.join(repert,ficprod))
-			scom += "\n\t>>>> Aucune difference de production.\n"
+		if len(ancienfic000m3u) > 0:
+			for fichier in ancienfic000m3u:
+				leficref = os.path.join(repert,fichier)
+				if hashlib_sha512(leficprod) != \
+						hashlib_sha512(leficref):
+					# on supprime si volonté
+					if supprfic:
+						os.unlink(leficref)
+				elif supprfic:
+					os.unlink(leficprod)
+					scom += "\n\t>>>> Aucune difference de production.\n"
+		else:
+			try:
+				os.rename(os.path.join(repert,ficprod), \
+									os.path.join(repert, FICS_LISTE))
+			except OSError as err:
+				resultat = 1
+				scom += f"\n\t>>>> Probleme renommage {repert}/{ficprod} en " + \
+								f"{repert}/{FICS_LISTE}\n. {err}\n"
+   
 
 	return (resultat, scom)
 
@@ -322,7 +313,7 @@ def _preprod(repert=None, fic_tampon=None, fic=None):
 	scom = ""
 	ficfiltre = ""
 	ssrep = ""
-	fichiersmp3 = []
+	fichiersmp3 = []	
 
 	try:
 		os.chdir(repert)
@@ -376,12 +367,13 @@ def _find(pattern, path):
 	"""
 	### parametre local
 	result = []
-
 	# pylint: disable=unused-variable
-	for root, _ , files in os.walk(path):
+	for root, _dirs , files in os.walk(path):
 		result.extend( os.path.join(root, basename) for \
 			basename in files \
 				if fnmatch.fnmatch(basename, pattern))
+  
+		
 	return result
 
 def _estexploitable(unechaine=None):
@@ -442,12 +434,12 @@ def _filtreligne(unechaine=None, ssrep=None):
 
 # pragma: no cover
 if __name__ == "__main__":
-	(coderetour, SCOM, REP, TEST_PRESENCEFICMP3) = parametres(sys.argv)
-	if coderetour == 2:
+	(CODERETOUR, SCOM, REP, TEST_PRESENCEFICMP3) = parametres(sys.argv)
+	if CODERETOUR == 2:
 		print(SCOM)
-		(coderetour,SCOM) = action( REP, FICS_LISTE_TAMPON, FICS_LISTE_PROD, \
-																TEST_PRESENCEFICMP3)
-		(coderetour,SCOM) = actionfinale(	REP, FICS_LISTE_PROD, \
-									 										coderetour, SCOM, DEFAUT_MENAGE)
+		(CODERETOUR,SCOM) = action( REP, FICS_LISTE_TAMPON, FICS_LISTE_PROD, \
+									TEST_PRESENCEFICMP3)
+		(CODERETOUR,SCOM) = actionfinale( REP, FICS_LISTE_PROD, \
+										  CODERETOUR, SCOM, DEFAUT_MENAGE)
 	print(SCOM)
-	sys.exit(coderetour)
+	sys.exit(CODERETOUR)

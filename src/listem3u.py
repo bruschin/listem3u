@@ -266,9 +266,12 @@ def actionfinale(	repert, ficprod, coderetour, sunecom, supprfic ):
 	leficprod = os.path.join(repert,ficprod)
 	leficref = ""
 	ancienfic000m3u = []
+	nbrancienfic = 0
+	renommer = False
 	if resultat == 0:
 		ancienfic000m3u = _find("000-liste-*.m3u", repert)
-		if len(ancienfic000m3u) > 0:
+		nbrancienfic = len(ancienfic000m3u)
+		if nbrancienfic > 0:
 			for fichier in ancienfic000m3u:
 				leficref = os.path.join(repert,fichier)
 				if hashlib_sha512(leficprod) != \
@@ -276,10 +279,15 @@ def actionfinale(	repert, ficprod, coderetour, sunecom, supprfic ):
 					# on supprime si volonté
 					if supprfic:
 						os.unlink(leficref)
+						nbrancienfic -= 1
+						if nbrancienfic == 0:
+							renommer = True
 				elif supprfic:
 					os.unlink(leficprod)
 					scom += "\n\t>>>> Aucune difference de production.\n"
 		else:
+			renommer = True
+		if renommer:
 			try:
 				os.rename(os.path.join(repert,ficprod), \
 									os.path.join(repert, FICS_LISTE))

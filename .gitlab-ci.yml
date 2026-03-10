@@ -177,7 +177,7 @@ include:
       source: "src"
   - component: $CI_SERVER_FQDN/ci-cd-catalog-mf/sonar-scan/sonar-scan@1.0.2
     inputs:
-      sonar-project-key : desr-sires-pga_support_n1_outils_f995a25b-46af-4482-9a8f-72e3583aae15
+      sonar-project-key : desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483
       sonar-project-version : ${VERSION}
       sonar-token : ${SONAR_TOKEN}
       sonar-host: ${SONAR_HOST_URL}
@@ -256,7 +256,7 @@ job:Lint:
     - mv build/sphinx-* public/ || true
       ### index de gitlab-pages :
     - cp -f docs/index_gitlab-pages.html public/index.html || true
-    - cp -f docs/Outils* public/ || true
+    - cp -f docs/listem3u* public/ || true
     - ls -ail public/*
 
   artifacts:

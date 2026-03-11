@@ -6,7 +6,7 @@
 # https://github.com/koalaman/shellcheck
 #################
 # shellcheck disable=SC2034  # Unused variables left for readability
-Version="[BN 20-02-2026 V1.0.3]"
+Version="[BN 11-03-2026 V1.0.3]"
 Hostref="MiniGeekom13"
 Repertoire_travail="/d/Morceaux_choisis"
 Repertoire_automation="/c/Users/matel/Documents/GitHub/listem3u/automation"

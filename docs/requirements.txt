@@ -19,3 +19,4 @@ docutils
 flake8
 graphviz
 Rhino
+twine

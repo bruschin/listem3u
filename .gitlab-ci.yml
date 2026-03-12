@@ -41,6 +41,9 @@ workflow:
     - if: $CI_PROJECT_URL =~ "https://gitlab.meteo.fr/desr-sires-pga/support_n1/listem3u"
       when: always
 
+.before_lint: &before_lint
+  - pip install pylint --root-user-action=ignore || true
+
 # https://docs.gitlab.com/ee/ci/yaml/yaml_optimization.html
 .some-actions-apt-before: &some-actions-apt-before
 
@@ -176,6 +179,8 @@ include:
       allow_failure: true
       source: "src"
   - component: $CI_SERVER_FQDN/ci-cd-catalog-mf/sonar-scan/sonar-scan@1.0.2
+    before_script:
+      - cd "$CI_PROJECT_DIR"
     inputs:
       sonar-project-key : desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483
       sonar-project-version : ${VERSION}
@@ -187,6 +192,7 @@ include:
 
 stages:
   - lint
+  - autres
   - quality
   - build
   - deploy
@@ -204,18 +210,42 @@ job:Lint:
     - key: cache-$CI_COMMIT_REF_SLUG
      # override the policy
       policy: pull
+  before_script:
+    - cd "$CI_PROJECT_DIR"
+    - *before_lint
+  script:    
+    - echo -e "${TXT_RED} scripts lint ${TXT_CLEAR}"
+    - rm -rf public/* || true
+
+    - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
+    - devtools/lanceur_pylint.bash || true
+
+    - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
+    - ls -ail rapports/*
+    - mv rapports/*txt public/ || true
+  artifacts:
+      paths:
+        - public
+
+job:Autres:
+  stage: autres
+  #image: "python:3.12-slim"
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull
   script:
     - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
     - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
     
-    - echo -e "${TXT_RED} scripts lint ${TXT_CLEAR}"
-    - rm -rf public/* || true
+    # - echo -e "${TXT_RED} scripts lint ${TXT_CLEAR}"
+    # - rm -rf public/* || true
 
     - echo -e "${TXT_RED} shellcheck ${TXT_CLEAR}"
     - devtools/lanceur_shellcheck.bash || true
 
-    - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
-    - devtools/lanceur_pylint.bash || true
+    # - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
+    # - devtools/lanceur_pylint.bash || true
 
     - echo -e "${TXT_RED} ruff ${TXT_CLEAR}"
     - devtools/lanceur_ruff.bash || true
@@ -223,9 +253,9 @@ job:Lint:
     - echo -e "${TXT_RED} tox ${TXT_CLEAR}"
     - devtools/lanceur_tox.bash || true
     
-    - echo -e "${TXT_RED}script sonar${TXT_CLEAR}"
-    - devtools/lanceur_pysonar.bash || true
-    - mv -f rapports/*txt public/ || true
+    # - echo -e "${TXT_RED}script sonar${TXT_CLEAR}"
+    # - devtools/lanceur_pysonar.bash || true
+    # - mv -f rapports/*txt public/ || true
 
     - echo -e "${TXT_RED} Documentations ${TXT_CLEAR}"
     

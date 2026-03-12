@@ -50,7 +50,7 @@ workflow:
 .before_ruff: &before_ruff
   # image docker par defaut + minimum pour pylint
   - pip install --upgrade pip --break-system-packages --root-user-action=ignore || true
-  - pip install pylint --root-user-action=ignore || true
+  - pip install ruff --root-user-action=ignore || true
 
 
 .some-actions-apt-before: &some-actions-apt-before
@@ -188,7 +188,7 @@ include:
       source: "src"
   - component: $CI_SERVER_FQDN/ci-cd-catalog-mf/sonar-scan/sonar-scan@1.0.2
     before_script:
-      - cd "$CI_PROJECT_DIR"
+      - *some_mise_en_forme_before
     inputs:
       sonar-project-key : desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483
       sonar-project-version : ${VERSION}
@@ -220,7 +220,7 @@ job:Lint:
      # override the policy
       policy: pull
   before_script:
-    - cd "$CI_PROJECT_DIR"
+    - *some_mise_en_forme_before
     - *gestion_pip_nexus
     - *before_lint
   script:    
@@ -247,7 +247,7 @@ job:Ruff:
      # override the policy
       policy: pull
   before_script:
-    - cd "$CI_PROJECT_DIR"
+    - *some_mise_en_forme_before
     - *gestion_pip_nexus
     - *before_ruff
   script:    

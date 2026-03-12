@@ -302,132 +302,132 @@ job:Sonarqube-vulnerability-report:
       sast: gl-sast-sonar-report.json
 
 
-job:Autres:
-  stage: autres
-  #image: "python:3.12-slim"
-  cache:
-    - key: cache-$CI_COMMIT_REF_SLUG
-     # override the policy
-      policy: pull
-  script:
-    - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
-    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
+# job:Autres:
+#   stage: autres
+#   #image: "python:3.12-slim"
+#   cache:
+#     - key: cache-$CI_COMMIT_REF_SLUG
+#      # override the policy
+#       policy: pull
+#   script:
+#     - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
+#     - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
     
-    # - echo -e "${TXT_RED} scripts lint ${TXT_CLEAR}"
-    # - rm -rf public/* || true
+#     # - echo -e "${TXT_RED} scripts lint ${TXT_CLEAR}"
+#     # - rm -rf public/* || true
 
-    - echo -e "${TXT_RED} shellcheck ${TXT_CLEAR}"
-    - devtools/lanceur_shellcheck.bash || true
+#     - echo -e "${TXT_RED} shellcheck ${TXT_CLEAR}"
+#     - devtools/lanceur_shellcheck.bash || true
 
-    # - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
-    # - devtools/lanceur_pylint.bash || true
+#     # - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
+#     # - devtools/lanceur_pylint.bash || true
 
-    # - echo -e "${TXT_RED} ruff ${TXT_CLEAR}"
-    # - devtools/lanceur_ruff.bash || true
+#     # - echo -e "${TXT_RED} ruff ${TXT_CLEAR}"
+#     # - devtools/lanceur_ruff.bash || true
 
-    - echo -e "${TXT_RED} tox ${TXT_CLEAR}"
-    - devtools/lanceur_tox.bash || true
+#     - echo -e "${TXT_RED} tox ${TXT_CLEAR}"
+#     - devtools/lanceur_tox.bash || true
     
-    # - echo -e "${TXT_RED}script sonar${TXT_CLEAR}"
-    # - devtools/lanceur_pysonar.bash || true
-    # - mv -f rapports/*txt public/ || true
+#     # - echo -e "${TXT_RED}script sonar${TXT_CLEAR}"
+#     # - devtools/lanceur_pysonar.bash || true
+#     # - mv -f rapports/*txt public/ || true
 
-    - echo -e "${TXT_RED} Documentations ${TXT_CLEAR}"
+#     - echo -e "${TXT_RED} Documentations ${TXT_CLEAR}"
     
-    - echo -e "${TXT_RED} doxygen ${TXT_CLEAR}"
-    - devtools/lanceur_doxygen.bash || true
+#     - echo -e "${TXT_RED} doxygen ${TXT_CLEAR}"
+#     - devtools/lanceur_doxygen.bash || true
 
-    - echo -e "${TXT_RED} sphinx ${TXT_CLEAR}"
-    - devtools/lanceur_sphinx.bash "gitlab" || true
+#     - echo -e "${TXT_RED} sphinx ${TXT_CLEAR}"
+#     - devtools/lanceur_sphinx.bash "gitlab" || true
 
-    - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
-    - ls -ail rapports/*
-    - mv rapports/*txt public/ || true
-    - mv rapports/*xml public/ || true
-    - mv rapports/tox_cov_html public/ || true
-    - mv rapports/doxygen public/ || true
-    - mv build/sphinx-* public/ || true
-      ### index de gitlab-pages :
-    - cp -f docs/index_gitlab-pages.html public/index.html || true
-    - cp -f docs/listem3u* public/ || true
-    - ls -ail public/*
+#     - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
+#     - ls -ail rapports/*
+#     - mv rapports/*txt public/ || true
+#     - mv rapports/*xml public/ || true
+#     - mv rapports/tox_cov_html public/ || true
+#     - mv rapports/doxygen public/ || true
+#     - mv build/sphinx-* public/ || true
+#       ### index de gitlab-pages :
+#     - cp -f docs/index_gitlab-pages.html public/index.html || true
+#     - cp -f docs/listem3u* public/ || true
+#     - ls -ail public/*
 
-  artifacts:
-    paths:
-      - public
+#   artifacts:
+#     paths:
+#       - public
 
-job:Packaging:
-  stage: build
-  #image: "python:3.12-slim"
-  cache:
-    policy: pull
-    key: cache-$CI_COMMIT_REF_SLUG
-    paths:
-      - public/
-  before_script:
-    - cd "$CI_PROJECT_DIR"
-    - *some_mise_en_forme_before
-    - *gestion_env_python_before
-    - *gestion_pip_nexus
-    - *gestion_twine_nexus
-    - *gestion_pip_update
-  script:
-    - echo -e "${TXT_RED} script build ${TXT_CLEAR}"
-    - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
-    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID || true
-    - devtools/lanceur_build.bash || true
-    - devtools/lanceur_upload_nexus.bash ${CI_PROJECTNAME} ${CI_USERNAME} ${CI_PASSWORD} || true
+# job:Packaging:
+#   stage: build
+#   #image: "python:3.12-slim"
+#   cache:
+#     policy: pull
+#     key: cache-$CI_COMMIT_REF_SLUG
+#     paths:
+#       - public/
+#   before_script:
+#     - cd "$CI_PROJECT_DIR"
+#     - *some_mise_en_forme_before
+#     - *gestion_env_python_before
+#     - *gestion_pip_nexus
+#     - *gestion_twine_nexus
+#     - *gestion_pip_update
+#   script:
+#     - echo -e "${TXT_RED} script build ${TXT_CLEAR}"
+#     - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
+#     - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID || true
+#     - devtools/lanceur_build.bash || true
+#     - devtools/lanceur_upload_nexus.bash ${CI_PROJECTNAME} ${CI_USERNAME} ${CI_PASSWORD} || true
 
-    - ls -ail *
-    - mv rapports/*txt public/ || true
-    - ls -ail build/* || true
-  artifacts:
-    paths:
-      - public
-      - build/dist
-  # only:
-  #   - main
-  #   - 1-relesease-v1.5.0
+#     - ls -ail *
+#     - mv rapports/*txt public/ || true
+#     - ls -ail build/* || true
+#   artifacts:
+#     paths:
+#       - public
+#       - build/dist
+#   # only:
+#   #   - main
+#   #   - 1-relesease-v1.5.0
 
-job:Deploy:
-  stage: deploy
-  #image: python:3.12-slim
-  cache:
-    - key: cache-$CI_COMMIT_REF_SLUG
-     # override the policy
-      policy: pull
-  before_script:
-    - cd "$CI_PROJECT_DIR"
-  script:
-    - echo -e "${TXT_RED}script deploy${TXT_CLEAR}"
-  after_script:
-    - echo -e "${TXT_RED}after_script deploy${TXT_CLEAR}"
-  artifacts:
-    paths:
-      - public
-  pages: true # specifies that this is a Pages job
-  # only:
-  #   - main
-  #   - 1-relesease-v1.5.0
+# job:Deploy:
+#   stage: deploy
+#   #image: python:3.12-slim
+#   cache:
+#     - key: cache-$CI_COMMIT_REF_SLUG
+#      # override the policy
+#       policy: pull
+#   before_script:
+#     - cd "$CI_PROJECT_DIR"
+#   script:
+#     - echo -e "${TXT_RED}script deploy${TXT_CLEAR}"
+#   after_script:
+#     - echo -e "${TXT_RED}after_script deploy${TXT_CLEAR}"
+#   artifacts:
+#     paths:
+#       - public
+#   pages: true # specifies that this is a Pages job
+#   # only:
+#   #   - main
+#   #   - 1-relesease-v1.5.0
 
-job:CheckDependencies:
-  stage: sca
-  cache:
-    policy: pull
-    key: cache-$CI_COMMIT_REF_SLUG
-    paths:
-      - public/
-  before_script:
-    - cd "$CI_PROJECT_DIR"
-  script:
-    - echo -e "${TXT_RED} script sca ${TXT_CLEAR}"
-  allow_failure: true
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == 'main'
-  artifacts:
-    paths:
-      - public
+# job:CheckDependencies:
+#   stage: sca
+#   cache:
+#     policy: pull
+#     key: cache-$CI_COMMIT_REF_SLUG
+#     paths:
+#       - public/
+#   before_script:
+#     - cd "$CI_PROJECT_DIR"
+#   script:
+#     - echo -e "${TXT_RED} script sca ${TXT_CLEAR}"
+#   allow_failure: true
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+#     - if: $CI_COMMIT_BRANCH == 'main'
+#   artifacts:
+#     paths:
+#       - public
 
   # job:Tests:
   #   stage: test

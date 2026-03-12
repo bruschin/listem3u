@@ -190,7 +190,7 @@ stages:
   - build
   - deploy
   - sca
-    #  - quality
+  - quality
     # - test
 
 # Retry a job automatically if it fails (2 times)

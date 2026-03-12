@@ -53,6 +53,11 @@ workflow:
   - *maj_pip
   - pip install pylint --root-user-action=ignore || true
 
+.before_shellcheck: &before_shellcheck
+  # image docker par defaut + minimum pour pylint
+  - *apt_get_update
+  - apt-get install -y shellcheck || true
+
 .before_ruff: &before_ruff
   # image docker par defaut + minimum pour pylint
   - *maj_pip
@@ -61,6 +66,20 @@ workflow:
 .before_tox: &before_tox
   - *maj_pip
   - pip install tox pytest pytest-cov pytest-xdist --root-user-action=ignore || true
+
+.before_documentations: &before_documentations
+  - *apt_get_update
+  # Pour doxygen : https://askubuntu.com/questions/1291874/how-to-install-doxygen-on-ubuntu
+  - apt-get install -y doxygen libxapian30 graphviz dia || true
+  # pour sphinx:
+  - apt-get install -y python3-sphinx ca-certificates
+  # - apt-get install -y rhino lcov || true
+  # - apt-get install -y  libncurses-dev python3-sphinx || true
+  # - apt-get install -y  python3-sphinx-copybutton sphinx-common
+  #     python3-pydata-sphinx-theme python3-alabaster || true
+
+  - export CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
+  - update-ca-certificates -f
 
 .before_sonarqube-vulnerability-report: &before_sonarqube-vulnerability-report
   - *apt_get_update
@@ -78,35 +97,12 @@ workflow:
   # Pour doxygen : https://askubuntu.com/questions/1291874/how-to-install-doxygen-on-ubuntu
   - apt-get install -y doxygen libxapian30 graphviz dia
 
-  # Pour  shellcheck :
-  - apt-get install -y shellcheck
-
-  # Pour pylint :
-  - apt-get install -y ca-certificates git curl wget
-  #- wget --no-check-certificate https://gitlab.com/gitlab-org/cli/-/releases/v1.80.4/downloads/glab_1.80.4_linux_amd64.deb
-  #- apt-get install -y ./glab_1.80.4_linux_amd64.deb
-  #- glab config set check_update false
-  #- ls /etc/pki/tls/certs/ /etc/ssl/certs/
-  #- glab auth login --job-token $CI_JOB_TOKEN --hostname $CI_SERVER_FQDN --api-protocol $CI_SERVER_PROTOCOL
-  #- glab -R $CI_PROJECT_PATH securefile download $SECURE_FILE_ID --path="/etc/ssl/certs"
-  # curl --header "PRIVATE-TOKEN: ****" --url "https://gitlab.meteo.fr/api/v4/projects/2929/secure_files
-
   # pour pyenv necessaire pour tox, ruff etc.:
   # https://blog.stephane-robert.info/docs/developper/programmation/python/pyenv/
   - apt-get install -y make build-essential libssl-dev zlib1g-dev 
       libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm 
       libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev
       liblzma-dev python3-openssl
-  
-  # pour sphinx:
-  - apt-get install -y python3-sphinx
-  # - apt-get install -y rhino lcov || true
-  # - apt-get install -y  libncurses-dev python3-sphinx || true
-  # - apt-get install -y  python3-sphinx-copybutton sphinx-common
-  #     python3-pydata-sphinx-theme python3-alabaster || true
-
-  - export CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
-  - update-ca-certificates -f
 
 .some_mise_en_forme_before: &some_mise_en_forme_before
   - export NORMALIZED_NAME=$(echo "${CI_PROJECT_NAME}" | tr '-' '_') || true
@@ -164,7 +160,8 @@ workflow:
 
 .gestion_twine_nexus: &gestion_twine_nexus
   - echo -e "${TXT_RED} Requirements nexus pour twine ${TXT_CLEAR}"
-  - python3 -m pip install --upgrade pip
+  #- python3 -m pip install --upgrade pip
+  - *maj_pip
   - python3 -m pip install pylint-common --use-pep517
 
 .gestion_pip_update: &gestion_pip_update
@@ -214,9 +211,10 @@ workflow:
   #     allow_failure: true
 
 stages:
-  - lint
+  - lint_shellcheck
   - ruff
   - tox
+  - documentations
   - build-sonar
   - sonarqube-vulnerability-report
   # - autres
@@ -229,8 +227,8 @@ stages:
 .retry:
   retry: 2
 
-job:Lint:
-  stage: lint
+job:Lint_shellcheck:
+  stage: lint_shellcheck
   #image: "python:3.12-slim"
   cache:
     - key: cache-$CI_COMMIT_REF_SLUG
@@ -240,6 +238,7 @@ job:Lint:
     - *some_mise_en_forme_before
     - *gestion_pip_nexus
     - *before_lint
+    - *before_shellcheck
   script:    
     - echo -e "${TXT_RED} Lint ${TXT_CLEAR}"
     # reinitialisation public en tant que 1er job
@@ -248,6 +247,9 @@ job:Lint:
 
     - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
     - devtools/lanceur_pylint.bash || true
+
+    - echo -e "${TXT_RED} Shellcheck ${TXT_CLEAR}"
+    - devtools/lanceur_shellcheck.bash || true
 
     - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
     - ls -ail rapports/*
@@ -349,60 +351,43 @@ job:Sonarqube-vulnerability-report:
     reports:
       sast: gl-sast-sonar-report.json
 
-
-# job:Autres:
-#   stage: autres
-#   #image: "python:3.12-slim"
-#   cache:
-#     - key: cache-$CI_COMMIT_REF_SLUG
-#      # override the policy
-#       policy: pull
-#   script:
-#     - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
-#     - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
+job:Documentations:
+  stage: documentations
+  #image: "python:3.12-slim"
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull
+  before_script:
+    - *some_mise_en_forme_before
+    - *before_documentations
+  script:
+    - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
+    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
     
-#     # - echo -e "${TXT_RED} scripts lint ${TXT_CLEAR}"
-#     # - rm -rf public/* || true
-
-#     - echo -e "${TXT_RED} shellcheck ${TXT_CLEAR}"
-#     - devtools/lanceur_shellcheck.bash || true
-
-#     # - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
-#     # - devtools/lanceur_pylint.bash || true
-
-#     # - echo -e "${TXT_RED} ruff ${TXT_CLEAR}"
-#     # - devtools/lanceur_ruff.bash || true
-
-#     - echo -e "${TXT_RED} tox ${TXT_CLEAR}"
-#     - devtools/lanceur_tox.bash || true
+    - echo -e "${TXT_RED} Documentations ${TXT_CLEAR}"
     
-#     # - echo -e "${TXT_RED}script sonar${TXT_CLEAR}"
-#     # - devtools/lanceur_pysonar.bash || true
-#     # - mv -f rapports/*txt public/ || true
+    - echo -e "${TXT_RED} doxygen ${TXT_CLEAR}"
+    - devtools/lanceur_doxygen.bash || true
 
-#     - echo -e "${TXT_RED} Documentations ${TXT_CLEAR}"
-    
-#     - echo -e "${TXT_RED} doxygen ${TXT_CLEAR}"
-#     - devtools/lanceur_doxygen.bash || true
+    - echo -e "${TXT_RED} sphinx ${TXT_CLEAR}"
+    - devtools/lanceur_sphinx.bash "gitlab" || true
 
-#     - echo -e "${TXT_RED} sphinx ${TXT_CLEAR}"
-#     - devtools/lanceur_sphinx.bash "gitlab" || true
+    - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
+    - ls -ail rapports/*
+    - mv rapports/*txt public/ || true
+    - mv rapports/*xml public/ || true
+    - mv rapports/tox_cov_html public/ || true
+    - mv rapports/doxygen public/ || true
+    - mv build/sphinx-* public/ || true
+      ### index de gitlab-pages :
+    - cp -f docs/index_gitlab-pages.html public/index.html || true
+    - cp -f docs/listem3u* public/ || true
+    - ls -ail public/*
 
-#     - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
-#     - ls -ail rapports/*
-#     - mv rapports/*txt public/ || true
-#     - mv rapports/*xml public/ || true
-#     - mv rapports/tox_cov_html public/ || true
-#     - mv rapports/doxygen public/ || true
-#     - mv build/sphinx-* public/ || true
-#       ### index de gitlab-pages :
-#     - cp -f docs/index_gitlab-pages.html public/index.html || true
-#     - cp -f docs/listem3u* public/ || true
-#     - ls -ail public/*
-
-#   artifacts:
-#     paths:
-#       - public
+  artifacts:
+    paths:
+      - public
 
 # job:Packaging:
 #   stage: build

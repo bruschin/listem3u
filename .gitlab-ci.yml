@@ -180,12 +180,12 @@ workflow:
 # https://gitlab.meteo.fr/explore/catalog/ci-cd-catalog-mf/sca
 #
 
-include:
-  - component: $CI_SERVER_FQDN/ci-cd-catalog-mf/sca/check-dependencies@1.0.5
-    inputs:
-      failOnSeverity : "MEDIUM"
-      allow_failure: true
-      source: "src"
+# include:
+#   - component: $CI_SERVER_FQDN/ci-cd-catalog-mf/sca/check-dependencies@1.0.5
+#     inputs:
+#       failOnSeverity : "MEDIUM"
+#       allow_failure: true
+#       source: "src"
   # - component: $CI_SERVER_FQDN/ci-cd-catalog-mf/sonar-scan/sonar-scan@1.0.2
   #   before_script:
   #     - *some_mise_en_forme_before

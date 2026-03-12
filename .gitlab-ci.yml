@@ -58,6 +58,10 @@ workflow:
   - *maj_pip
   - pip install ruff --root-user-action=ignore || true
 
+.before_tox: &before_tox
+  - *maj_pip
+  - pip install tox pytest pytest-cov pytest-xdist --root-user-action=ignore || true
+
 .before_sonarqube-vulnerability-report: &before_sonarqube-vulnerability-report
   - *apt_get_update
   - apt-get install -y ca-certificates curl || true
@@ -212,6 +216,7 @@ workflow:
 stages:
   - lint
   - ruff
+  - tox
   - build-sonar
   - sonarqube-vulnerability-report
   # - autres
@@ -273,6 +278,30 @@ job:Ruff:
       paths:
         - public
 
+job:Tox:
+  stage: tox
+  #image: "python:3.12-slim"
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull
+  before_script:
+    - *some_mise_en_forme_before
+    - *gestion_pip_nexus
+    - *before_tox
+  script:    
+    - echo -e "${TXT_RED} Tox ${TXT_CLEAR}"
+    - devtools/lanceur_tox.bash || true
+
+    - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
+    - ls -ail rapports/*
+    - mv rapports/*txt public/ || true
+    - mv rapports/*xml public/ || true
+    - mv rapports/tox_cov_html public/ || true
+  artifacts:
+      paths:
+        - public
+
 job:Build-sonar:
   stage: build-sonar
   image:
@@ -298,9 +327,17 @@ job:Build-sonar:
 
 job:Sonarqube-vulnerability-report:
   stage: sonarqube-vulnerability-report
+  cache:
+    policy: pull-push
+    key: "sonar-cache-$CI_COMMIT_REF_SLUG"
+    paths:
+      - "${SONAR_USER_HOME}/cache"
+      - sonar-scanner/
   before_script:
     - *before_sonarqube-vulnerability-report
   script:
+    - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
+    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
     - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
   allow_failure: true
   rules:

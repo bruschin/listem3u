@@ -3,7 +3,6 @@ ruff
 tox
 tox-gh-actions
 pylint
-pytest
 coverage
 sphinx
 sphinx-book-theme
@@ -13,7 +12,6 @@ gitpython
 pytest
 pytest-cov
 pytest-xdist
-pysonar
 build
 docutils
 flake8

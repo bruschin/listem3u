@@ -159,19 +159,19 @@ workflow:
   - pip install -r docs/requirements.txt --root-user-action=ignore || true
   - pip install --upgrade pip --break-system-packages --root-user-action=ignore || true
 
-before_script:
-  # Normalize package name once at the start of any job
+# before_script:
+#   # Normalize package name once at the start of any job
 
-  # Use Météo-France's own PyPI-like registry, more info at
-  # http://confluence.meteo.fr/display/MOT/Nexus+-+Guide+d%27utilisation#NexusGuided'utilisation-D%C3%A9p%C3%B4tpython
+#   # Use Météo-France's own PyPI-like registry, more info at
+#   # http://confluence.meteo.fr/display/MOT/Nexus+-+Guide+d%27utilisation#NexusGuided'utilisation-D%C3%A9p%C3%B4tpython
 
-  - *some-actions-apt-before
-  - *some_mise_en_forme_before
-  - *gestion_env_python_before
-  - *gestion_pyenv
-  - *gestion_pip_nexus
-  - *gestion_twine_nexus
-  - *gestion_pip_update
+#   - *some-actions-apt-before
+#   - *some_mise_en_forme_before
+#   - *gestion_env_python_before
+#   - *gestion_pyenv
+#   - *gestion_pip_nexus
+#   - *gestion_twine_nexus
+#   - *gestion_pip_update
 
 #https://misc.flogisoft.com/bash/tip_colors_and_formatting
 
@@ -203,10 +203,10 @@ stages:
   - ruff
   - build-sonar
   - sonarqube-vulnerability-report
-  - autres
-  - build
-  - deploy
-  - sca
+  # - autres
+  # - build
+  # - deploy
+  # - sca
     # - test
 
 # Retry a job automatically if it fails (2 times)

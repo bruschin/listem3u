@@ -41,10 +41,18 @@ workflow:
     - if: $CI_PROJECT_URL =~ "https://gitlab.meteo.fr/desr-sires-pga/support_n1/listem3u"
       when: always
 
+# https://docs.gitlab.com/ee/ci/yaml/yaml_optimization.html
 .before_lint: &before_lint
+  # image docker par defaut + minimum pour pylint
+  - pip install --upgrade pip --break-system-packages --root-user-action=ignore || true
   - pip install pylint --root-user-action=ignore || true
 
-# https://docs.gitlab.com/ee/ci/yaml/yaml_optimization.html
+.before_ruff: &before_ruff
+  # image docker par defaut + minimum pour pylint
+  - pip install --upgrade pip --break-system-packages --root-user-action=ignore || true
+  - pip install pylint --root-user-action=ignore || true
+
+
 .some-actions-apt-before: &some-actions-apt-before
 
   # Pour éviter ultérieurement  : debconf: (Can't locate Term/ReadLine.pm ....
@@ -192,8 +200,9 @@ include:
 
 stages:
   - lint
-  - autres
+  - ruff
   - quality
+  - autres
   - build
   - deploy
   - sca
@@ -215,13 +224,35 @@ job:Lint:
     - *gestion_pip_nexus
     - *before_lint
   script:    
-    - echo -e "${TXT_RED} scripts lint ${TXT_CLEAR}"
-    # reinitialisation public
+    - echo -e "${TXT_RED} Lint ${TXT_CLEAR}"
+    # reinitialisation public en tant que 1er job
     - rm -rf public/* || true
     - mkdir public || true
 
     - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
     - devtools/lanceur_pylint.bash || true
+
+    - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
+    - ls -ail rapports/*
+    - mv rapports/*txt public/ || true
+  artifacts:
+      paths:
+        - public
+
+job:Ruff:
+  stage: ruff
+  #image: "python:3.12-slim"
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull
+  before_script:
+    - cd "$CI_PROJECT_DIR"
+    - *gestion_pip_nexus
+    - *before_ruff
+  script:    
+    - echo -e "${TXT_RED} Ruff ${TXT_CLEAR}"
+    - devtools/lanceur_ruff.bash || true
 
     - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
     - ls -ail rapports/*
@@ -250,8 +281,8 @@ job:Autres:
     # - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
     # - devtools/lanceur_pylint.bash || true
 
-    - echo -e "${TXT_RED} ruff ${TXT_CLEAR}"
-    - devtools/lanceur_ruff.bash || true
+    # - echo -e "${TXT_RED} ruff ${TXT_CLEAR}"
+    # - devtools/lanceur_ruff.bash || true
 
     - echo -e "${TXT_RED} tox ${TXT_CLEAR}"
     - devtools/lanceur_tox.bash || true

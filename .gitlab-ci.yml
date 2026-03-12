@@ -42,22 +42,33 @@ workflow:
       when: always
 
 # https://docs.gitlab.com/ee/ci/yaml/yaml_optimization.html
+.maj_pip: &maj_pip
+  - pip install --upgrade pip --break-system-packages --root-user-action=ignore || true
+
+.apt_get_update: &apt_get_update
+  - apt-get update || true
+
 .before_lint: &before_lint
   # image docker par defaut + minimum pour pylint
-  - pip install --upgrade pip --break-system-packages --root-user-action=ignore || true
+  - *maj_pip
   - pip install pylint --root-user-action=ignore || true
 
 .before_ruff: &before_ruff
   # image docker par defaut + minimum pour pylint
-  - pip install --upgrade pip --break-system-packages --root-user-action=ignore || true
+  - *maj_pip
   - pip install ruff --root-user-action=ignore || true
 
+.before_sonarqube-vulnerability-report: &before_sonarqube-vulnerability-report
+  - *apt_get_update
+  - apt-get install -y ca-certificates curl || true
+  - echo "proxy = http://proxy.meteo.fr:11011" > $HOME/.curlrc
+  - echo "insecure" >> $HOME/.curlrc
 
 .some-actions-apt-before: &some-actions-apt-before
 
   # Pour éviter ultérieurement  : debconf: (Can't locate Term/ReadLine.pm ....
   - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-  - apt-get update || true
+  - *apt_get_update
   - apt-get upgrade -y || true
 
   # Pour doxygen : https://askubuntu.com/questions/1291874/how-to-install-doxygen-on-ubuntu
@@ -106,7 +117,7 @@ workflow:
   - source $HOME/envdev/bin/activate || true
 
   - echo -e "${TXT_RED} Gestion configurations git curl et proxy ${TXT_CLEAR}"
-  - apt-get update || true
+  - *apt_get_update
   - apt-get install -y ca-certificates git curl wget
   - git config --global http.sslVerify false
   - git config --global https.sslVerify false
@@ -288,7 +299,7 @@ job:Build-sonar:
 job:Sonarqube-vulnerability-report:
   stage: sonarqube-vulnerability-report
   before_script:
-    - apt-get install -y ca-certificates curl
+    - *before_sonarqube-vulnerability-report
   script:
     - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
   allow_failure: true

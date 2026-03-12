@@ -110,7 +110,7 @@ docstring-code-format = true
 docstring-code-line-length = "dynamic"
 
 [tool.sonar]
-projectKey = "bruschin_listem3u"
+projectKey = "desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483"
 qualitygate.wait = true
 projectName = "listem3u"
 projectBaseDir = "src"

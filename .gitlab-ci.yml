@@ -186,22 +186,23 @@ include:
       failOnSeverity : "MEDIUM"
       allow_failure: true
       source: "src"
-  - component: $CI_SERVER_FQDN/ci-cd-catalog-mf/sonar-scan/sonar-scan@1.0.2
-    before_script:
-      - *some_mise_en_forme_before
-    inputs:
-      sonar-project-key : desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483
-      sonar-project-version : ${VERSION}
-      sonar-token : ${SONAR_TOKEN}
-      sonar-host: ${SONAR_HOST_URL}
-      sonar-source: "src"
-      sonar-projectBaseDir: "."
-      allow_failure: true
+  # - component: $CI_SERVER_FQDN/ci-cd-catalog-mf/sonar-scan/sonar-scan@1.0.2
+  #   before_script:
+  #     - *some_mise_en_forme_before
+  #   inputs:
+  #     sonar-project-key : desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483
+  #     sonar-project-version : ${VERSION}
+  #     sonar-token : ${SONAR_TOKEN}
+  #     sonar-host: ${SONAR_HOST_URL}
+  #     sonar-source: "src"
+  #     sonar-projectBaseDir: "."
+  #     allow_failure: true
 
 stages:
   - lint
   - ruff
-  - quality
+  - build-sonar
+  - sonarqube-vulnerability-report
   - autres
   - build
   - deploy
@@ -260,6 +261,46 @@ job:Ruff:
   artifacts:
       paths:
         - public
+
+job:Build-sonar:
+  stage: build-sonar
+  image:
+   name: sonarsource/sonar-scanner-cli:11
+   entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    policy: pull-push
+    key: "sonar-cache-$CI_COMMIT_REF_SLUG"
+    paths:
+      - "${SONAR_USER_HOME}/cache"
+      - sonar-scanner/
+  script: 
+    - echo -e "${TXT_RED}build-sonar${TXT_CLEAR}"
+    - sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}"
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'releases'
+
+job:Sonarqube-vulnerability-report:
+  stage: sonarqube-vulnerability-report
+  before_script:
+    - apt-get install -y ca-certificates curl
+  script:
+    - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'releases'
+  artifacts:
+    expire_in: 1 day
+    reports:
+      sast: gl-sast-sonar-report.json
+
 
 job:Autres:
   stage: autres
@@ -412,25 +453,3 @@ job:CheckDependencies:
   #     paths:
   #       - public
 
-# job:Sonar:
-#   stage: quality
-#    #image: python:3.12-slim
-#   cache:
-#     policy: pull
-#     key: cache-$CI_COMMIT_REF_SLUG
-#     paths:
-#       #- "${SONAR_USER_HOME}/cache"
-#       - public/
-#   script:
-#     - echo -e "${TXT_RED}script sonar${TXT_CLEAR}"
-#     # - pip install -r docs/requirements.txt --root-user-action=ignore || true
-#     - devtools/lanceur_pysonar.bash || true
-#     - mv -f rapports/*txt public/ || true
-#   allow_failure: true
-#   rules:
-#     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-#     - if: $CI_COMMIT_BRANCH == 'releases'
-#     - if: $CI_COMMIT_BRANCH == 'main'
-#   artifacts:
-#     paths:
-#       - public

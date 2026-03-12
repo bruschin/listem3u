@@ -212,10 +212,13 @@ job:Lint:
       policy: pull
   before_script:
     - cd "$CI_PROJECT_DIR"
+    - *gestion_pip_nexus
     - *before_lint
   script:    
     - echo -e "${TXT_RED} scripts lint ${TXT_CLEAR}"
+    # reinitialisation public
     - rm -rf public/* || true
+    - mkdir public || true
 
     - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
     - devtools/lanceur_pylint.bash || true

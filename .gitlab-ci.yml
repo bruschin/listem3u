@@ -251,29 +251,6 @@ job:Lint:
     paths:
       - public
 
-job:Sonar:
-  stage: quality
-   #image: python:3.12-slim
-  cache:
-    policy: pull
-    key: cache-$CI_COMMIT_REF_SLUG
-    paths:
-      #- "${SONAR_USER_HOME}/cache"
-      - public/
-  script:
-    - echo -e "${TXT_RED}script sonar${TXT_CLEAR}"
-    # - pip install -r docs/requirements.txt --root-user-action=ignore || true
-    - devtools/lanceur_pysonar.bash || true
-    - mv -f rapports/*txt public/ || true
-  allow_failure: true
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == 'releases'
-    - if: $CI_COMMIT_BRANCH == 'main'
-  artifacts:
-    paths:
-      - public
-
 job:Packaging:
   stage: build
   #image: "python:3.12-slim"
@@ -370,3 +347,26 @@ job:CheckDependencies:
   #   artifacts:
   #     paths:
   #       - public
+
+# job:Sonar:
+#   stage: quality
+#    #image: python:3.12-slim
+#   cache:
+#     policy: pull
+#     key: cache-$CI_COMMIT_REF_SLUG
+#     paths:
+#       #- "${SONAR_USER_HOME}/cache"
+#       - public/
+#   script:
+#     - echo -e "${TXT_RED}script sonar${TXT_CLEAR}"
+#     # - pip install -r docs/requirements.txt --root-user-action=ignore || true
+#     - devtools/lanceur_pysonar.bash || true
+#     - mv -f rapports/*txt public/ || true
+#   allow_failure: true
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+#     - if: $CI_COMMIT_BRANCH == 'releases'
+#     - if: $CI_COMMIT_BRANCH == 'main'
+#   artifacts:
+#     paths:
+#       - public

@@ -7,14 +7,33 @@
 REPTRAV="$(dirname "$0")"
 REPLOG="rapports"
 FICSORTIE="${REPLOG}/sphinx-rapport.txt"
+REPCONF="docs"
+FICCONFGITLAB="${REPCONF}/conf_gitlab.py"
+FICCONFGITHUB="${REPCONF}/conf_github.py"
+FICCONF="${REPCONF}/conf.py"
+VERSION_PYTHON="$1"
+
 
 export GIT_PYTHON_REFRESH=quiet
 export GIT_PYTHON_GIT_EXECUTABLE="/usr/bin/git"
 export TZ="Europe/Paris"
-export REPO_NAME='https://bruschin.github.io/listem3u'
+export REPO_NAME
 
 cd "${REPTRAV}/.." || exit 1
 echo -e "### $0 DEBUT ###\n"
+
+if [[ -z "${VERSION_PYTHON}" ]] ; then
+  # gestion valeur defaut
+  REPO_NAME='https://bruschin.github.io/listem3u'
+  if [[ -f "${FICCONFGITHUB}" ]]; then
+    \cp -f "${FICCONFGITHUB}" "${FICCONF}" 1>/dev/null 2>/dev/null
+  fi
+else
+  REPO_NAME='https://listem3u-d8b643.gitlab.meteo.fr/'
+  if [[ -f "${FICCONFGITLAB}" ]]; then
+    \cp -f "${FICCONFGITLAB}" "${FICCONF}" 1>/dev/null 2>/dev/null
+  fi
+fi
 
 if ! test -d "${REPLOG}"; then
   mkdir -p "${REPLOG}" 2>/dev/null

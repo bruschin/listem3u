@@ -21,7 +21,8 @@ FIC_INDEX="${REPCONF}/index.html"
 declare -a FICS_A_MODIFIER=(
 "${FIC_INDEX}"
 "${REPCONF}/Doxyfile"
-"${REPCONF}/conf.py"
+"${REPCONF}/conf_github.py"
+"${REPCONF}/conf_gitlab.py"
 "${REPCONF}/sonar-project.properties"
 "pyproject.toml"
 )

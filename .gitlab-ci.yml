@@ -72,20 +72,24 @@ workflow:
   # Pour doxygen : https://askubuntu.com/questions/1291874/how-to-install-doxygen-on-ubuntu
   - apt-get install -y doxygen libxapian30 graphviz dia || true
   # pour sphinx:
-  - apt-get install -y python3-sphinx ca-certificates git
+  - apt-get install -y python3-sphinx ca-certificates git curl wget
   # - apt-get install -y rhino lcov || true
   # - apt-get install -y  libncurses-dev python3-sphinx || true
   # - apt-get install -y  python3-sphinx-copybutton sphinx-common
   #     python3-pydata-sphinx-theme python3-alabaster || true
-  - *maj_pip
-  - pip install sphinx sphinx-book-theme sphinx-multiversion 
-      sphinx_rtd_theme gitpython --root-user-action=ignore || true
-
-
-
-
   - export CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
   - update-ca-certificates -f
+  
+  - *maj_pip
+  - git config --global http.sslVerify false
+  - git config --global https.sslVerify false
+  - git config --global https.proxy http://proxy.meteo.fr:11011
+  - set GIT_SSL_NO_VERIFY
+  - echo "proxy = http://proxy.meteo.fr:11011" > $HOME/.curlrc
+  - echo "insecure" >> $HOME/.curlrc
+
+  - pip install sphinx sphinx-book-theme sphinx-multiversion sphinx_rtd_theme \
+      gitpython --root-user-action=ignore || true
 
 .before_sonarqube-vulnerability-report: &before_sonarqube-vulnerability-report
   - *apt_get_update

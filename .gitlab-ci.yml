@@ -77,17 +77,13 @@ workflow:
   # - apt-get install -y  libncurses-dev python3-sphinx || true
   # - apt-get install -y  python3-sphinx-copybutton sphinx-common
   #     python3-pydata-sphinx-theme python3-alabaster || true
+  - set GIT_SSL_NO_VERIFY
+  - echo "proxy = http://proxy.meteo.fr:11011" > $HOME/.curlrc
+  - echo "insecure" >> $HOME/.curlrc
   - export CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
   - update-ca-certificates -f
 
   - *maj_pip
-  - git config --global http.sslVerify false
-  - git config --global https.sslVerify false
-  - git config --global https.proxy http://proxy.meteo.fr:11011
-  - set GIT_SSL_NO_VERIFY
-  - echo "proxy = http://proxy.meteo.fr:11011" > $HOME/.curlrc
-  - echo "insecure" >> $HOME/.curlrc
-
   - pip install sphinx sphinx-book-theme sphinx-multiversion sphinx_rtd_theme
       --root-user-action=ignore || true
 
@@ -119,7 +115,10 @@ workflow:
   - export TXT_RED="\e[31m" && TXT_CLEAR="\e[0m"
   - export TXT_YELLOW="\e[33m"
   - cd "$CI_PROJECT_DIR"
-  - mkdir public || true
+  - |
+      if [[ -d public ]] ; then
+        mkdir public || true
+      fi
 
 .gestion_env_python_before: &gestion_env_python_before
   - echo -e "${TXT_RED} Gestion env. virtuel python = envdev ${TXT_CLEAR}"
@@ -243,7 +242,10 @@ job:Lint_shellcheck:
     - echo -e "${TXT_RED} Lint ${TXT_CLEAR}"
     # reinitialisation public en tant que 1er job
     - rm -rf public/* || true
-    - mkdir public || true
+    - |
+      if [[ -d public ]] ; then
+        mkdir public || true
+      fi
 
     - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
     - devtools/lanceur_pylint.bash || true
@@ -360,6 +362,7 @@ job:Documentations:
       policy: pull
   before_script:
     - *some_mise_en_forme_before
+    - *gestion_pip_nexus
     - *before_documentations
   script:
     - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"

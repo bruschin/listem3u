@@ -187,10 +187,10 @@ include:
 
 stages:
   - lint
+  - quality
   - build
   - deploy
   - sca
-  - quality
     # - test
 
 # Retry a job automatically if it fails (2 times)

@@ -72,14 +72,14 @@ workflow:
   # Pour doxygen : https://askubuntu.com/questions/1291874/how-to-install-doxygen-on-ubuntu
   - apt-get install -y doxygen libxapian30 graphviz dia || true
   # pour sphinx:
-  - apt-get install -y python3-sphinx ca-certificates git curl wget
+  - apt-get install -y python3-sphinx python3-git ca-certificates git curl wget
   # - apt-get install -y rhino lcov || true
   # - apt-get install -y  libncurses-dev python3-sphinx || true
   # - apt-get install -y  python3-sphinx-copybutton sphinx-common
   #     python3-pydata-sphinx-theme python3-alabaster || true
   - export CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
   - update-ca-certificates -f
-  
+
   - *maj_pip
   - git config --global http.sslVerify false
   - git config --global https.sslVerify false
@@ -88,8 +88,8 @@ workflow:
   - echo "proxy = http://proxy.meteo.fr:11011" > $HOME/.curlrc
   - echo "insecure" >> $HOME/.curlrc
 
-  - pip install sphinx sphinx-book-theme sphinx-multiversion sphinx_rtd_theme \
-      gitpython --root-user-action=ignore || true
+  - pip install sphinx sphinx-book-theme sphinx-multiversion sphinx_rtd_theme
+      --root-user-action=ignore || true
 
 .before_sonarqube-vulnerability-report: &before_sonarqube-vulnerability-report
   - *apt_get_update
@@ -208,17 +208,7 @@ workflow:
 #       failOnSeverity : "MEDIUM"
 #       allow_failure: true
 #       source: "src"
-  # - component: $CI_SERVER_FQDN/ci-cd-catalog-mf/sonar-scan/sonar-scan@1.0.2
-  #   before_script:
-  #     - *some_mise_en_forme_before
-  #   inputs:
-  #     sonar-project-key : desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483
-  #     sonar-project-version : ${VERSION}
-  #     sonar-token : ${SONAR_TOKEN}
-  #     sonar-host: ${SONAR_HOST_URL}
-  #     sonar-source: "src"
-  #     sonar-projectBaseDir: "."
-  #     allow_failure: true
+  
 
 stages:
   - lint_shellcheck

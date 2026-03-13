@@ -134,7 +134,11 @@ Elles furent ajoutées, pour signaler la présence d'espaces oubliés, de majusc
 ## Documentations
 
 - [reStructuredText](https://docutils.sourceforge.io/rst.html)
+<!--
 - [documentation des modules python du projet](https://bruschin.github.io/listem3u/)
-- [wiki du projet](https://bruschin.github.io/listem3u/wiki)
+  -->
+- [documentation des modules python du projet](https://listem3u-d8b643.gitlab.meteo.fr/)
+<!-- - [wiki du projet](https://bruschin.github.io/listem3u/wiki) -->
+- [wiki du projet](https://gitlab.meteo.fr/desr-sires-pga/support_n1/listem3u/-/wikis/home)
 
 [Changelog]: Changelog.md

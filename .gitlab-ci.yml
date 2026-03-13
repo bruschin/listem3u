@@ -124,7 +124,7 @@ workflow:
   - export TXT_YELLOW="\e[33m"
   - cd "$CI_PROJECT_DIR"
   - |
-      if [[ -d public ]] ; then
+      if [[ ! -d public ]] ; then
         mkdir public || true
       fi
 
@@ -387,7 +387,7 @@ job:Documentations:
     - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
     - ls -ail rapports/*
     - mv rapports/*txt public/ || true
-    - mv rapports/*xml public/ || true
+    #- mv rapports/*xml public/ || true
     - mv rapports/tox_cov_html public/ || true
     - mv rapports/doxygen public/ || true
     - mv build/sphinx-* public/ || true

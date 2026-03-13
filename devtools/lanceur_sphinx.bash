@@ -11,7 +11,13 @@ REPCONF="docs"
 FICCONFGITLAB="${REPCONF}/conf_gitlab.py"
 FICCONFGITHUB="${REPCONF}/conf_github.py"
 FICCONF="${REPCONF}/conf.py"
-VERSION_PYTHON="$1"
+
+if test -n "${1}"; then
+  PLATEFORME="${1}"
+  VERSION_PYTHON="$1"
+fi
+
+setenv PLATEFORMENAME="${PLATEFORME}"
 
 
 export GIT_PYTHON_REFRESH=quiet

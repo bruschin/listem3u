@@ -404,7 +404,7 @@ job:Packaging:
     key: cache-$CI_COMMIT_REF_SLUG
     paths:
       - public/
-  needs: ["Sonarqube-vulnerability-report"]
+  needs: ["job:Sonarqube-vulnerability-report"]
   before_script:
     - *some_mise_en_forme_before
     - *gestion_pip_nexus

@@ -103,23 +103,6 @@ workflow:
   - echo "proxy = http://proxy.meteo.fr:11011" > $HOME/.curlrc
   - echo "insecure" >> $HOME/.curlrc
 
-.some-actions-apt-before: &some-actions-apt-before
-
-  # Pour éviter ultérieurement  : debconf: (Can't locate Term/ReadLine.pm ....
-  - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-  - *apt_get_update
-  - apt-get upgrade -y || true
-
-  # Pour doxygen : https://askubuntu.com/questions/1291874/how-to-install-doxygen-on-ubuntu
-  - apt-get install -y doxygen libxapian30 graphviz dia
-
-  # pour pyenv necessaire pour tox, ruff etc.:
-  # https://blog.stephane-robert.info/docs/developper/programmation/python/pyenv/
-  - apt-get install -y make build-essential libssl-dev zlib1g-dev 
-      libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm 
-      libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev
-      liblzma-dev python3-openssl
-
 .some_mise_en_forme_before: &some_mise_en_forme_before
   - export NORMALIZED_NAME=$(echo "${CI_PROJECT_NAME}" | tr '-' '_') || true
   - export TXT_RED="\e[31m" && TXT_CLEAR="\e[0m"
@@ -130,45 +113,45 @@ workflow:
         mkdir public || true
       fi
 
-.gestion_env_python_before: &gestion_env_python_before
-  - echo -e "${TXT_RED} Gestion env. virtuel python = envdev ${TXT_CLEAR}"
-  - python3 -m venv $HOME/envdev || true
-  - source $HOME/envdev/bin/activate || true
+# .gestion_env_python_before: &gestion_env_python_before
+#   - echo -e "${TXT_RED} Gestion env. virtuel python = envdev ${TXT_CLEAR}"
+#   - python3 -m venv $HOME/envdev || true
+#   - source $HOME/envdev/bin/activate || true
 
-  - echo -e "${TXT_RED} Gestion configurations git curl et proxy ${TXT_CLEAR}"
-  - *apt_get_update
-  - apt-get install -y ca-certificates git curl wget
-  - git config --global http.sslVerify false
-  - git config --global https.sslVerify false
-  - git config --global https.proxy http://proxy.meteo.fr:11011
-  - set GIT_SSL_NO_VERIFY
-  - echo "proxy = http://proxy.meteo.fr:11011" > $HOME/.curlrc
-  - echo "insecure" >> $HOME/.curlrc
-  #- echo "cacert=/etc/ssl/certs/ca-certificates.crt" >> $HOME/.curlrc
+#   - echo -e "${TXT_RED} Gestion configurations git curl et proxy ${TXT_CLEAR}"
+#   - *apt_get_update
+#   - apt-get install -y ca-certificates git curl wget
+#   - git config --global http.sslVerify false
+#   - git config --global https.sslVerify false
+#   - git config --global https.proxy http://proxy.meteo.fr:11011
+#   - set GIT_SSL_NO_VERIFY
+#   - echo "proxy = http://proxy.meteo.fr:11011" > $HOME/.curlrc
+#   - echo "insecure" >> $HOME/.curlrc
+#   #- echo "cacert=/etc/ssl/certs/ca-certificates.crt" >> $HOME/.curlrc
 
-.gestion_pyenv: &gestion_pyenv
-  - echo -e "${TXT_RED} Gestion pyenv ${TXT_CLEAR}"
-    # - curl -kfsSL https://pyenv.run | bash || true
-  - curl -k -s -S -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash || true
-  - export PYENV_ROOT="$HOME/.pyenv"
-  - export PATH="$PYENV_ROOT/bin:$PATH"
-  - eval "$(pyenv init - bash)" || true
+# .gestion_pyenv: &gestion_pyenv
+#   - echo -e "${TXT_RED} Gestion pyenv ${TXT_CLEAR}"
+#     # - curl -kfsSL https://pyenv.run | bash || true
+#   - curl -k -s -S -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash || true
+#   - export PYENV_ROOT="$HOME/.pyenv"
+#   - export PATH="$PYENV_ROOT/bin:$PATH"
+#   - eval "$(pyenv init - bash)" || true
 
-  ### docker MF mode installation indirect
-  - echo -e "${TXT_RED} Gestion pyenv multiversions python ${TXT_CLEAR}"
-  - mkdir -p $HOME/.pyenv/cache/ || true
-  - curl -k --output-dir $HOME/.pyenv/cache/ -o Python-3.10.19.tar.xz
-      https://www.python.org/ftp/python/3.10.19/Python-3.10.19.tar.xz || true
-  - curl -k --output-dir $HOME/.pyenv/cache/ -o Python-3.11.14.tar.xz
-      https://www.python.org/ftp/python/3.11.14/Python-3.11.14.tar.xz || true
-  - curl -k --output-dir $HOME/.pyenv/cache/ -o Python-3.12.12.tar.xz
-      https://www.python.org/ftp/python/3.12.12/Python-3.12.12.tar.xz || true
-  - if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+#   ### docker MF mode installation indirect
+#   - echo -e "${TXT_RED} Gestion pyenv multiversions python ${TXT_CLEAR}"
+#   - mkdir -p $HOME/.pyenv/cache/ || true
+#   - curl -k --output-dir $HOME/.pyenv/cache/ -o Python-3.10.19.tar.xz
+#       https://www.python.org/ftp/python/3.10.19/Python-3.10.19.tar.xz || true
+#   - curl -k --output-dir $HOME/.pyenv/cache/ -o Python-3.11.14.tar.xz
+#       https://www.python.org/ftp/python/3.11.14/Python-3.11.14.tar.xz || true
+#   - curl -k --output-dir $HOME/.pyenv/cache/ -o Python-3.12.12.tar.xz
+#       https://www.python.org/ftp/python/3.12.12/Python-3.12.12.tar.xz || true
+#   - if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 
-  - pyenv install 3.10.19 || true
-  - pyenv install 3.11.14 || true
-  - pyenv install 3.12.12 || true
-  - pyenv global 3.10 3.11 3.12 || true
+#   - pyenv install 3.10.19 || true
+#   - pyenv install 3.11.14 || true
+#   - pyenv install 3.12.12 || true
+#   - pyenv global 3.10 3.11 3.12 || true
 
 .gestion_pip_nexus: &gestion_pip_nexus
 
@@ -177,18 +160,18 @@ workflow:
   - pip config set global.index http://nexus-sidev.meteo.fr/repository/pypi-group/pypi || true
   - pip config set global.index-url http://nexus-sidev.meteo.fr/repository/pypi-group/simple || true
 
-.gestion_twine_nexus: &gestion_twine_nexus
-  - echo -e "${TXT_RED} Requirements nexus pour twine ${TXT_CLEAR}"
-  #- python3 -m pip install --upgrade pip
-  - *maj_pip
-  - python3 -m pip install pylint-common --use-pep517
+# .gestion_twine_nexus: &gestion_twine_nexus
+#   - echo -e "${TXT_RED} Requirements nexus pour twine ${TXT_CLEAR}"
+#   #- python3 -m pip install --upgrade pip
+#   - *maj_pip
+#   - python3 -m pip install pylint-common --use-pep517
 
-.gestion_pip_update: &gestion_pip_update
-  - echo -e "${TXT_RED} Requirements python par pip ${TXT_CLEAR}"
-  - python3 -m pip install --upgrade pip
-  - python3 -m pip install pylint-common --use-pep517
-  - pip install -r docs/requirements.txt --root-user-action=ignore || true
-  - pip install --upgrade pip --break-system-packages --root-user-action=ignore || true
+# .gestion_pip_update: &gestion_pip_update
+#   - echo -e "${TXT_RED} Requirements python par pip ${TXT_CLEAR}"
+#   - python3 -m pip install --upgrade pip
+#   - python3 -m pip install pylint-common --use-pep517
+#   - pip install -r docs/requirements.txt --root-user-action=ignore || true
+#   - pip install --upgrade pip --break-system-packages --root-user-action=ignore || true
 
 # before_script:
 #   # Normalize package name once at the start of any job
@@ -389,7 +372,6 @@ job:Documentations:
     - cp -f docs/index_gitlab-pages.html public/index.html || true
     - cp -f docs/listem3u* public/ || true
     - ls -ail public/*
-
   artifacts:
     paths:
       - public
@@ -414,10 +396,13 @@ job:Packaging:
     # - *gestion_twine_nexus
     # - *gestion_pip_update
   script:
-    - echo -e "${TXT_RED} script build ${TXT_CLEAR}"
     - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
     - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID || true
+
+    - echo -e "${TXT_RED} script build ${TXT_CLEAR}"
     - devtools/lanceur_build.bash || true
+
+    - echo -e "${TXT_RED} Nexus ${TXT_CLEAR}"
     - devtools/lanceur_upload_nexus.bash ${CI_PROJECTNAME} ${CI_USERNAME} ${CI_PASSWORD} || true
 
     - ls -ail *
@@ -438,7 +423,7 @@ job:Deploy:
     - key: cache-$CI_COMMIT_REF_SLUG
      # override the policy
       policy: pull
-  needs: ["job:Documentations"]
+  #needs: ["job:Documentations"]
   before_script:
     - *some_mise_en_forme_before
     - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID || true

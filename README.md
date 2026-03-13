@@ -1,4 +1,4 @@
-# Projet listem3u [2026-03-06] 👉 BN V2.0.2
+# Projet listem3u [2026-03-06] 👉 BN V2.0.1
 
 [![pipeline status](https://gitlab.meteo.fr/desr-sires-pga/support_n1/listem3u/badges/releases/pipeline.svg)](https://gitlab.meteo.fr/desr-sires-pga/support_n1/listem3u/-/commits/releases) [![Quality Gate Status](https://sonar.meteo.fr/api/project_badges/measure?project=desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483&metric=alert_status&token=sqb_e26f2ca7d78d8fbbbbf4b94a587ba26c16df6c44)](https://sonar.meteo.fr/dashboard?id=desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483)
 

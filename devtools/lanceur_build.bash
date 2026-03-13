@@ -6,7 +6,7 @@
 ###########
 REPTRAV="$(dirname "$0")"
 REPLOG="rapports"
-REPBUILD="build"
+REPBUILD="build/dist"
 FICSORTIE="${REPLOG}/build-rapport.txt"
 
 export TZ="Europe/Paris"
@@ -28,7 +28,8 @@ exec >"${FICSORTIE}" 2>&1
 
 echo "$0 : Lanceur packaging build"
 
-python3 -m build
+python3 -m build --wheel -o build/dist
+
 
 exec 1>&6 6>&-
 

@@ -20,7 +20,7 @@ TAGPIPELINE="@PIPELINE@"
 FIC_INDEX="${REPCONF}/index.html"
 declare -a FICS_A_MODIFIER=(
 "${FIC_INDEX}"
-"${REPCONF}/index_gitlab.html"
+"${REPCONF}/index_gitlab-pages.html"
 "${REPCONF}/Doxyfile"
 "${REPCONF}/conf_github.py"
 "${REPCONF}/conf_gitlab.py"

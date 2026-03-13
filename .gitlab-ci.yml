@@ -28,6 +28,8 @@ default:
         - .pyenv
         - envdev
         - public
+        - "${SONAR_USER_HOME}/cache"
+        - sonar-scanner/
       policy: pull-push
   artifacts:
     paths:
@@ -315,11 +317,9 @@ job:Build-sonar:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
   cache:
-    policy: pull-push
-    key: "sonar-cache-$CI_COMMIT_REF_SLUG"
-    paths:
-      - "${SONAR_USER_HOME}/cache"
-      - sonar-scanner/
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull-push
   before_script:
     - *some_mise_en_forme_before
   script: 

@@ -110,9 +110,8 @@ fi
 echo "Changement ${TAG_PASSWORD} dans ${FICCONF}"
 
 \cp -fv "${FICCONF}" "${HOME}/"
-ls "${REPTRAV}/../build/*" || true
-ls "${REPTRAV}/../dist/*" || true
-twine upload -r pypi-releases "build/*whl" --verbose
+ls "${REPBUILD}/*" || true
+twine upload -r pypi-releases "${REPBUILD}/*whl" --verbose
 
 exec 1>&6 6>&-
 

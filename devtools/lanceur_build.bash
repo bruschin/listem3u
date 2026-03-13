@@ -6,7 +6,7 @@
 ###########
 REPTRAV="$(dirname "$0")"
 REPLOG="rapports"
-REPBUILD="dist"
+REPBUILD="build"
 FICSORTIE="${REPLOG}/build-rapport.txt"
 
 export TZ="Europe/Paris"

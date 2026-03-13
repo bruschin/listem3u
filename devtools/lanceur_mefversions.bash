@@ -17,9 +17,12 @@ TAGRELEASE="@RELEASE_VERSION@"
 TAGDATE="@DATE@"
 TAGCOMMIT="@COMMIT@"
 TAGPIPELINE="@PIPELINE@"
-FIC_INDEX="${REPCONF}/index.html"
+declare -a FICS_INDEX=(
+  "${REPCONF}/index.html"
+  "${REPCONF}/index_gitlab-pages.html"
+)
 declare -a FICS_A_MODIFIER=(
-"${FIC_INDEX}"
+"${REPCONF}/index.html"
 "${REPCONF}/index_gitlab-pages.html"
 "${REPCONF}/Doxyfile"
 "${REPCONF}/conf_github.py"
@@ -129,29 +132,32 @@ else
   echo "Pb pour trouver la version du projet"
 fi
 
-## change TAGDATE de FIC_INDEX
-nretour="$(change_tag "${TAGDATE}" "${LADATE}" "${FIC_INDEX}")"
-if test "${nretour}" != "0"; then
-  echo "Pb pour changer ${TAGDATE} dans ${FIC_INDEX}"
-else
-  echo "Changement ${TAGDATE} dans ${FIC_INDEX}"
-fi
+for fic_index in "${FICS_INDEX[@]}"
+  do
+    ## change TAGDATE de FICS_INDEX
+    nretour="$(change_tag "${TAGDATE}" "${LADATE}" "${fic_index}")"
+    if test "${nretour}" != "0"; then
+      echo "Pb pour changer ${TAGDATE} dans ${fic_index}"
+    else
+      echo "Changement ${TAGDATE} dans ${fic_index}"
+    fi
 
-## change TAGCOMMIT de FIC_INDEX
-nretour="$(change_tag "${TAGCOMMIT}" "${LECOMMIT}" "${FIC_INDEX}")"
-if test "${nretour}" != "0"; then
-  echo "Pb pour changer ${TAGCOMMIT} dans ${FIC_INDEX}"
-else
-  echo "Changement ${TAGCOMMIT} dans ${FIC_INDEX}"
-fi
+    ## change TAGCOMMIT de FICS_INDEX
+    nretour="$(change_tag "${TAGCOMMIT}" "${LECOMMIT}" "${fic_index}")"
+    if test "${nretour}" != "0"; then
+      echo "Pb pour changer ${TAGCOMMIT} dans ${fic_index}"
+    else
+      echo "Changement ${TAGCOMMIT} dans ${fic_index}"
+    fi
 
-## change TAGPIPELINE de FIC_INDEX
-nretour="$(change_tag "${TAGPIPELINE}" "${LEPIPELINE}" "${FIC_INDEX}")"
-if test "${nretour}" != "0"; then
-  echo "Pb pour changer ${TAGPIPELINE} dans ${FIC_INDEX}"
-else
-  echo "Changement ${TAGPIPELINE} dans ${FIC_INDEX}"
-fi
+    ## change TAGPIPELINE de FICS_INDEX
+    nretour="$(change_tag "${TAGPIPELINE}" "${LEPIPELINE}" "${fic_index}")"
+    if test "${nretour}" != "0"; then
+      echo "Pb pour changer ${TAGPIPELINE} dans ${fic_index}"
+    else
+      echo "Changement ${TAGPIPELINE} dans ${fic_index}"
+    fi
+done
 
 exec 1>&6 6>&-
 

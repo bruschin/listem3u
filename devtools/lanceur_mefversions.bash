@@ -20,11 +20,13 @@ TAGPIPELINE="@PIPELINE@"
 FIC_INDEX="${REPCONF}/index.html"
 declare -a FICS_A_MODIFIER=(
 "${FIC_INDEX}"
+"${REPCONF}/index_gitlab.html"
 "${REPCONF}/Doxyfile"
 "${REPCONF}/conf_github.py"
 "${REPCONF}/conf_gitlab.py"
 "${REPCONF}/sonar-project.properties"
 "pyproject.toml"
+"sonar-project.properties"
 )
 
 

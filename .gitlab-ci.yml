@@ -84,7 +84,6 @@ workflow:
   - echo "insecure" >> $HOME/.curlrc
   - export CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
   - update-ca-certificates -f
-
   - *maj_pip
   - pip install sphinx sphinx-book-theme sphinx-multiversion sphinx_rtd_theme \
       GitPython git --root-user-action=ignore || true
@@ -242,18 +241,14 @@ job:Lint_shellcheck:
      # override the policy
       policy: pull
   before_script:
+    # reinitialisation public en tant que 1er job
+    - rm -rf public/* || true
     - *some_mise_en_forme_before
     - *gestion_pip_nexus
     - *before_lint
     - *before_shellcheck
   script:    
     - echo -e "${TXT_RED} Lint ${TXT_CLEAR}"
-    # reinitialisation public en tant que 1er job
-    - rm -rf public/* || true
-    - |
-      if [[ -d public ]] ; then
-        mkdir public || true
-      fi
 
     - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
     - devtools/lanceur_pylint.bash || true
@@ -328,7 +323,12 @@ job:Build-sonar:
     paths:
       - "${SONAR_USER_HOME}/cache"
       - sonar-scanner/
+  before_script:
+    - *some_mise_en_forme_before
   script: 
+    - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
+    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
+    
     - echo -e "${TXT_RED}build-sonar${TXT_CLEAR}"
     - sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}"
   allow_failure: true
@@ -388,7 +388,7 @@ job:Documentations:
     - ls -ail rapports/*
     - mv rapports/*txt public/ || true
     #- mv rapports/*xml public/ || true
-    - mv rapports/tox_cov_html public/ || true
+    #- mv rapports/tox_cov_html public/ || true
     - mv rapports/doxygen public/ || true
     - mv build/sphinx-* public/ || true
       ### index de gitlab-pages :

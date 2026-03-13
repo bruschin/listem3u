@@ -221,7 +221,7 @@ stages:
   - sonar
   - documentations
   - build
-  # - deploy
+  - deploy
   # - sca
     # - test
 
@@ -433,26 +433,27 @@ job:Packaging:
   #   - main
   #   - 1-relesease-v1.5.0
 
-# job:Deploy:
-#   stage: deploy
-#   #image: python:3.12-slim
-#   cache:
-#     - key: cache-$CI_COMMIT_REF_SLUG
-#      # override the policy
-#       policy: pull
-#   before_script:
-#     - cd "$CI_PROJECT_DIR"
-#   script:
-#     - echo -e "${TXT_RED}script deploy${TXT_CLEAR}"
-#   after_script:
-#     - echo -e "${TXT_RED}after_script deploy${TXT_CLEAR}"
-#   artifacts:
-#     paths:
-#       - public
-#   pages: true # specifies that this is a Pages job
-#   # only:
-#   #   - main
-#   #   - 1-relesease-v1.5.0
+job:Deploy:
+  stage: deploy
+  #image: python:3.12-slim
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull
+  needs: ["job:Documentations"]
+  before_script:
+    - *some_mise_en_forme_before
+  script:
+    - echo -e "${TXT_RED}script deploy${TXT_CLEAR}"
+  after_script:
+    - echo -e "${TXT_RED}after_script deploy${TXT_CLEAR}"
+  artifacts:
+    paths:
+      - public
+  pages: true # specifies that this is a Pages job
+  # only:
+  #   - main
+  #   - 1-relesease-v1.5.0
 
 # job:CheckDependencies:
 #   stage: sca

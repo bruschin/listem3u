@@ -1,8 +1,14 @@
 # Projet listem3u [2026-03-06] 👉 BN V2.0.2
 
-[![GITHUB Actions status](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml/badge.svg?branch=releases))](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml) [![SonarQube Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bruschin_listem3u&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
+[![pipeline status](https://gitlab.meteo.fr/desr-sires-pga/support_n1/listem3u/badges/releases/pipeline.svg)](https://gitlab.meteo.fr/desr-sires-pga/support_n1/listem3u/-/commits/releases) [![Quality Gate Status](https://sonar.meteo.fr/api/project_badges/measure?project=desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483&metric=alert_status&token=sqb_e26f2ca7d78d8fbbbbf4b94a587ba26c16df6c44)](https://sonar.meteo.fr/dashboard?id=desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483)
+
+[![Latest Release](https://gitlab.meteo.fr/desr-sires-pga/support_n1/listem3u/-/badges/release.svg)](https://gitlab.meteo.fr/desr-sires-pga/support_n1/listem3u/-/releases)
+
+<!--
+[![GITHUB Actions status](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml/badge.svg?branch=releases))](https://github.com/bruschin/listem3u/actions/workflows/listem3u_steps.yml) [![SonarQube Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bruschin_listem3u&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)-->
 <!--[![Codacy Badge](https://app.codacy.com/project/badge/Grade/0b206f1af71d47dcb8092d1d9069aebb)](https://app.codacy.com/gh/bruschin/listem3u/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)-->
-[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)
+<!--
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=bruschin_listem3u)-->
 <!-- [![Quality Gate Status](https://sonar.cloudmf.dev/api/project_badges/measure?project=listem3u&metric=alert_status)](https://sonar.cloudmf.dev/dashboard?id=listem3u)-->
 
 ## ![Projet listem3u.png](docs/listem3u.png "Projet listem3u"){ width="64" height="64" style="display: inline; margin: 0 auto; vertical-align: middle;" } Projet listem3u

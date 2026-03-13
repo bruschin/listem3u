@@ -68,6 +68,8 @@ workflow:
   - pip install tox pytest pytest-cov pytest-xdist --root-user-action=ignore || true
 
 .before_documentations: &before_documentations
+  # Pour éviter ultérieurement  : debconf: (Can't locate Term/ReadLine.pm ....
+  - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
   - *apt_get_update
   # Pour doxygen : https://askubuntu.com/questions/1291874/how-to-install-doxygen-on-ubuntu
   - apt-get install -y doxygen libxapian30 graphviz dia || true
@@ -84,8 +86,14 @@ workflow:
   - update-ca-certificates -f
 
   - *maj_pip
-  - pip install sphinx sphinx-book-theme sphinx-multiversion sphinx_rtd_theme
-      --root-user-action=ignore || true
+  - pip install sphinx sphinx-book-theme sphinx-multiversion sphinx_rtd_theme \
+      GitPython git --root-user-action=ignore || true
+  - pip install -r docs/requirements.txt --root-user-action=ignore || true
+
+.before_build: &before_build
+  - *maj_pip
+  - python3 -m pip install pylint-common --use-pep517
+  - pip install -r docs/requirements.txt --root-user-action=ignore || true
 
 .before_sonarqube-vulnerability-report: &before_sonarqube-vulnerability-report
   - *apt_get_update
@@ -217,7 +225,7 @@ stages:
   - build-sonar
   - sonarqube-vulnerability-report
   # - autres
-  # - build
+  - build
   # - deploy
   # - sca
     # - test
@@ -392,38 +400,41 @@ job:Documentations:
     paths:
       - public
 
-# job:Packaging:
-#   stage: build
-#   #image: "python:3.12-slim"
-#   cache:
-#     policy: pull
-#     key: cache-$CI_COMMIT_REF_SLUG
-#     paths:
-#       - public/
-#   before_script:
-#     - cd "$CI_PROJECT_DIR"
-#     - *some_mise_en_forme_before
-#     - *gestion_env_python_before
-#     - *gestion_pip_nexus
-#     - *gestion_twine_nexus
-#     - *gestion_pip_update
-#   script:
-#     - echo -e "${TXT_RED} script build ${TXT_CLEAR}"
-#     - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
-#     - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID || true
-#     - devtools/lanceur_build.bash || true
-#     - devtools/lanceur_upload_nexus.bash ${CI_PROJECTNAME} ${CI_USERNAME} ${CI_PASSWORD} || true
+job:Packaging:
+  stage: build
+  #image: "python:3.12-slim"
+  cache:
+    policy: pull
+    key: cache-$CI_COMMIT_REF_SLUG
+    paths:
+      - public/
+  before_script:
+    - *some_mise_en_forme_before
+    - *gestion_pip_nexus
+    - *before_build
+    # - cd "$CI_PROJECT_DIR"
+    # - *some_mise_en_forme_before
+    # - *gestion_env_python_before
+    # - *gestion_pip_nexus
+    # - *gestion_twine_nexus
+    # - *gestion_pip_update
+  script:
+    - echo -e "${TXT_RED} script build ${TXT_CLEAR}"
+    - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
+    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID || true
+    - devtools/lanceur_build.bash || true
+    - devtools/lanceur_upload_nexus.bash ${CI_PROJECTNAME} ${CI_USERNAME} ${CI_PASSWORD} || true
 
-#     - ls -ail *
-#     - mv rapports/*txt public/ || true
-#     - ls -ail build/* || true
-#   artifacts:
-#     paths:
-#       - public
-#       - build/dist
-#   # only:
-#   #   - main
-#   #   - 1-relesease-v1.5.0
+    - ls -ail *
+    - mv rapports/*txt public/ || true
+    - ls -ail build/* || true
+  artifacts:
+    paths:
+      - public
+      - build/dist
+  # only:
+  #   - main
+  #   - 1-relesease-v1.5.0
 
 # job:Deploy:
 #   stage: deploy

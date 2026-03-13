@@ -217,13 +217,9 @@ workflow:
   
 
 stages:
-  - lint_shellcheck
-  - ruff
-  - tox
+  - tests
+  - sonar
   - documentations
-  - build-sonar
-  - sonarqube-vulnerability-report
-  # - autres
   - build
   # - deploy
   # - sca
@@ -234,7 +230,7 @@ stages:
   retry: 2
 
 job:Lint_shellcheck:
-  stage: lint_shellcheck
+  stage: tests
   #image: "python:3.12-slim"
   cache:
     - key: cache-$CI_COMMIT_REF_SLUG
@@ -264,7 +260,7 @@ job:Lint_shellcheck:
         - public
 
 job:Ruff:
-  stage: ruff
+  stage: tests
   #image: "python:3.12-slim"
   cache:
     - key: cache-$CI_COMMIT_REF_SLUG
@@ -286,7 +282,7 @@ job:Ruff:
         - public
 
 job:Tox:
-  stage: tox
+  stage: tests
   #image: "python:3.12-slim"
   cache:
     - key: cache-$CI_COMMIT_REF_SLUG
@@ -310,7 +306,7 @@ job:Tox:
         - public
 
 job:Build-sonar:
-  stage: build-sonar
+  stage: sonar
   image:
    name: sonarsource/sonar-scanner-cli:11
    entrypoint: [""]
@@ -328,7 +324,7 @@ job:Build-sonar:
   script: 
     - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
     - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
-    
+
     - echo -e "${TXT_RED}build-sonar${TXT_CLEAR}"
     - sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}"
   allow_failure: true
@@ -338,7 +334,7 @@ job:Build-sonar:
     - if: $CI_COMMIT_BRANCH == 'releases'
 
 job:Sonarqube-vulnerability-report:
-  stage: sonarqube-vulnerability-report
+  stage: sonar
   cache:
     policy: pull-push
     key: "sonar-cache-$CI_COMMIT_REF_SLUG"
@@ -408,6 +404,7 @@ job:Packaging:
     key: cache-$CI_COMMIT_REF_SLUG
     paths:
       - public/
+  needs: ["Sonarqube-vulnerability-report"]
   before_script:
     - *some_mise_en_forme_before
     - *gestion_pip_nexus

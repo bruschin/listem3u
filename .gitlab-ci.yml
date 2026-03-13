@@ -401,6 +401,7 @@ job:Packaging:
 
     - echo -e "${TXT_RED} script build ${TXT_CLEAR}"
     - devtools/lanceur_build.bash || true
+    - cp -rfv dist public/ || true
 
     - echo -e "${TXT_RED} Nexus ${TXT_CLEAR}"
     - devtools/lanceur_upload_nexus.bash ${CI_PROJECTNAME} ${CI_USERNAME} ${CI_PASSWORD} || true

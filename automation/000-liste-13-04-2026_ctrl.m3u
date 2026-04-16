@@ -37,6 +37,7 @@
 010\Aereo-Vincent_Delerm.mp3
 002\Aerials-Laura_Crowe&Him.mp3
 008\Aint_no_rest_for_the_wicked-Cage_the_elephant.mp3
+013\Aint_no_sunshine-Michael_Jackson.mp3
 007\Aint_nobody-Chaka_Khan.mp3
 006\Aint_nobody-Felix_Jaehn.mp3
 006\Air_on_the_g_string-Jacques_Loussier.mp3
@@ -158,6 +159,10 @@
 011\Ca_va_ca_va-Arthur_Fu_Bandini.mp3
 001\Ca_va_peter-Chouf.mp3
 013\Caballo_viejo-Irene_Del_Rosario.mp3
+<<<<<<<< HEAD:automation/000-liste-28-03-2026_ctrl.m3u
+========
+013\Caballo_viejo-Placido_Domingo.mp3
+>>>>>>>> db30f91 (16-04):automation/000-liste-13-04-2026_ctrl.m3u
 009\Cajuina-Caetano_Veloso.mp3
 009\California-James_Blunt.mp3
 008\California_dreamin-Jose_Feliciano.mp3
@@ -281,6 +286,7 @@
 006\Don_muerte-Klazz_brothers&Cuba_percussion.mp3
 012\Dont_blame_me-Charles_Pasi.mp3
 013\Dont_call_me_up-Mabel.mp3
+013\Dont_dream_its_over-Crowded_House.mp3
 007\Dont_go-Yazoo.mp3
 002\Dont_go_to_strangers-JJ_Cale.mp3
 004\Dont_speak-No_doubt.mp3
@@ -349,6 +355,7 @@
 005\Fais_semblant-Teri_Moise.mp3
 012\Fallen-Jeremias.mp3
 010\Fallin_with_me-The_Struts.mp3
+013\Family_man-Mike_Oldfield.mp3
 003\Family_portrait-Pink.mp3
 011\Fanny_Ardant_et_moi-Vincent_Delerm.mp3
 013\Farewell_my_love-Charles_Pasi.mp3
@@ -372,6 +379,7 @@
 002\Follia_damore-Raphael_Gualazzi.mp3
 002\Follymoon-Ryder_the_eagle.mp3
 001\Folsom_prison_blues-Johnny_Cash.mp3
+013\Food_for_thought-UB40.mp3
 010\For_12-Other_Lives.mp3
 003\For_Albert-Sara_Jackson_Holman.mp3
 012\Forever_gone-Shaun_Bartlett.mp3
@@ -639,6 +647,7 @@
 001\Laisse_tomber_les_filles-Suzanne.mp3
 002\Laissez_moi_danser-Waxx&Pomme.mp3
 004\Laissez_passer_les_reves-Michel_Berger.mp3
+013\Lamitie-Françoise_Hardy.mp3
 012\Lamour_lamour_lamour-Mouloudji.mp3
 011\Lapin_tango-Tamara_Lund.mp3
 008\Lappel_de_la_frite-Lidelair.mp3
@@ -853,6 +862,7 @@
 013\One_of_us-Joan_Osborne.mp3
 011\Only_for_you-Heartless_Bastards.mp3
 009\Open_my_eyes-Rival_Sons.mp3
+013\Ordinary-Alex_Warren.mp3
 006\Original-Leftfield.mp3
 009\Oui-Cabadzi.mp3
 003\Our_time_has_now_come-Soul_II_Soul.mp3
@@ -1096,6 +1106,7 @@
 010\Tempo_de_amor-Ceu.mp3
 007\That_look_you_give_that_guy-EELS.mp3
 011\Thats_how_we_ballin-T_Pain&Snoop_Dogg.mp3
+013\The_5Th-Ekseption.mp3
 009\The_ballet_girl-Aden_Foyer.mp3
 012\The_best-Tina_Turner.mp3
 004\The_bitter_end-Placebo.mp3
@@ -1109,6 +1120,7 @@
 004\The_fade_out_line-Phoebe_Killdeer_and_the_short_straws.mp3
 010\The_fantasy_life_of_poetry_and_crime-Peter_Doherty&Frederic_Lo.mp3
 002\The_feeling-Lost_Frequencies.mp3
+013\The_friends_of_mr.Cairo-Jon&Vangelis.mp3
 010\The_girl_from_ipanema-boogie_macs.mp3
 006\The_good_life-Sleaford_Mods&Gwendoline_Christie&Big_Special.mp3
 001\The_great_pretender-The_Platters.mp3
@@ -1130,6 +1142,7 @@
 004\The_rain_that_never_came-Apache_Sun.mp3
 006\The_sinner-Isaac_Delusion.mp3
 012\The_state_of_the_union-The_richest_man_in_Babylon.mp3
+013\The_stroke-Billy_Squier.mp3
 001\The_truth-Handsome_boy_modeling_school.mp3
 005\The_turning_of_our_bones-Arab_strap.mp3
 009\The_unfallen_kingdom-Gramatik.mp3
@@ -1203,6 +1216,7 @@
 008\Viene_de_mi-La_Yegros.mp3
 001\Violent_girl-DBK_Project.mp3
 003\Vitamin_c-Can.mp3
+013\Viva_la_vida-Coldplay.mp3
 009\Vivant_poeme-JeanLouis_Aubert.mp3
 012\Vivre_ou_survivre-Natasha_St_Pier_version_chorale.mp3
 007\Vole.mp3

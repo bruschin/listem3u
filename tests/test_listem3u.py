@@ -30,8 +30,8 @@ from src.listem3u import \
 # initial directory
 CWD = os.getcwd()
 REPERTOIRE = os.path.join(CWD, "automation")
-FICCTRL = os.path.join(REPERTOIRE,"000-liste-28-03-2026_ctrl.m3u")
-NBRFICMP3 = 1256
+FICCTRL = os.path.join(REPERTOIRE,"000-liste-13-04-2026_ctrl.m3u")
+NBRFICMP3 = 1267
 
 
 # turns all warnings into errors for this module

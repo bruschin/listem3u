@@ -12,17 +12,17 @@ en essayant de se conformer à [Semantic Versioning](https://semver.org/spec/v2.
 ### Ajouté
 
 - Intégrer sur gitlab interne.
+- Révision production wheel selon exemple Outil
+- Livraison fichier wheel sur nexus depuis gitlab
 - Changelog.md
-- Todo :
-  - Revoir production wheel selon exemple Outil
-  - Livrer fichier wheel sur nexus depuis gitlab
+- Todo :  
   - Soumettre à sonarqube Interne.
   - Gérer multi version python tests Unitaires avec Tox.
   - Revoir étapes de construction du docker. newenv trop long !
 
 ### Fixé
 
-- Vérifier paramètre lancement -m sur clé USB. Codé à tester.
+- Vérifier paramètre lancement -m sur clé USB. Codé. à tester.
   
 ### Changé
 

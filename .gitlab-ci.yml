@@ -404,7 +404,7 @@ job:Packaging:
     - cp -rfv dist public/ || true
 
     - echo -e "${TXT_RED} Nexus ${TXT_CLEAR}"
-    - devtools/lanceur_upload_nexus.bash ${CI_PROJECTNAME} ${CI_USERNAME} ${CI_PASSWORD} || true
+    - devtools/lanceur_upload_nexus.bash ${CI_PROJECTNAME} ${CI_USERNAME} ${CI_PASSWORD} ${CI_COMMIT_BRANCH} || true
 
     - ls -ail *
     - mv rapports/*txt public/ || true

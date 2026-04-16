@@ -1,7 +1,8 @@
 #!/bin/bash
 ###########
 ## upload package wheel vers Nexus
-## ## [2026-02-18] BN V1.0.0
+## gestion depot cible nexus release ou snapshot
+## ## [2026-04-16] BN V1.0.1
 
 ## pip install twine --user
 ## https://packaging.python.org/en/latest/tutorials/packaging-projects/
@@ -14,6 +15,7 @@ TAG_PROJECTNAME="%project-name%"
 TAG_USERNAME="<nom_utilisateur>"
 TAG_PASSWORD="<mot_de_passe>"
 FICSORTIE="${REPLOG}/upload_nexus-rapport.txt"
+DEPOT_CIBLE="pypi-snapshots" # par defaut
 
 
 function change_tag(){
@@ -48,6 +50,13 @@ function change_tag(){
 PROJECTNAME="$1"
 USERNAME="$2"
 PASSWORD="$3"
+CIBLE="$4"
+
+if test -n "${CIBLE}" -a "${CIBLE}" = "releases"; then
+  DEPOT_CIBLE="pypi-snapshots"
+else
+  DEPOT_CIBLE="pypi-releases"
+fi
 
 export TZ="Europe/Paris"
 
@@ -111,7 +120,7 @@ echo "Changement ${TAG_PASSWORD} dans ${FICCONF}"
 
 \cp -fv "${FICCONF}" "${HOME}/"
 
-twine upload -r pypi-snapshots "${REPBUILD}/*whl" --verbose
+twine upload -r "${DEPOT_CIBLE}" "${REPBUILD}/*whl" --verbose
 
 exec 1>&6 6>&-
 

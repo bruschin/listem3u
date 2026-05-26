@@ -161,7 +161,14 @@
 011\Ca_va_ca_va-Arthur_Fu_Bandini.mp3
 001\Ca_va_peter-Chouf.mp3
 013\Caballo_viejo-Irene_Del_Rosario.mp3
+<<<<<<<< HEAD:automation/000-liste-27-05-2026_ctrl.m3u
 013\Caballo_viejo-Placido_Domingo.mp3
+========
+<<<<<<<< HEAD:automation/000-liste-28-03-2026_ctrl.m3u
+========
+013\Caballo_viejo-Placido_Domingo.mp3
+>>>>>>>> db30f91 (16-04):automation/000-liste-13-04-2026_ctrl.m3u
+>>>>>>>> 2b89233100d2406466798e05aeaa5839901b501d:automation/000-liste-13-04-2026_ctrl.m3u
 009\Cajuina-Caetano_Veloso.mp3
 009\California-James_Blunt.mp3
 008\California_dreamin-Jose_Feliciano.mp3
@@ -658,7 +665,10 @@
 001\Laisse_tomber_les_filles-Suzanne.mp3
 002\Laissez_moi_danser-Waxx&Pomme.mp3
 004\Laissez_passer_les_reves-Michel_Berger.mp3
+<<<<<<<< HEAD:automation/000-liste-27-05-2026_ctrl.m3u
 013\LAmerique_pleure-Les_cowboys_fringants.mp3
+========
+>>>>>>>> 2b89233100d2406466798e05aeaa5839901b501d:automation/000-liste-13-04-2026_ctrl.m3u
 013\Lamitie-Françoise_Hardy.mp3
 012\Lamour_lamour_lamour-Mouloudji.mp3
 011\Lapin_tango-Tamara_Lund.mp3

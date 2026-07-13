@@ -14,7 +14,7 @@ variables:
 
   #$CI_COMMIT_REF_SLUG = master
   PACKAGE_NAME: ${CI_PROJECT_NAME}
-  VERSION: "2.1.0"
+  VERSION: "2.0.2"
   CI_DEBUG_TRACE: "false" # activation mode debug  => true
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
@@ -41,8 +41,6 @@ workflow:
     - if: $CI_PROJECT_URL =~ "https://github.com/bruschin/listem3u"
       when: never
     - if: $CI_PROJECT_URL =~ "https://gitlab.meteo.fr/desr-sires-pga/support_n1/listem3u"
-      when: never
-    - if: $CI_PROJECT_URL =~ "https://git.meteo.fr/bruschin/listem3u.git"
       when: always
 
 # https://docs.gitlab.com/ee/ci/yaml/yaml_optimization.html
@@ -205,10 +203,10 @@ workflow:
   
 
 stages:
-  #- tests
-  #- sonar
+  - tests
+  - sonar
   - documentations
-  #- build
+  - build
   - deploy
   # - sca
     # - test
@@ -217,128 +215,128 @@ stages:
 .retry:
   retry: 2
 
-# job:Lint_shellcheck:
-#   stage: tests
-#   #image: "python:3.12-slim"
-#   cache:
-#     - key: cache-$CI_COMMIT_REF_SLUG
-#      # override the policy
-#       policy: pull
-#   before_script:
-#     # reinitialisation public en tant que 1er job
-#     - rm -rf public/* || true
-#     - *some_mise_en_forme_before
-#     - *gestion_pip_nexus
-#     - *before_lint
-#     - *before_shellcheck
-#   script:    
-#     - echo -e "${TXT_RED} Lint ${TXT_CLEAR}"
+job:Lint_shellcheck:
+  stage: tests
+  #image: "python:3.12-slim"
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull
+  before_script:
+    # reinitialisation public en tant que 1er job
+    - rm -rf public/* || true
+    - *some_mise_en_forme_before
+    - *gestion_pip_nexus
+    - *before_lint
+    - *before_shellcheck
+  script:    
+    - echo -e "${TXT_RED} Lint ${TXT_CLEAR}"
 
-#     - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
-#     - devtools/lanceur_pylint.bash || true
+    - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
+    - devtools/lanceur_pylint.bash || true
 
-#     - echo -e "${TXT_RED} Shellcheck ${TXT_CLEAR}"
-#     - devtools/lanceur_shellcheck.bash || true
+    - echo -e "${TXT_RED} Shellcheck ${TXT_CLEAR}"
+    - devtools/lanceur_shellcheck.bash || true
 
-#     - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
-#     - ls -ail rapports/*
-#     - mv rapports/*txt public/ || true
-#   artifacts:
-#       paths:
-#         - public
+    - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
+    - ls -ail rapports/*
+    - mv rapports/*txt public/ || true
+  artifacts:
+      paths:
+        - public
 
-# job:Ruff:
-#   stage: tests
-#   #image: "python:3.12-slim"
-#   cache:
-#     - key: cache-$CI_COMMIT_REF_SLUG
-#      # override the policy
-#       policy: pull
-#   before_script:
-#     - *some_mise_en_forme_before
-#     - *gestion_pip_nexus
-#     - *before_ruff
-#   script:    
-#     - echo -e "${TXT_RED} Ruff ${TXT_CLEAR}"
-#     - devtools/lanceur_ruff.bash || true
+job:Ruff:
+  stage: tests
+  #image: "python:3.12-slim"
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull
+  before_script:
+    - *some_mise_en_forme_before
+    - *gestion_pip_nexus
+    - *before_ruff
+  script:    
+    - echo -e "${TXT_RED} Ruff ${TXT_CLEAR}"
+    - devtools/lanceur_ruff.bash || true
 
-#     - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
-#     - ls -ail rapports/*
-#     - mv rapports/*txt public/ || true
-#   artifacts:
-#       paths:
-#         - public
+    - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
+    - ls -ail rapports/*
+    - mv rapports/*txt public/ || true
+  artifacts:
+      paths:
+        - public
 
-# job:Tox:
-#   stage: tests
-#   #image: "python:3.12-slim"
-#   cache:
-#     - key: cache-$CI_COMMIT_REF_SLUG
-#      # override the policy
-#       policy: pull
-#   before_script:
-#     - *some_mise_en_forme_before
-#     - *gestion_pip_nexus
-#     - *before_tox
-#   script:    
-#     - echo -e "${TXT_RED} Tox ${TXT_CLEAR}"
-#     - devtools/lanceur_tox.bash || true
+job:Tox:
+  stage: tests
+  #image: "python:3.12-slim"
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull
+  before_script:
+    - *some_mise_en_forme_before
+    - *gestion_pip_nexus
+    - *before_tox
+  script:    
+    - echo -e "${TXT_RED} Tox ${TXT_CLEAR}"
+    - devtools/lanceur_tox.bash || true
 
-#     - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
-#     - ls -ail rapports/*
-#     - mv rapports/*txt public/ || true
-#     - mv rapports/*xml public/ || true
-#     - mv rapports/tox_cov_html* public/ || true
-#   artifacts:
-#       paths:
-#         - public
+    - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
+    - ls -ail rapports/*
+    - mv rapports/*txt public/ || true
+    - mv rapports/*xml public/ || true
+    - mv rapports/tox_cov_html* public/ || true
+  artifacts:
+      paths:
+        - public
 
-# job:Build-sonar:
-#   stage: sonar
-#   image:
-#    name: sonarsource/sonar-scanner-cli:11
-#    entrypoint: [""]
-#   variables:
-#     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-#     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-#   cache:
-#     - key: cache-$CI_COMMIT_REF_SLUG
-#      # override the policy
-#       policy: pull-push
-#   before_script:
-#     - *some_mise_en_forme_before
-#   script: 
-#     - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
-#     - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
+job:Build-sonar:
+  stage: sonar
+  image:
+   name: sonarsource/sonar-scanner-cli:11
+   entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull-push
+  before_script:
+    - *some_mise_en_forme_before
+  script: 
+    - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
+    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
 
-#     - echo -e "${TXT_RED}build-sonar${TXT_CLEAR}"
-#     - sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}"
-#   allow_failure: true
-#   rules:
-#     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-#     - if: $CI_COMMIT_BRANCH == 'main'
-#     - if: $CI_COMMIT_BRANCH == 'releases'
+    - echo -e "${TXT_RED}build-sonar${TXT_CLEAR}"
+    - sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}"
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'releases'
 
-# job:Sonarqube-vulnerability-report:
-#   stage: sonar
-#   cache:
-#     policy: pull-push
-#     key: "cache-$CI_COMMIT_REF_SLUG"
-#   before_script:
-#     - *before_sonarqube-vulnerability-report
-#   script:
-#     - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
-#     - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
-#     - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
-#   allow_failure: true
-#   rules:
-#     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-#     - if: $CI_COMMIT_BRANCH == 'main'
-#     - if: $CI_COMMIT_BRANCH == 'releases'
-#   artifacts:
-#     expire_in: 1 day
-#     reports:
-#       sast: gl-sast-sonar-report.json
+job:Sonarqube-vulnerability-report:
+  stage: sonar
+  cache:
+    policy: pull-push
+    key: "cache-$CI_COMMIT_REF_SLUG"
+  before_script:
+    - *before_sonarqube-vulnerability-report
+  script:
+    - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
+    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
+    - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'releases'
+  artifacts:
+    expire_in: 1 day
+    reports:
+      sast: gl-sast-sonar-report.json
 
 job:Documentations:
   stage: documentations
@@ -378,46 +376,46 @@ job:Documentations:
     paths:
       - public
 
-# job:Packaging:
-#   stage: build
-#   #image: "python:3.12-slim"
-#   cache:
-#     policy: pull
-#     key: cache-$CI_COMMIT_REF_SLUG
-#     paths:
-#       - public/
-#   #needs: ["job:Sonarqube-vulnerability-report"]
-#   before_script:
-#     - *some_mise_en_forme_before
-#     - *gestion_pip_nexus
-#     - *before_build
-#     # - cd "$CI_PROJECT_DIR"
-#     # - *some_mise_en_forme_before
-#     # - *gestion_env_python_before
-#     # - *gestion_pip_nexus
-#     # - *gestion_twine_nexus
-#     # - *gestion_pip_update
-#   script:
-#     - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
-#     - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID || true
+job:Packaging:
+  stage: build
+  #image: "python:3.12-slim"
+  cache:
+    policy: pull
+    key: cache-$CI_COMMIT_REF_SLUG
+    paths:
+      - public/
+  #needs: ["job:Sonarqube-vulnerability-report"]
+  before_script:
+    - *some_mise_en_forme_before
+    - *gestion_pip_nexus
+    - *before_build
+    # - cd "$CI_PROJECT_DIR"
+    # - *some_mise_en_forme_before
+    # - *gestion_env_python_before
+    # - *gestion_pip_nexus
+    # - *gestion_twine_nexus
+    # - *gestion_pip_update
+  script:
+    - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
+    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID || true
 
-#     - echo -e "${TXT_RED} script build ${TXT_CLEAR}"
-#     - devtools/lanceur_build.bash || true
-#     - cp -rfv dist public/ || true
+    - echo -e "${TXT_RED} script build ${TXT_CLEAR}"
+    - devtools/lanceur_build.bash || true
+    - cp -rfv dist public/ || true
 
-#     - echo -e "${TXT_RED} Nexus ${TXT_CLEAR}"
-#     - devtools/lanceur_upload_nexus.bash ${CI_PROJECTNAME} ${CI_USERNAME} ${CI_PASSWORD} ${CI_COMMIT_BRANCH} || true
+    - echo -e "${TXT_RED} Nexus ${TXT_CLEAR}"
+    - devtools/lanceur_upload_nexus.bash ${CI_PROJECTNAME} ${CI_USERNAME} ${CI_PASSWORD} ${CI_COMMIT_BRANCH} || true
 
-#     - ls -ail *
-#     - mv rapports/*txt public/ || true
-#     - ls -ail public/* || true
-#   artifacts:
-#     paths:
-#       - public
-#       - build/dist
-#   # only:
-#   #   - main
-#   #   - 1-relesease-v1.5.0
+    - ls -ail *
+    - mv rapports/*txt public/ || true
+    - ls -ail public/* || true
+  artifacts:
+    paths:
+      - public
+      - build/dist
+  # only:
+  #   - main
+  #   - 1-relesease-v1.5.0
 
 job:Deploy:
   stage: deploy

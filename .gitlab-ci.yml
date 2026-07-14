@@ -421,6 +421,8 @@ job:Documentations:
 
 job:Deploy:
   stage: deploy
+  tags:
+    -  doc_pagesweb_listem3u # runner dedié sur vxsoftware
   #image: python:3.12-slim
   cache:
     - key: cache-$CI_COMMIT_REF_SLUG
@@ -429,15 +431,17 @@ job:Deploy:
   #needs: ["job:Documentations"]
   before_script:
     - *some_mise_en_forme_before
-    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID || true
+      #- devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID || true
   script:
-    - echo -e "${TXT_RED}script deploy${TXT_CLEAR}"
+    - echo -e "${TXT_RED}script deploy doc listem3u vxsoftware${TXT_CLEAR}"
+    - mkdir -p /var/www/html/pages_listem3u
+    - rsync -av --delete public/ /var/www/html/pages_listem3u/
   after_script:
     - echo -e "${TXT_RED}after_script deploy${TXT_CLEAR}"
   artifacts:
     paths:
       - public
-  pages: true # specifies that this is a Pages job
+        #pages: true # specifies that this is a Pages job
   # only:
   #   - main
   #   - 1-relesease-v1.5.0

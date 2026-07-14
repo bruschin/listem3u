@@ -435,7 +435,7 @@ job:Deploy:
   script:
     - echo -e "${TXT_RED}script deploy doc listem3u vxsoftware${TXT_CLEAR}"
     - mkdir -p /var/www/html/pages_listem3u
-    - rsync -av --delete public/ /var/www/html/pages_listem3u/
+    - sudo rsync -av --delete public/ /var/www/html/pages_listem3u/
   after_script:
     - echo -e "${TXT_RED}after_script deploy${TXT_CLEAR}"
   artifacts:

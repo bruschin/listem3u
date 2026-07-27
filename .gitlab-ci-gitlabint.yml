@@ -42,7 +42,7 @@ workflow:
       when: never
     - if: $CI_PROJECT_URL =~ "https://bruschin@git.meteo.fr/bruschin/listem3u.git"
       when: never
-    - if: $CI_PROJECT_URL =~ "https://gitlab.meteo.fr/desr-sires-pga/support_n1/listem3u"
+    - if: $CI_PROJECT_URL =~ "git@gitlab.meteo.fr:desr-sires-pga/support_n1/listem3u.git"
       when: always
 
 # https://docs.gitlab.com/ee/ci/yaml/yaml_optimization.html

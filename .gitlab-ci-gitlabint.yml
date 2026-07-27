@@ -289,8 +289,11 @@ job:Tox:
     - mv rapports/*txt public/ || true
     - mv rapports/*xml public/ || true
     - mv rapports/tox_cov_html* public/ || true
-    - stat -c %w automation/000-liste-* | awk '{print $1}' > public/000-liste-m3u.txt
-    - cat automation/000-liste-* >> public/000-liste-m3u.txt
+    - |
+      stat -c %w automation/000-liste-* | awk '{print "#Date: "$1}' > \
+      public/000-liste-m3u.txt
+    - grep -v "^$" automation/000-liste-* >> public/000-liste-m3u.txt
+    - ls -ail public/*
   artifacts:
       paths:
         - public

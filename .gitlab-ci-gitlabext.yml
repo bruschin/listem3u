@@ -373,8 +373,10 @@ job:Documentations:
       ### index de gitlab-pages :
     - cp -f docs/index_gitlab-pages.html public/index.html || true
     - cp -f docs/listem3u* public/ || true
-    - stat -c %w automation/000-liste-* | awk '{print $1}' > public/000-liste-m3u.txt
-    - cat automation/000-liste-* >> public/000-liste-m3u.txt
+    - |
+      stat -c %w automation/000-liste-* | awk '{print "#Date: "$1}' > \
+      public/000-liste-m3u.txt
+    - grep -v "^$" automation/000-liste-* >> public/000-liste-m3u.txt
     - ls -ail public/*
   artifacts:
     paths:

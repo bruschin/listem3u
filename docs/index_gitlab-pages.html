@@ -45,13 +45,19 @@ opacity: 0.5;border: 3px solid rgb(62, 66, 1);}
 	target="_blank">@PIPELINE@</a>&nbsp;</th></tr></table></span><br />
 <span id="description"><p>Le projet python listem3u, génère un fichier m3u en 
 parcourant une arborescence de fichiers m3u, dans une sous-arborescence de 
-dossiers 001,002 ... 012.</p><p>Une fois commité et poussé sur github ou gitlab,
+dossiers 001,002 ... 015.</p><p>Une fois commité et poussé sur github ou gitlab,
 un pipeline ci/cd, lance a) un contrôle de la qualité du code source python par 
 pylint ou code shell par shellcheck, des tests unitaires par pytest (avec 
 calcul du % du code source couvert par des tests unitaires (outils tox)), 
 une mise en forme du code par ruff, une analyse automatique de la qualité du 
-code python par sonarqube.io relié à github, et une autodocumentation par 
-doxygen et sphinx.</p></span>
+code python par sonarqube, et une autodocumentation par 
+doxygen et sphinx. Sur git.meteo.fr, un gitlab-runner dédié et installé sur 
+vxsoftware tire l'artifact produit pour le décompresser dans une arborescence 
+sous emprise apache2. Sans la fonctionnalité gitlab-pages sur git en DMZ, 
+la documentation est ainsi exposée en interne sur 
+http://intra.cnrm.meteo.fr/doclistem3u/. Sur gitlab interne, la fonctionnalité
+gitlab-pages est active et https://listem3u-d8b643.gitlab.meteo.fr/ expose 
+la documentation présente.</p></span>
 <ul>
 <li>&#128030; <a href="000-liste-m3u.txt" id="Liste_m3u" 
 target="_blank" 

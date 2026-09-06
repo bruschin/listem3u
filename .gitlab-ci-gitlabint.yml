@@ -1,0 +1,492 @@
+# # Official language image. Look for the different tagged releases at:
+# # https://hub.docker.com/r/library/python/tags/
+# # Une fois deployé, gitlab se place dans le projet :
+# /builds/desr-sires-pga/support_n1/Outils
+# https://sonar.meteo.fr/tutorials?id=outils
+# https://gitlab.meteo.fr/help/ci/yaml/_index.md
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  ### BN 2025-07-18 invalidation configuration du proxy MF pour éviter pb ssl
+  #http_proxy: "http://proxy.meteo.fr:11011"
+  #https_proxy: "http://proxy.meteo.fr:11011"
+  #no_proxy: "http://127.0.0.1,http://localhost"
+
+  #$CI_COMMIT_REF_SLUG = master
+  PACKAGE_NAME: ${CI_PROJECT_NAME}
+  VERSION: "2.0.2"
+  CI_DEBUG_TRACE: "false" # activation mode debug  => true
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+
+default:
+  image: "python:3.12-slim"
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+      paths:
+        - .cache/pip
+        - .pyenv
+        - envdev
+        - public
+        - "${SONAR_USER_HOME}/cache"
+        - sonar-scanner/
+      policy: pull-push
+  artifacts:
+    paths:
+      - public
+
+workflow:
+  name: $PIPELINE_NAME
+  rules:
+    - if: $CI_PROJECT_URL =~ "https://github.com/bruschin/listem3u"
+      when: never
+    - if: $CI_PROJECT_URL =~ "https://bruschin@git.meteo.fr/bruschin/listem3u.git"
+      when: never
+    - if: $CI_PROJECT_URL =~ "https://gitlab.meteo.fr/desr-sires-pga/support_n1/listem3u.git"
+      when: always
+
+# https://docs.gitlab.com/ee/ci/yaml/yaml_optimization.html
+.maj_pip: &maj_pip
+  - pip install --upgrade pip --break-system-packages --root-user-action=ignore || true
+
+.apt_get_update: &apt_get_update
+  - apt-get update || true
+
+.before_lint: &before_lint
+  # image docker par defaut + minimum pour pylint
+  - *maj_pip
+  - pip install pylint --root-user-action=ignore || true
+  - pip install pytest --root-user-action=ignore || true
+
+.before_shellcheck: &before_shellcheck
+  # image docker par defaut + minimum pour pylint
+  - *apt_get_update
+  - apt-get install -y shellcheck || true
+
+.before_ruff: &before_ruff
+  # image docker par defaut + minimum pour pylint
+  - *maj_pip
+  - pip install ruff --root-user-action=ignore || true
+
+.before_tox: &before_tox
+  - *maj_pip
+  - pip install tox pytest pytest-cov pytest-xdist --root-user-action=ignore || true
+
+.before_documentations: &before_documentations
+  # Pour éviter ultérieurement  : debconf: (Can't locate Term/ReadLine.pm ....
+  - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+  - *apt_get_update
+  # Pour doxygen : https://askubuntu.com/questions/1291874/how-to-install-doxygen-on-ubuntu
+  - apt-get install -y doxygen libxapian30 graphviz dia || true
+  # pour sphinx:
+  - apt-get install -y python3-sphinx python3-git ca-certificates git curl wget
+  # - apt-get install -y rhino lcov || true
+  # - apt-get install -y  libncurses-dev python3-sphinx || true
+  # - apt-get install -y  python3-sphinx-copybutton sphinx-common
+  #     python3-pydata-sphinx-theme python3-alabaster || true
+  - set GIT_SSL_NO_VERIFY
+  - echo "proxy = http://proxy.meteo.fr:11011" > $HOME/.curlrc
+  - echo "insecure" >> $HOME/.curlrc
+  - export CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
+  - update-ca-certificates -f
+  - *maj_pip
+  - pip install sphinx sphinx-book-theme sphinx-multiversion sphinx_rtd_theme \
+      GitPython git --root-user-action=ignore || true
+  - pip install -r docs/requirements.txt --root-user-action=ignore || true
+
+.before_build: &before_build
+  - *maj_pip
+  - python3 -m pip install pylint-common --use-pep517
+  - pip install -r docs/requirements.txt --root-user-action=ignore || true
+
+.before_sonarqube-vulnerability-report: &before_sonarqube-vulnerability-report
+  - *apt_get_update
+  - apt-get install -y ca-certificates curl || true
+  - echo "proxy = http://proxy.meteo.fr:11011" > $HOME/.curlrc
+  - echo "insecure" >> $HOME/.curlrc
+
+.some_mise_en_forme_before: &some_mise_en_forme_before
+  - export NORMALIZED_NAME=$(echo "${CI_PROJECT_NAME}" | tr '-' '_') || true
+  - export TXT_RED="\e[31m" && TXT_CLEAR="\e[0m"
+  - export TXT_YELLOW="\e[33m"
+  - cd "$CI_PROJECT_DIR"
+  - |
+      if [[ ! -d public ]] ; then
+        mkdir public || true
+      fi
+
+# .gestion_env_python_before: &gestion_env_python_before
+#   - echo -e "${TXT_RED} Gestion env. virtuel python = envdev ${TXT_CLEAR}"
+#   - python3 -m venv $HOME/envdev || true
+#   - source $HOME/envdev/bin/activate || true
+
+#   - echo -e "${TXT_RED} Gestion configurations git curl et proxy ${TXT_CLEAR}"
+#   - *apt_get_update
+#   - apt-get install -y ca-certificates git curl wget
+#   - git config --global http.sslVerify false
+#   - git config --global https.sslVerify false
+#   - git config --global https.proxy http://proxy.meteo.fr:11011
+#   - set GIT_SSL_NO_VERIFY
+#   - echo "proxy = http://proxy.meteo.fr:11011" > $HOME/.curlrc
+#   - echo "insecure" >> $HOME/.curlrc
+#   #- echo "cacert=/etc/ssl/certs/ca-certificates.crt" >> $HOME/.curlrc
+
+# .gestion_pyenv: &gestion_pyenv
+#   - echo -e "${TXT_RED} Gestion pyenv ${TXT_CLEAR}"
+#     # - curl -kfsSL https://pyenv.run | bash || true
+#   - curl -k -s -S -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash || true
+#   - export PYENV_ROOT="$HOME/.pyenv"
+#   - export PATH="$PYENV_ROOT/bin:$PATH"
+#   - eval "$(pyenv init - bash)" || true
+
+#   ### docker MF mode installation indirect
+#   - echo -e "${TXT_RED} Gestion pyenv multiversions python ${TXT_CLEAR}"
+#   - mkdir -p $HOME/.pyenv/cache/ || true
+#   - curl -k --output-dir $HOME/.pyenv/cache/ -o Python-3.10.19.tar.xz
+#       https://www.python.org/ftp/python/3.10.19/Python-3.10.19.tar.xz || true
+#   - curl -k --output-dir $HOME/.pyenv/cache/ -o Python-3.11.14.tar.xz
+#       https://www.python.org/ftp/python/3.11.14/Python-3.11.14.tar.xz || true
+#   - curl -k --output-dir $HOME/.pyenv/cache/ -o Python-3.12.12.tar.xz
+#       https://www.python.org/ftp/python/3.12.12/Python-3.12.12.tar.xz || true
+#   - if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+
+#   - pyenv install 3.10.19 || true
+#   - pyenv install 3.11.14 || true
+#   - pyenv install 3.12.12 || true
+#   - pyenv global 3.10 3.11 3.12 || true
+
+.gestion_pip_nexus: &gestion_pip_nexus
+
+  - echo -e "${TXT_RED} Gestion pip nexus-sidev ${TXT_CLEAR}"
+  - pip config set global.trusted-host nexus-sidev.meteo.fr || true
+  - pip config set global.index http://nexus-sidev.meteo.fr/repository/pypi-group/pypi || true
+  - pip config set global.index-url http://nexus-sidev.meteo.fr/repository/pypi-group/simple || true
+
+# .gestion_twine_nexus: &gestion_twine_nexus
+#   - echo -e "${TXT_RED} Requirements nexus pour twine ${TXT_CLEAR}"
+#   #- python3 -m pip install --upgrade pip
+#   - *maj_pip
+#   - python3 -m pip install pylint-common --use-pep517
+
+# .gestion_pip_update: &gestion_pip_update
+#   - echo -e "${TXT_RED} Requirements python par pip ${TXT_CLEAR}"
+#   - python3 -m pip install --upgrade pip
+#   - python3 -m pip install pylint-common --use-pep517
+#   - pip install -r docs/requirements.txt --root-user-action=ignore || true
+#   - pip install --upgrade pip --break-system-packages --root-user-action=ignore || true
+
+# before_script:
+#   # Normalize package name once at the start of any job
+
+#   # Use Météo-France's own PyPI-like registry, more info at
+#   # http://confluence.meteo.fr/display/MOT/Nexus+-+Guide+d%27utilisation#NexusGuided'utilisation-D%C3%A9p%C3%B4tpython
+
+#   - *some-actions-apt-before
+#   - *some_mise_en_forme_before
+#   - *gestion_env_python_before
+#   - *gestion_pyenv
+#   - *gestion_pip_nexus
+#   - *gestion_twine_nexus
+#   - *gestion_pip_update
+
+#https://misc.flogisoft.com/bash/tip_colors_and_formatting
+
+
+# composant sonarqube et analyse sécurité
+# https://gitlab.meteo.fr/explore/catalog/ci-cd-catalog-mf/sca
+#
+
+# include:
+#   - component: $CI_SERVER_FQDN/ci-cd-catalog-mf/sca/check-dependencies@1.0.5
+#     inputs:
+#       failOnSeverity : "MEDIUM"
+#       allow_failure: true
+#       source: "src"
+  
+
+stages:
+  - tests
+  - sonar
+  - documentations
+  - build
+  - deploy
+  # - sca
+    # - test
+
+# Retry a job automatically if it fails (2 times)
+.retry:
+  retry: 2
+
+job:Lint_shellcheck:
+  stage: tests
+  #image: "python:3.12-slim"
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull
+  before_script:
+    # reinitialisation public en tant que 1er job
+    - rm -rf public/* || true
+    - *some_mise_en_forme_before
+    - *gestion_pip_nexus
+    - *before_lint
+    - *before_shellcheck
+  script:    
+    - echo -e "${TXT_RED} Lint ${TXT_CLEAR}"
+
+    - echo -e "${TXT_RED} pylint ${TXT_CLEAR}"
+    - devtools/lanceur_pylint.bash || true
+
+    - echo -e "${TXT_RED} Shellcheck ${TXT_CLEAR}"
+    - devtools/lanceur_shellcheck.bash || true
+
+    - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
+    - ls -ail rapports/*
+    - mv rapports/*txt public/ || true
+  artifacts:
+      paths:
+        - public
+
+job:Ruff:
+  stage: tests
+  #image: "python:3.12-slim"
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull
+  before_script:
+    - *some_mise_en_forme_before
+    - *gestion_pip_nexus
+    - *before_ruff
+  script:    
+    - echo -e "${TXT_RED} Ruff ${TXT_CLEAR}"
+    - devtools/lanceur_ruff.bash || true
+
+    - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
+    - ls -ail rapports/*
+    - mv rapports/*txt public/ || true
+  artifacts:
+      paths:
+        - public
+
+job:Tox:
+  stage: tests
+  #image: "python:3.12-slim"
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull
+  before_script:
+    - *some_mise_en_forme_before
+    - *gestion_pip_nexus
+    - *before_tox
+  script:    
+    - echo -e "${TXT_RED} Tox ${TXT_CLEAR}"
+    - devtools/lanceur_tox.bash || true
+
+    - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
+    - ls -ail rapports/*
+    - mv rapports/*txt public/ || true
+    - mv rapports/*xml public/ || true
+    - mv rapports/tox_cov_html* public/ || true
+    - |
+      stat -c %w automation/000-liste-* | awk '{print "#Date: "$1}' > \
+      public/000-liste-m3u.txt
+    - grep -v "^$" automation/000-liste-* >> public/000-liste-m3u.txt
+    - ls -ail public/*
+  artifacts:
+      paths:
+        - public
+
+job:Build-sonar:
+  stage: sonar
+  image:
+   name: sonarsource/sonar-scanner-cli:11
+   entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull-push
+  before_script:
+    - *some_mise_en_forme_before
+  script: 
+    - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
+    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
+
+    - echo -e "${TXT_RED}build-sonar${TXT_CLEAR}"
+    - sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}"
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'releases'
+
+job:Sonarqube-vulnerability-report:
+  stage: sonar
+  cache:
+    policy: pull-push
+    key: "cache-$CI_COMMIT_REF_SLUG"
+  before_script:
+    - *before_sonarqube-vulnerability-report
+  script:
+    - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
+    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
+    - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=desr-sires-pga_support_n1_listem3u_8d9d0b62-afe8-4645-bc3c-e29119ece483&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'releases'
+  artifacts:
+    expire_in: 1 day
+    reports:
+      sast: gl-sast-sonar-report.json
+
+job:Documentations:
+  stage: documentations
+  #image: "python:3.12-slim"
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull
+  before_script:
+    - *some_mise_en_forme_before
+    - *gestion_pip_nexus
+    - *before_documentations
+  script:
+    - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
+    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID
+    
+    - echo -e "${TXT_RED} Documentations ${TXT_CLEAR}"
+    
+    - echo -e "${TXT_RED} doxygen ${TXT_CLEAR}"
+    - devtools/lanceur_doxygen.bash || true
+
+    - echo -e "${TXT_RED} sphinx ${TXT_CLEAR}"
+    - devtools/lanceur_sphinx.bash "gitlab" || true
+
+    - echo -e "${TXT_RED} ls et déplacements ${TXT_CLEAR}"
+    - ls -ail rapports/*
+    - mv rapports/*txt public/ || true
+    #- mv rapports/*xml public/ || true
+    #- mv rapports/tox_cov_html public/ || true
+    - mv rapports/doxygen public/ || true
+    - mv build/sphinx-* public/ || true
+      ### index de gitlab-pages :
+    - cp -f docs/index_gitlab-pages.html public/index.html || true
+    - cp -f docs/listem3u* public/ || true
+    - ls -ail public/*
+  artifacts:
+    paths:
+      - public
+
+job:Packaging:
+  stage: build
+  #image: "python:3.12-slim"
+  cache:
+    policy: pull
+    key: cache-$CI_COMMIT_REF_SLUG
+    paths:
+      - public/
+  #needs: ["job:Sonarqube-vulnerability-report"]
+  before_script:
+    - *some_mise_en_forme_before
+    - *gestion_pip_nexus
+    - *before_build
+    # - cd "$CI_PROJECT_DIR"
+    # - *some_mise_en_forme_before
+    # - *gestion_env_python_before
+    # - *gestion_pip_nexus
+    # - *gestion_twine_nexus
+    # - *gestion_pip_update
+  script:
+    - echo -e "${TXT_RED} mefversions ${TXT_CLEAR}"
+    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID || true
+
+    - echo -e "${TXT_RED} script build ${TXT_CLEAR}"
+    - devtools/lanceur_build.bash || true
+    - cp -rfv dist public/ || true
+
+    - echo -e "${TXT_RED} Nexus ${TXT_CLEAR}"
+    - devtools/lanceur_upload_nexus.bash ${CI_PROJECTNAME} ${CI_USERNAME} ${CI_PASSWORD} ${CI_COMMIT_BRANCH} || true
+
+    - ls -ail *
+    - mv rapports/*txt public/ || true
+    - ls -ail public/* || true
+  artifacts:
+    paths:
+      - public
+      - build/dist
+  # only:
+  #   - main
+  #   - 1-relesease-v1.5.0
+
+job:Deploy:
+  stage: deploy
+  #image: python:3.12-slim
+  cache:
+    - key: cache-$CI_COMMIT_REF_SLUG
+     # override the policy
+      policy: pull
+  #needs: ["job:Documentations"]
+  before_script:
+    - *some_mise_en_forme_before
+    - devtools/lanceur_mefversions.bash $CI_COMMIT_SHORT_SHA $CI_PIPELINE_ID || true
+  script:
+    - echo -e "${TXT_RED}script deploy${TXT_CLEAR}"
+  after_script:
+    - echo -e "${TXT_RED}after_script deploy${TXT_CLEAR}"
+  artifacts:
+    paths:
+      - public
+  pages: true # specifies that this is a Pages job
+  # only:
+  #   - main
+  #   - 1-relesease-v1.5.0
+
+# job:CheckDependencies:
+#   stage: sca
+#   cache:
+#     policy: pull
+#     key: cache-$CI_COMMIT_REF_SLUG
+#     paths:
+#       - public/
+#   before_script:
+#     - cd "$CI_PROJECT_DIR"
+#   script:
+#     - echo -e "${TXT_RED} script sca ${TXT_CLEAR}"
+#   allow_failure: true
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+#     - if: $CI_COMMIT_BRANCH == 'main'
+#   artifacts:
+#     paths:
+#       - public
+
+  # job:Tests:
+  #   stage: test
+  #   image: "python:$VERSION-slim"
+  #   cache:
+  #     - key: cache-$CI_COMMIT_REF_SLUG
+  #      # override the policy
+  #       policy: pull
+  #   script:
+  #     - echo -e "${TXT_RED}script test${TXT_CLEAR}"
+  #     - echo -e "${TXT_YELLOW}Stage test en version = ${VERSION}${TXT_CLEAR}" || true
+  #     # - pip install -r docs/requirements.txt --root-user-action=ignore || true
+  #     - devtools/lanceur_pytest.bash "${VERSION}" || true
+  #     - ls -ail rapports/*
+  #     - mv -f rapports/htmlcov public/ || true
+  #     - mv rapports/coverage* public/ || true
+  #     - mv rapports/*txt public/  || true
+  #   parallel:
+  #     matrix:
+  #       # https://docs.gitlab.com/ee/ci/yaml/#parallelmatrix
+  #       - VERSION: ["3.10", "3.11", "3.12"]
+  #   artifacts:
+  #     paths:
+  #       - public
+
